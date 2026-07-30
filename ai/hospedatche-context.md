@@ -38,3 +38,4 @@ HospedaTche is a hotel accommodation system. It may support guests, hotel staff,
 - Keep security analysis concrete to hotel accommodation workflows.
 - Prefer tables for STRIDE threats and abuse case traceability.
 - Store future diagrams under `artifacts/diagrams/`.
+- Use Mermaid `.mmd` files for diagrams when possible.

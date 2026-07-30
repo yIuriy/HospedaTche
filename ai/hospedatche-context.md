@@ -39,3 +39,5 @@ HospedaTche is a hotel accommodation system. It may support guests, hotel staff,
 - Prefer tables for STRIDE threats and abuse case traceability.
 - Store future diagrams under `artifacts/diagrams/`.
 - Use Mermaid `.mmd` files for diagrams when possible.
+- Store abuse cases under `artifacts/abuse-cases/<module>/ACNN-short-title.md`.
+- Track abuse cases in `artifacts/abuse-cases/abuse-case-map.md`.

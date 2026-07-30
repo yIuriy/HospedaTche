@@ -9,3 +9,4 @@ Suggested structure:
 - `images/`: supporting images.
 - `templates/`: reusable document templates.
 - `abuse-cases/`: abuse cases organized by module.
+- `threat-modeling/`: STRIDE threats organized by module.

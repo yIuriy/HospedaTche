@@ -38,9 +38,16 @@ Current validations:
 
 - commit messages must start with a capital letter, have more than 12 characters, and avoid generic messages;
 - abuse case files are validated before each commit.
+- STRIDE threat files are validated before each commit.
 
 Manual abuse case validation:
 
 ```sh
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-abuse-cases.ps1
+```
+
+Manual STRIDE threat validation:
+
+```sh
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stride-threats.ps1
 ```

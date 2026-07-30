@@ -1,7 +1,7 @@
 # Git Hooks
 
 This repository uses a `commit-msg` hook to keep commit messages clear.
-It also uses a `pre-commit` hook to validate abuse case files.
+It also uses a `pre-commit` hook to validate security analysis files.
 
 Rules:
 
@@ -19,4 +19,10 @@ Manual abuse case validation:
 
 ```sh
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-abuse-cases.ps1
+```
+
+Manual STRIDE threat validation:
+
+```sh
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stride-threats.ps1
 ```

@@ -41,5 +41,7 @@ HospedaTche is a hotel accommodation system. It may support guests, hotel staff,
 - Use Mermaid `.mmd` files for diagrams when possible.
 - Store abuse cases under `artifacts/abuse-cases/<module>/ACNN-short-title.md`.
 - Track abuse cases in `artifacts/abuse-cases/abuse-case-map.md`.
+- Store STRIDE threats under `artifacts/threat-modeling/<module>/TNN-short-title.md`.
+- Track STRIDE threats in `artifacts/threat-modeling/threat-map.md`.
 - Keep repository validations documented in `README.md`.
 - Git validations are stored in `.githooks/` and enabled with `git config core.hooksPath .githooks`.

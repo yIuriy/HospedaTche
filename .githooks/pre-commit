@@ -13,3 +13,4 @@ fi
 "$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stride-threats.ps1 || exit 1
 "$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-functional-requirements.ps1 || exit 1
 "$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-non-functional-requirements.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-business-rules.ps1 || exit 1

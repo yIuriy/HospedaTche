@@ -8,5 +8,5 @@ Identified Threat: Receptionist obtains Manager permissions and performs actions
 
 Possible Impact: unauthorized employee management, legitimate Receptionist account inactivation, and hotel operation disruption.
 
-Related Abuse Cases: AC06
+Related Abuse Cases: AC06, AC07
 

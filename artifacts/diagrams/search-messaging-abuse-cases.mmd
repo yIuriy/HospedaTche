@@ -1,0 +1,41 @@
+%%{init: {
+  "theme": "base",
+  "flowchart": {
+    "curve": "basis",
+    "nodeSpacing": 50,
+    "rankSpacing": 80
+  },
+  "themeVariables": {
+    "primaryColor": "#f8fafc",
+    "primaryTextColor": "#111827",
+    "primaryBorderColor": "#2563eb",
+    "lineColor": "#374151",
+    "secondaryColor": "#ecfeff",
+    "tertiaryColor": "#fff7ed",
+    "fontFamily": "Arial"
+  }
+}}%%
+flowchart LR
+    Attacker[Malicious Attacker / Bot Operator]
+
+    subgraph ModuleServices["Search, Reviews & Messaging Services"]
+        direction TB
+        subgraph TopRow["Public & Search APIs"]
+            PublicInfoAPI["Public Hotel Info & Details (RF11, RF12, RF13)"]
+            SearchAPI["Room Search, Capacity & Rates (RF18, RF19, RF20, RF21)"]
+        end
+        subgraph BottomRow["Messaging & Feedback Services"]
+            ChatService["Reception Chat & Queue (RF42, RF43)"]
+            ReviewService["Guest Reviews & Moderation (RF44, RF45)"]
+            NotifService["Stay Notifications & Reminders (RF41, RF46, RF47)"]
+        end
+    end
+
+    Attacker -->|AC19: Search DoS Flood| SearchAPI
+    Attacker -->|AC20: Chat Message Flood| ChatService
+    Attacker -->|AC21: Steals Chat History| ChatService
+    Attacker -->|AC22: Reads Internal Room Notes| PublicInfoAPI
+    Attacker -->|AC23: Reads Moderated Reviews| ReviewService
+    Attacker -->|AC24: Submits Fake Reviews| ReviewService
+    Attacker -->|AC25: Alters Notif Settings| NotifService
+    Attacker -->|AC26: Phishing Notif Injection| NotifService

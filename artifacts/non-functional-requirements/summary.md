@@ -10,15 +10,15 @@ These requirements stay general. Module-specific threats and abuse cases should 
 
 | Category | NFR Range | Count |
 | :--- | :--- | ---: |
-| Security | NFR01-NFR08 | 8 |
-| Performance | NFR09-NFR11 | 3 |
+| Security | NFR01-NFR22 | 9 |
+| Performance | NFR09-NFR21 | 4 |
 | Availability | NFR12-NFR12 | 1 |
-| Reliability | NFR13-NFR15 | 3 |
+| Reliability | NFR13-NFR23 | 4 |
 | Usability | NFR16-NFR17 | 2 |
 | Accessibility | NFR18-NFR18 | 1 |
 | Maintainability | NFR19-NFR19 | 1 |
 | Privacy | NFR20-NFR20 | 1 |
-| Total | NFR01-NFR20 | 20 |
+| Total | NFR01-NFR23 | 23 |
 
 ## NFR Links
 
@@ -44,4 +44,7 @@ These requirements stay general. Module-specific threats and abuse cases should 
 | [NFR18](./non-functional-requirements.md#nfr18---basic-accessibility) | [Basic Accessibility](./non-functional-requirements.md#nfr18---basic-accessibility) | Accessibility |
 | [NFR19](./non-functional-requirements.md#nfr19---configuration-management) | [Configuration Management](./non-functional-requirements.md#nfr19---configuration-management) | Maintainability |
 | [NFR20](./non-functional-requirements.md#nfr20---privacy-by-least-data-exposure) | [Privacy By Least Data Exposure](./non-functional-requirements.md#nfr20---privacy-by-least-data-exposure) | Privacy |
+| [NFR21](./non-functional-requirements.md#nfr21---real-time-chat-message-latency) | [Real Time Chat Message Latency](./non-functional-requirements.md#nfr21---real-time-chat-message-latency) | Performance |
+| [NFR22](./non-functional-requirements.md#nfr22---review-moderation-audit-trail) | [Review Moderation Audit Trail](./non-functional-requirements.md#nfr22---review-moderation-audit-trail) | Security |
+| [NFR23](./non-functional-requirements.md#nfr23---notification-delivery-reliability) | [Notification Delivery Reliability](./non-functional-requirements.md#nfr23---notification-delivery-reliability) | Reliability |
 

@@ -350,3 +350,55 @@ Priority: Must
 
 Related Modules: Accounts and Identity; Reports, Audit, and Export; Stay Operations
 
+### NFR21 - Real Time Chat Message Latency
+
+Category: Performance
+
+Applies To: Guest Reception Chat
+
+Statement: The system should deliver chat messages between Guests and Receptionists with low latency to support real-time communication.
+
+Acceptance Criteria:
+1. Chat messages are delivered to the recipient within 2 seconds under normal network conditions.
+2. The system notifies users if a message fails to deliver.
+3. Active chat sessions maintain connection state with automatic reconnection attempts.
+
+Priority: Should
+
+Related Modules: Communication, Notifications, and Reviews
+
+### NFR22 - Review Moderation Audit Trail
+
+Category: Security
+
+Applies To: Guest Reviews and Moderation
+
+Statement: The system must record an audit trail for all review moderation actions performed by Managers.
+
+Acceptance Criteria:
+1. The system logs the Manager ID, timestamp, original review text, and reason whenever a review is hidden.
+2. Moderated reviews remain preserved in internal history for compliance and audit.
+3. Non-manager accounts cannot alter or purge review moderation logs.
+
+Priority: Must
+
+Related Modules: Communication, Notifications, and Reviews; Reports, Audit, and Export
+
+### NFR23 - Notification Delivery Reliability
+
+Category: Reliability
+
+Applies To: Guest Stay Notifications and Reminders
+
+Statement: The system should ensure reliable delivery of mandatory transactional stay notifications and check-in reminders.
+
+Acceptance Criteria:
+1. Mandatory reservation confirmation and check-in reminder notifications are dispatched within 1 minute of trigger events.
+2. Failed notification dispatches are automatically retried according to a configurable retry policy.
+3. The system records notification dispatch status for audit.
+
+Priority: Should
+
+Related Modules: Communication, Notifications, and Reviews
+
+

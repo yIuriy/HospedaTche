@@ -1,4 +1,4 @@
-### AC23 - Hidden Review Data Exposure
+### AC05 - Hidden Review Data Exposure
 
 Actor: unauthorized user or competitor.
 

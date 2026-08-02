@@ -1,4 +1,4 @@
-### AC25 - Notification Preferences Tampering
+### AC07 - Notification Preferences Tampering
 
 Actor: unauthorized user or attacker.
 

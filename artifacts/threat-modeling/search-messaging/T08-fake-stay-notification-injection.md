@@ -1,4 +1,4 @@
-### T26 - Fake Stay Notification Injection
+### T08 - Fake Stay Notification Injection
 
 STRIDE Category: Spoofing
 
@@ -8,4 +8,4 @@ Identified Threat: attacker spoofs system notifications or check-in reminders to
 
 Possible Impact: guest credential theft, financial loss, and reputation damage to the hotel brand.
 
-Related Abuse Cases: AC26
+Related Abuse Cases: AC08

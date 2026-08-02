@@ -1,4 +1,4 @@
-### T22 - Internal Maintenance Notes Exposure
+### T04 - Internal Maintenance Notes Exposure
 
 STRIDE Category: Information Disclosure
 
@@ -8,4 +8,4 @@ Identified Threat: attacker tampers with room detail queries to read internal ro
 
 Possible Impact: exposure of physical vulnerabilities and internal hotel maintenance issues to unauthorized users.
 
-Related Abuse Cases: AC22
+Related Abuse Cases: AC04

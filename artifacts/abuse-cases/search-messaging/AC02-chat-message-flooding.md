@@ -1,4 +1,4 @@
-### AC20 - Chat Message Flooding
+### AC02 - Chat Message Flooding
 
 Actor: malicious guest or unauthenticated spammer.
 

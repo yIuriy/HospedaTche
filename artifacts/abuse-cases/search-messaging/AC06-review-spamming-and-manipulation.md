@@ -1,4 +1,4 @@
-### AC24 - Review Spamming And Manipulation
+### AC06 - Review Spamming And Manipulation
 
 Actor: malicious user or competitor.
 

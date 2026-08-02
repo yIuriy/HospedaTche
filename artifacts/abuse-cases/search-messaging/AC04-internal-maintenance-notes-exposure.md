@@ -1,4 +1,4 @@
-### AC22 - Internal Maintenance Notes Exposure
+### AC04 - Internal Maintenance Notes Exposure
 
 Actor: anonymous visitor or malicious guest.
 

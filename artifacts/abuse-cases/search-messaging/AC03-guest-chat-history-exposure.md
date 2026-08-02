@@ -1,4 +1,4 @@
-### AC21 - Guest Chat History Exposure
+### AC03 - Guest Chat History Exposure
 
 Actor: unauthorized user or attacker.
 

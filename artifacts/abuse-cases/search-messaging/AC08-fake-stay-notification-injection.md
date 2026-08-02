@@ -1,4 +1,4 @@
-### AC26 - Fake Stay Notification Injection
+### AC08 - Fake Stay Notification Injection
 
 Actor: malicious third party or phisher.
 

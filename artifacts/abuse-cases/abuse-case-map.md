@@ -6,8 +6,8 @@ This file maps abuse cases to modules, assets, and STRIDE categories.
 | --- | --- | --- | --- | --- | --- | --- |
 | AC01 | accounts | [`accounts/AC01-fake-guest-registration.md`](./accounts/AC01-fake-guest-registration.md) | Fake Guest Registration | Guest account registration | Spoofing | draft |
 | AC02 | accounts | [`accounts/AC02-account-takeover.md`](./accounts/AC02-account-takeover.md) | Account Takeover | User account login | Spoofing, Information Disclosure | draft |
-| AC03 | accounts | [`accounts/AC03-unauthorized-password-change.md`](./accounts/AC03-unauthorized-password-change.md) | Unauthorized Password Change | Password recovery module | Tampering | draft |
-| AC04 | accounts | [`accounts/AC04-legitimate-employee-inactivation.md`](./accounts/AC04-legitimate-employee-inactivation.md) | Legitimate Employee Inactivation | Employee management module | Tampering | draft |
+| AC03 | accounts | [`accounts/AC03-unauthorized-role-elevation.md`](./accounts/AC03-unauthorized-role-elevation.md) | Unauthorized Role Elevation | Role assignment and account management API | Elevation of Privilege, Tampering | draft |
+| AC04 | accounts | [`accounts/AC04-broken-route-authorization.md`](./accounts/AC04-broken-route-authorization.md) | Broken Route Authorization | Internal application routes and REST endpoints | Elevation of Privilege, Information Disclosure | draft |
 | AC05 | accounts | [`accounts/AC05-legitimate-receptionist-inactivation.md`](./accounts/AC05-legitimate-receptionist-inactivation.md) | Legitimate Receptionist Inactivation | Receptionist management module | Denial of Service, Tampering | draft |
 | AC06 | accounts | [`accounts/AC06-receptionist-privilege-escalation.md`](./accounts/AC06-receptionist-privilege-escalation.md) | Receptionist Privilege Escalation | Permission management module | Elevation of Privilege, Denial of Service, Tampering | draft |
 | AC07 | accounts | [`accounts/AC07-room-information-tampering-by-receptionist.md`](./accounts/AC07-room-information-tampering-by-receptionist.md) | Room Information Tampering By Receptionist | Room management page | Elevation of Privilege, Denial of Service, Tampering | draft |
@@ -30,6 +30,7 @@ This file maps abuse cases to modules, assets, and STRIDE categories.
 | AC24 | search-messaging | [`search-messaging/AC24-review-spamming-and-manipulation.md`](./search-messaging/AC24-review-spamming-and-manipulation.md) | Review Spamming And Manipulation | Review Submission System | Tampering | draft |
 | AC25 | search-messaging | [`search-messaging/AC25-notification-preferences-tampering.md`](./search-messaging/AC25-notification-preferences-tampering.md) | Notification Preferences Tampering | Notification Preference Settings | Tampering | draft |
 | AC26 | search-messaging | [`search-messaging/AC26-fake-stay-notification-injection.md`](./search-messaging/AC26-fake-stay-notification-injection.md) | Fake Stay Notification Injection | Guest Notification System | Spoofing | draft |
+| AC27 | accounts | [`accounts/AC27-session-fixation-and-hijacking.md`](./accounts/AC27-session-fixation-and-hijacking.md) | Session Fixation And Hijacking | Authentication session manager | Spoofing, Information Disclosure, Elevation of Privilege | draft |
 
 ## Status Values
 

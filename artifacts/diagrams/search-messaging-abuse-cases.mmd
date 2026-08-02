@@ -16,7 +16,7 @@
   }
 }}%%
 flowchart TD
-    Attacker[Malicious Attacker / Bot Operator]
+    Attacker[Malicious Attacker / Insider Operator]
 
     subgraph SearchMessagingModule["Search, Reviews & Messaging Module"]
         PublicInfoAPI["Public Hotel Info & Details (RF11, RF12, RF13)"]
@@ -34,3 +34,9 @@ flowchart TD
     Attacker -->|AC06: Submits Fake Review Spam| ReviewService
     Attacker -->|AC07: Alters Notification Settings| NotifService
     Attacker -->|AC08: Injects Phishing Notifications| NotifService
+    Attacker -->|AC09: Bulk Review Rating Tampering| ReviewService
+    Attacker -->|AC10: Permanent Guest Review Purge| ReviewService
+    Attacker -->|AC11: Hidden Room ID Enumeration| PublicInfoAPI
+    Attacker -->|AC12: Misdirected Chat Billing Request| ChatService
+    Attacker -->|AC13: Privilege Escalation to Chat Queue| ChatService
+    Attacker -->|AC14: Chat Tampering & Repudiation Purge| ChatService

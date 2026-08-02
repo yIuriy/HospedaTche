@@ -1,4 +1,4 @@
-### AC18 - Guest CPF Enumeration
+### AC18 - Guest Cpf Enumeration
 
 Actor: malicious user.
 

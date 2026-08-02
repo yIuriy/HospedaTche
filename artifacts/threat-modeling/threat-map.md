@@ -30,6 +30,11 @@ This file maps threats to modules, assets, STRIDE categories, and abuse cases.
 | T24 | search-messaging | [`search-messaging/T24-review-spamming-and-manipulation.md`](./search-messaging/T24-review-spamming-and-manipulation.md) | Review Spamming And Manipulation | Review Submission System | Tampering | AC24 | draft |
 | T25 | search-messaging | [`search-messaging/T25-notification-preferences-tampering.md`](./search-messaging/T25-notification-preferences-tampering.md) | Notification Preferences Tampering | Notification Preference Settings | Tampering | AC25 | draft |
 | T26 | search-messaging | [`search-messaging/T26-fake-stay-notification-injection.md`](./search-messaging/T26-fake-stay-notification-injection.md) | Fake Stay Notification Injection | Guest Notification System | Spoofing | AC26 | draft |
+| T27 | accounts | [`accounts/T27-unauthorized-role-elevation.md`](./accounts/T27-unauthorized-role-elevation.md) | Unauthorized Role Elevation | Role assignment and account management API | Elevation of Privilege | AC03 | draft |
+| T28 | accounts | [`accounts/T28-broken-route-authorization.md`](./accounts/T28-broken-route-authorization.md) | Broken Route Authorization | Internal application routes and REST endpoints | Elevation of Privilege | AC04 | draft |
+| T29 | accounts | [`accounts/T29-session-fixation-and-hijacking.md`](./accounts/T29-session-fixation-and-hijacking.md) | Session Fixation And Hijacking | Authentication session manager | Spoofing | AC27 | draft |
+| T30 | accounts | [`accounts/T30-secondary-administrator-account-creation.md`](./accounts/T30-secondary-administrator-account-creation.md) | Secondary Administrator Account Creation | Administrator account management service | Elevation of Privilege | AC28 | draft |
+| T31 | accounts | [`accounts/T31-internal-staff-hierarchy-bypass.md`](./accounts/T31-internal-staff-hierarchy-bypass.md) | Internal Staff Hierarchy Bypass | Staff account management and inactivation API | Elevation of Privilege | AC29 | draft |
 
 ## Status Values
 

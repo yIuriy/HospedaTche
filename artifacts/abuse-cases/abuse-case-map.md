@@ -31,6 +31,8 @@ This file maps abuse cases to modules, assets, and STRIDE categories.
 | AC25 | search-messaging | [`search-messaging/AC25-notification-preferences-tampering.md`](./search-messaging/AC25-notification-preferences-tampering.md) | Notification Preferences Tampering | Notification Preference Settings | Tampering | draft |
 | AC26 | search-messaging | [`search-messaging/AC26-fake-stay-notification-injection.md`](./search-messaging/AC26-fake-stay-notification-injection.md) | Fake Stay Notification Injection | Guest Notification System | Spoofing | draft |
 | AC27 | accounts | [`accounts/AC27-session-fixation-and-hijacking.md`](./accounts/AC27-session-fixation-and-hijacking.md) | Session Fixation And Hijacking | Authentication session manager | Spoofing, Information Disclosure, Elevation of Privilege | draft |
+| AC28 | accounts | [`accounts/AC28-secondary-administrator-account-creation.md`](./accounts/AC28-secondary-administrator-account-creation.md) | Secondary Administrator Account Creation | Administrator account management service | Elevation of Privilege, Tampering | draft |
+| AC29 | accounts | [`accounts/AC29-internal-staff-hierarchy-bypass.md`](./accounts/AC29-internal-staff-hierarchy-bypass.md) | Internal Staff Hierarchy Bypass | Staff account management and inactivation API | Elevation of Privilege, Denial of Service, Tampering | draft |
 
 ## Status Values
 

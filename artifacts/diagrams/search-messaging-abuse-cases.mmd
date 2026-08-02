@@ -26,11 +26,11 @@ flowchart TD
         NotifService["Stay Notifications & Reminders (RF41, RF46, RF47)"]
     end
 
-    Attacker -->|AC19: Automated Search DoS Flood| SearchAPI
-    Attacker -->|AC20: Chat Message Flooding DoS| ChatService
-    Attacker -->|AC21: Steals Private Chat History| ChatService
-    Attacker -->|AC22: Reads Internal Room Notes| PublicInfoAPI
-    Attacker -->|AC23: Accesses Moderated Reviews| ReviewService
-    Attacker -->|AC24: Submits Fake Review Spam| ReviewService
-    Attacker -->|AC25: Alters Notification Settings| NotifService
-    Attacker -->|AC26: Injects Phishing Notifications| NotifService
+    Attacker -->|AC01: Automated Search DoS Flood| SearchAPI
+    Attacker -->|AC02: Chat Message Flooding DoS| ChatService
+    Attacker -->|AC03: Steals Private Chat History| ChatService
+    Attacker -->|AC04: Reads Internal Room Notes| PublicInfoAPI
+    Attacker -->|AC05: Accesses Moderated Reviews| ReviewService
+    Attacker -->|AC06: Submits Fake Review Spam| ReviewService
+    Attacker -->|AC07: Alters Notification Settings| NotifService
+    Attacker -->|AC08: Injects Phishing Notifications| NotifService

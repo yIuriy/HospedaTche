@@ -1,4 +1,4 @@
-### T19 - Automated Room Search Overload
+### T01 - Automated Room Search Overload
 
 STRIDE Category: Denial of Service
 
@@ -8,4 +8,4 @@ Identified Threat: attacker uses automated bots to send high volumes of room sea
 
 Possible Impact: search service degradation or total unavailability for legitimate guests.
 
-Related Abuse Cases: AC19
+Related Abuse Cases: AC01

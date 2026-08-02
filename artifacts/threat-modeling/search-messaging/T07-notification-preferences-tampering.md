@@ -1,4 +1,4 @@
-### T25 - Notification Preferences Tampering
+### T07 - Notification Preferences Tampering
 
 STRIDE Category: Tampering
 
@@ -8,4 +8,4 @@ Identified Threat: attacker tampers with notification preferences of another gue
 
 Possible Impact: guest misses critical stay updates, payment alerts, and check-in reminders.
 
-Related Abuse Cases: AC25
+Related Abuse Cases: AC07

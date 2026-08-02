@@ -1,4 +1,4 @@
-### T20 - Chat Message Flooding
+### T02 - Chat Message Flooding
 
 STRIDE Category: Denial of Service
 
@@ -8,4 +8,4 @@ Identified Threat: malicious user sends a flood of chat messages to the receptio
 
 Possible Impact: reception queue pollution and delayed responses to legitimate guest inquiries.
 
-Related Abuse Cases: AC20
+Related Abuse Cases: AC02

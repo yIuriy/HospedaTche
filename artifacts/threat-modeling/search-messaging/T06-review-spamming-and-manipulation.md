@@ -1,4 +1,4 @@
-### T24 - Review Spamming And Manipulation
+### T06 - Review Spamming And Manipulation
 
 STRIDE Category: Tampering
 
@@ -8,4 +8,4 @@ Identified Threat: attacker submits fake or duplicate reviews for stays without 
 
 Possible Impact: hotel reputation distortion and artificial rating inflation or deflation.
 
-Related Abuse Cases: AC24
+Related Abuse Cases: AC06

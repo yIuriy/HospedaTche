@@ -1,4 +1,4 @@
-### T21 - Guest Chat History Exposure
+### T03 - Guest Chat History Exposure
 
 STRIDE Category: Information Disclosure
 
@@ -8,4 +8,4 @@ Identified Threat: attacker accesses or intercepts private chat history belongin
 
 Possible Impact: leak of personal data, stay schedules, and private guest inquiries.
 
-Related Abuse Cases: AC21
+Related Abuse Cases: AC03

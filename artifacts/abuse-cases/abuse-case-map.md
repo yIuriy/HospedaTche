@@ -39,6 +39,29 @@ This file maps abuse cases to modules, assets, and STRIDE categories.
 | AC12 | search-messaging | [`search-messaging/AC12-misdirected-chat-billing-request-and-staff-message-spoofing.md`](./search-messaging/AC12-misdirected-chat-billing-request-and-staff-message-spoofing.md) | Misdirected Chat Billing Request And Staff Message Spoofing | Guest Reception Chat Service & Staff Queue | Spoofing, Tampering | draft |
 | AC13 | search-messaging | [`search-messaging/AC13-guest-privilege-escalation-to-receptionist-chat-queue.md`](./search-messaging/AC13-guest-privilege-escalation-to-receptionist-chat-queue.md) | Guest Privilege Escalation To Receptionist Chat Queue | Staff Chat Queue & Receptionist Portal Interface | Elevation of Privilege, Information Disclosure | draft |
 | AC14 | search-messaging | [`search-messaging/AC14-chat-message-tampering-and-history-repudiation-purge.md`](./search-messaging/AC14-chat-message-tampering-and-history-repudiation-purge.md) | Chat Message Tampering And History Repudiation Purge | Chat Database & Messaging Log Records | Repudiation, Tampering | draft |
+| AC01 | booking | [`booking/ac01-unauthorized-booking-cancellation.md`](./booking/ac01-unauthorized-booking-cancellation.md) | Unauthorized Booking Cancellation | Booking cancellation | Tampering, Elevation of Privilege, Denial of Service | draft |
+| AC02 | booking | [`booking/ac02-fake-booking-creation.md`](./booking/ac02-fake-booking-creation.md) | Fake Booking Creation | Room availability | Tampering, Denial of Service | draft |
+| AC03 | booking | [`booking/ac03-concurrent-booking-race-condition.md`](./booking/ac03-concurrent-booking-race-condition.md) | Concurrent Booking Race Condition | Room availability | Tampering | draft |
+| AC04 | booking | [`booking/ac04-forced-booking-expiration.md`](./booking/ac04-forced-booking-expiration.md) | Forced Booking Expiration | Booking status | Denial of Service | draft |
+| AC05 | booking | [`booking/ac05-booking-expiration-bypass.md`](./booking/ac05-booking-expiration-bypass.md) | Booking Expiration Bypass | Booking status | Denial of Service | draft |
+| AC06 | booking | [`booking/ac06-duplicate-booking-cancellation.md`](./booking/ac06-duplicate-booking-cancellation.md) | Duplicate Booking Cancellation | Booking status | Tampering | draft |
+| AC07 | booking | [`booking/ac07-fraudulent-booking-repudiation.md`](./booking/ac07-fraudulent-booking-repudiation.md) | Fraudulent Booking Repudiation | Audit logs | Repudiation | draft |
+| AC08 | booking | [`booking/ac08-booking-information-disclosure.md`](./booking/ac08-booking-information-disclosure.md) | Booking Information Disclosure | Booking records | Information Disclosure | draft |
+| AC09 | booking | [`booking/ac09-booking-policy-manipulation.md`](./booking/ac09-booking-policy-manipulation.md) | Booking Policy Manipulation | Booking policies | Elevation of Privilege | draft |
+| AC10 | booking | [`booking/ac10-unauthorized-booking-modification.md`](./booking/ac10-unauthorized-booking-modification.md) | Unauthorized Booking Modification | Booking details | Tampering | draft |
+| AC11 | booking | [`booking/ac11-unauthorized-booking-confirmation.md`](./booking/ac11-unauthorized-booking-confirmation.md) | Unauthorized Booking Confirmation | Booking confirmation API | Elevation of Privilege, Tampering | draft |
+| AC12 | booking | [`booking/ac12-booking-state-machine-transition-bypass.md`](./booking/ac12-booking-state-machine-transition-bypass.md) | Booking State Machine Transition Bypass | Booking status | Tampering | draft |
+| AC13 | booking | [`booking/ac13-booking-cancellation-blocking.md`](./booking/ac13-booking-cancellation-blocking.md) | Booking Cancellation Blocking | Booking cancellation | Denial of Service | draft |
+| AC01 | payment | [`payment/ac01-payment-reference-substitution.md`](./payment/ac01-payment-reference-substitution.md) | Payment Reference Substitution | Payment transaction | Tampering | draft |
+| AC02 | payment | [`payment/ac02-unauthorized-payment-validation.md`](./payment/ac02-unauthorized-payment-validation.md) | Unauthorized Payment Validation | Payment confirmation process | Tampering | draft |
+| AC03 | payment | [`payment/ac03-credit-card-information-disclosure.md`](./payment/ac03-credit-card-information-disclosure.md) | Credit Card Information Disclosure | Guest payment information | Information Disclosure | draft |
+| AC04 | payment | [`payment/ac04-fraudulent-refund-claim.md`](./payment/ac04-fraudulent-refund-claim.md) | Fraudulent Refund Claim | Refund processing | Spoofing | draft |
+| AC05 | payment | [`payment/ac05-payment-confirmation-blocking.md`](./payment/ac05-payment-confirmation-blocking.md) | Payment Confirmation Blocking | Payment confirmation process | Denial of Service | draft |
+| AC06 | payment | [`payment/ac06-payment-synchronization-flood.md`](./payment/ac06-payment-synchronization-flood.md) | Payment Synchronization Flood | Payment synchronization service | Denial of Service | draft |
+| AC07 | payment | [`payment/ac07-refund-value-tampering.md`](./payment/ac07-refund-value-tampering.md) | Refund Value Tampering | Refund transaction | Tampering | draft |
+| AC08 | payment | [`payment/ac08-payment-audit-record-repudiation.md`](./payment/ac08-payment-audit-record-repudiation.md) | Payment Audit Record Repudiation | Payment audit history | Repudiation | draft |
+| AC09 | payment | [`payment/ac09-payment-process-interruption.md`](./payment/ac09-payment-process-interruption.md) | Payment Process Interruption | Payment processing | Denial of Service | draft |
+| AC10 | payment | [`payment/ac10-payment-gateway-token-tampering.md`](./payment/ac10-payment-gateway-token-tampering.md) | Payment Gateway Token Tampering | Payment gateway response | Tampering | draft |
 
 ## Status Values
 

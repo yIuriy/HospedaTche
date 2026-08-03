@@ -8,4 +8,4 @@ Identified Threat: an attacker submits multiple cancellation requests for the sa
 
 Possible Impact: inconsistent booking status, duplicate refund processing, financial loss, and unreliable booking records.
 
-Related Abuse Cases:
+Related Abuse Cases: AC06

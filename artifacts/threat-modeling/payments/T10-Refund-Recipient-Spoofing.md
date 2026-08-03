@@ -1,4 +1,4 @@
-### T11 - Refund Recipient Spoofing
+### T10 - Refund Recipient Spoofing
 
 STRIDE Category: Spoofing
 
@@ -8,4 +8,4 @@ Identified Threat: an attacker impersonates the legitimate refund recipient, cau
 
 Possible Impact: unauthorized refund payments, financial losses, compromised payment integrity, and customer disputes.
 
-Related Abuse Cases:
+Related Abuse Cases: AC04

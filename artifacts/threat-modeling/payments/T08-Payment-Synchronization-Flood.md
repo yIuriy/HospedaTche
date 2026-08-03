@@ -8,4 +8,4 @@ Identified Threat: an attacker floods the payment status synchronization process
 
 Possible Impact: delayed payment recognition, booking confirmation failures, increased server load, and service degradation.
 
-Related Abuse Cases:
+Related Abuse Cases: AC06

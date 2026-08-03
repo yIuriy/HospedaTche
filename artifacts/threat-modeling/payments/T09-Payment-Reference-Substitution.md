@@ -1,4 +1,4 @@
-### T10 - Payment Reference Substitution
+### T09 - Payment Reference Substitution
 
 STRIDE Category: Tampering
 
@@ -8,4 +8,4 @@ Identified Threat: an attacker manipulates the payment reference so that a valid
 
 Possible Impact: unauthorized booking confirmation, financial loss, inconsistent payment records, and unfair access to higher-value bookings.
 
-Related Abuse Cases:
+Related Abuse Cases: AC01

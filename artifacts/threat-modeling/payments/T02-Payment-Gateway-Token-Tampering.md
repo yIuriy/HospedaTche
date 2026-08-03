@@ -8,6 +8,6 @@ Identified Threat: an attacker manipulates the payment gateway token or response
 
 Possible Impact: fake payment approval, fraudulent reservations, and compromised transaction integrity.
 
-Related Abuse Cases:
+Related Abuse Cases: AC10
 
 

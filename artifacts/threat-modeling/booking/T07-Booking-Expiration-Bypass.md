@@ -8,4 +8,4 @@ Identified Threat: an attacker prevents a pending booking from expiring after th
 
 Possible Impact: reduced room availability, unfair booking retention, operational disruption, and revenue loss.
 
-Related Abuse Cases:
+Related Abuse Cases: AC05

@@ -1,4 +1,4 @@
-### T12 - Credit Card Information Disclosure
+### T11 - Credit Card Information Disclosure
 
 STRIDE Category: Information Disclosure
 
@@ -8,4 +8,4 @@ Identified Threat: an attacker gains unauthorized access to Guests' credit card 
 
 Possible Impact: exposure of sensitive financial information, fraudulent transactions, identity theft, financial losses, regulatory non-compliance, and loss of customer trust.
 
-Related Abuse Cases:
+Related Abuse Cases: AC03

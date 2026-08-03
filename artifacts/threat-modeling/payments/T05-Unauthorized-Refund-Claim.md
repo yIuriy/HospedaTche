@@ -8,4 +8,4 @@ Identified Threat: a Guest manipulates refund information to receive the refund 
 
 Possible Impact: unauthorized refunds, financial loss for the hotel, and compromised payment integrity.
 
-Related Abuse Cases:
+Related Abuse Cases: AC04

@@ -8,4 +8,4 @@ Identified Threat: an attacker modifies the payment confirmation or status to fa
 
 Possible Impact: unauthorized reservation confirmation, revenue loss, and inconsistent payment records.
 
-Related Abuse Cases: 
+Related Abuse Cases: AC02

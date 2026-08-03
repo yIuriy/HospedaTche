@@ -8,4 +8,4 @@ Identified Threat: an attacker interferes with another Guest's payment process, 
 
 Possible Impact: payment failure, automatic booking cancellation, customer dissatisfaction, and loss of revenue.
 
-Related Abuse Cases:
+Related Abuse Cases: AC09

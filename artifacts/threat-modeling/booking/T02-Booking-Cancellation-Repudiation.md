@@ -8,4 +8,4 @@ Identified Threat: a Guest cancels a reservation and later claims the cancellati
 
 Possible Impact: fraudulent refund requests, administrative disputes, and financial losses.
 
-Related Abuse Cases: 
+Related Abuse Cases: AC07

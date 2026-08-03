@@ -8,4 +8,4 @@ Identified Threat: an attacker creates fake bookings using fabricated or unautho
 
 Possible Impact: reduced room availability, operational disruption, fraudulent bookings, and financial losses.
 
-Related Abuse Cases:
+Related Abuse Cases: AC02

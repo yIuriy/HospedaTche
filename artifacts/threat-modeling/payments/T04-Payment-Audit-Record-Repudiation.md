@@ -8,4 +8,4 @@ Identified Threat: a user denies having completed or authorized a payment after 
 
 Possible Impact: payment disputes, chargeback requests, and inability to prove transaction history.
 
-Related Abuse Cases: 
+Related Abuse Cases: AC08

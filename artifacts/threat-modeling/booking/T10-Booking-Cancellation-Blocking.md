@@ -8,4 +8,4 @@ Identified Threat: an attacker prevents legitimate Guests from submitting or com
 
 Possible Impact: Guests are unable to cancel eligible bookings, resulting in financial losses, customer disputes, and operational issues.
 
-Related Abuse Cases:
+Related Abuse Cases: AC13

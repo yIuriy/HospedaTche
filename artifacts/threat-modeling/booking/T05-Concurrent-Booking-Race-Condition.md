@@ -8,4 +8,4 @@ Identified Threat: an attacker exploits concurrent booking requests to reserve t
 
 Possible Impact: duplicate bookings for the same room, inconsistent booking records, operational conflicts, and customer dissatisfaction.
 
-Related Abuse Cases:
+Related Abuse Cases: AC03

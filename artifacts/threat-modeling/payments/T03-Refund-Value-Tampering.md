@@ -8,5 +8,4 @@ Identified Threat: an attacker alters the calculated refund amount or percentage
 
 Possible Impact: financial loss for the hotel and incorrect refund records.
 
-Related Abuse Cases: 
-
+Related Abuse Cases: AC07

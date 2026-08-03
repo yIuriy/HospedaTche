@@ -8,4 +8,4 @@ Identified Threat: an attacker forces the cancellation of another Guest's bookin
 
 Possible Impact: unauthorized booking cancellation, financial loss, operational disruption, and customer dissatisfaction.
 
-Related Abuse Cases:
+Related Abuse Cases: AC01

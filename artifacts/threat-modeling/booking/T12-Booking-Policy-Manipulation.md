@@ -1,4 +1,4 @@
-### T13 - Booking Policy Manipulation
+### T12 - Booking Policy Manipulation
 
 STRIDE Category: Elevation of Privilege
 
@@ -8,4 +8,4 @@ Identified Threat: an attacker gains Administrator privileges and modifies booki
 
 Possible Impact: unauthorized refund amounts, inconsistent booking policies, financial losses, and disruption of booking management.
 
-Related Abuse Cases:
+Related Abuse Cases: AC09

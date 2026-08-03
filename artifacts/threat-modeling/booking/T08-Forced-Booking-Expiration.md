@@ -8,4 +8,4 @@ Identified Threat: an attacker forces the immediate expiration of pending bookin
 
 Possible Impact: unintended booking cancellations, loss of revenue, customer dissatisfaction, and disruption of the booking process.
 
-Related Abuse Cases:
+Related Abuse Cases: AC04

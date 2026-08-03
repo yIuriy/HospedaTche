@@ -8,4 +8,4 @@ Identified Threat: an attacker submits a large number of booking requests withou
 
 Possible Impact: legitimate Guests are unable to book available rooms, booking availability becomes artificially exhausted, hotel revenue decreases, and system resources are unnecessarily consumed.
 
-Related Abuse Cases:
+Related Abuse Cases: AC02

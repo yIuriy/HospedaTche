@@ -8,4 +8,4 @@ Identified Threat: an attacker prevents the system from receiving or processing 
 
 Possible Impact: valid payments are not recognized, bookings are cancelled incorrectly, refund disputes may occur, and customer trust is reduced.
 
-Related Abuse Cases:
+Related Abuse Cases: AC05

@@ -1,4 +1,4 @@
-### AC04 - Legitimate Employee Inactivation
+### AC23 - Legitimate Employee Inactivation
 
 Actor: malicious user.
 

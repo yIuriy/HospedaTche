@@ -1,4 +1,4 @@
-### AC03 - Unauthorized Password Change
+### AC22 - Unauthorized Password Change
 
 Actor: malicious user.
 

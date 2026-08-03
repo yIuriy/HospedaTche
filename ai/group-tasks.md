@@ -1,4 +1,4 @@
-# Stage 1 - Group Tasks by System Module
+# Group Tasks by System Module
 
 ## Group Members
 
@@ -25,14 +25,31 @@ The system does not manage room consumption, such as drinks, minibar items, snac
 - Business rules: `artifacts/business-rules/business-rules.md`
 - STRIDE template: `artifacts/templates/stride-threat-template.md`
 - Abuse case template: `artifacts/templates/abuse-case-template.md`
+- STRIDE threat map: `artifacts/threat-modeling/threat-map.md`
+- Abuse case map: `artifacts/abuse-cases/abuse-case-map.md`
+- Stage 2 risk treatment workspace: `artifacts/risk-treatment/`
 
-## Work Order
+## Stage 1 Work Order
 
 1. Create STRIDE threats and abuse cases for the assigned module.
 2. Review related RF and NFR links.
 3. Add or update business rules only if a real business rule appears.
 4. Add diagrams or mitigations only if time remains.
 5. Run assigned validation scripts before commit.
+
+## Stage 2 Work Order
+
+1. Use Stage 1 STRIDE threats and abuse cases as source material.
+2. Define common probability and impact criteria before scoring.
+3. Convert relevant threats into risks with IDs such as `R01`.
+4. Calculate score as probability x impact and classify level.
+5. Justify probability, impact, score, and priority.
+6. Choose treatment strategy: avoid, reduce, share, or accept.
+7. Map each risk to relevant NIST CSF 2.0 functions.
+8. Propose concrete controls, owners, verification evidence, and residual risk.
+9. Define initial control implementation order.
+
+Stage 2 does not require implementing controls.
 
 ## Equal Workload Matrix
 
@@ -43,6 +60,20 @@ The system does not manage room consumption, such as drinks, minibar items, snac
 | Member 3 | Lara | Accommodation & Listing Management | RF14-RF21, RF35-RF40, NFR13 | Tampering | AC05, AC06 |
 | Member 4 | Dyonathan | Booking & Payment Transactions | RF22-RF34, NFR06, NFR10, NFR13, NFR14 | Repudiation, Tampering | AC07, AC08 |
 | Member 5 | Rafaela | Search, Reviews & Messaging | RF11-RF13, RF18-RF21, RF41-RF47, NFR05, NFR09 | Denial of Service, Information Disclosure | AC09, AC10 |
+
+## Stage 2 Equal Workload Guidance
+
+Each member should create risk entries and treatment notes for their Stage 1 module:
+
+| Member | Name | Stage 2 Scope | Expected Focus |
+| :--- | :--- | :--- | :--- |
+| Member 1 | Iuri | User registration and identity risks | spoofing, CPF/email abuse, account ownership, profile data exposure |
+| Member 2 | Sidnei | Authentication and access-control risks | session abuse, route authorization, role escalation, privileged actions |
+| Member 3 | Lara | Accommodation and room-operation risks | availability, room status, rates, cleaning, maintenance, capacity |
+| Member 4 | Dyonathan | Booking and payment risks | reservation integrity, payment confirmation, cancellation, refund, auditability |
+| Member 5 | Rafaela | Search, reviews, notifications, and chat risks | search overload, information exposure, message abuse, review manipulation |
+
+Shared decisions, such as scoring criteria and NIST CSF interpretation, should be common across all members.
 
 ## Member 1 - Iuri: User Registration & Identity
 

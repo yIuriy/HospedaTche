@@ -4,7 +4,7 @@
 
 Start security analysis before implementation by identifying malicious behaviors, threats, and impacts related to the software system.
 
-The project must produce Markdown documentation in this repository containing:
+Stage 1 must produce Markdown documentation in this repository containing:
 
 - brief system description;
 - main users, resources, and protected information;
@@ -12,11 +12,13 @@ The project must produce Markdown documentation in this repository containing:
 - abuse cases;
 - optional diagrams that help explain system behavior and threats.
 
+Stage 2 continues that work by transforming Stage 1 threats and abuse cases into risks that can be evaluated, compared, prioritized, and treated using NIST Cybersecurity Framework 2.0 functions.
+
 ## 2. Chosen System
 
 HospedaTche is a hotel accommodation system.
 
-The system should support different user types, information exchange, and security-relevant operations. Implementation is not required for Stage 1; focus is understanding the system and analyzing possible security problems.
+The system should support different user types, information exchange, and security-relevant operations. Implementation is not required for Stage 1 or Stage 2; focus is understanding the system, analyzing security problems, and planning risk treatment.
 
 ## 3. Repository Requirements
 
@@ -31,6 +33,8 @@ All project files must be versioned in this repository, including:
 Do not rely only on external diagram links. Store source files and exported images in the repository.
 
 ## 4. Minimum Document Structure
+
+The Stage 1 content must stay available. Stage 2 content must be added without deleting or replacing previous STRIDE threats, abuse cases, assets, users, or components.
 
 ### 4.1 System Identification
 
@@ -158,6 +162,73 @@ Summarize:
 
 Protection measures may be mentioned when relevant, but a complete solution is not required for Stage 1.
 
+### 4.8 Stage 2 - Risk Analysis and Treatment With NIST CSF 2.0
+
+Stage 2 must contain:
+
+- probability criteria;
+- impact criteria;
+- risk calculation and classification;
+- risk register;
+- justification for each risk evaluation;
+- risk prioritization;
+- treatment strategies;
+- NIST CSF 2.0 function overview;
+- risk-to-NIST mapping;
+- treatment plan;
+- initial implementation order;
+- expected residual risk;
+- final considerations.
+
+Use this calculation:
+
+```text
+Risk score = probability x impact
+```
+
+Use these levels:
+
+| Score | Risk Level |
+| --- | --- |
+| 1 to 3 | Low |
+| 4 to 7 | Medium |
+| 8 to 11 | High |
+| 12 to 16 | Critical |
+
+Every relevant Stage 1 threat should originate at least one risk. If one threat can cause different consequences, create more than one related risk.
+
+Each risk must include:
+
+- unique ID, such as `R01`;
+- related STRIDE threat or category;
+- risk event;
+- vulnerability or condition;
+- probability value from 1 to 4;
+- impact value from 1 to 4;
+- calculated score;
+- level;
+- justification.
+
+Treatment strategies are:
+
+- Avoid: eliminate the activity or condition that creates the risk;
+- Reduce: add measures to lower probability or impact;
+- Share: assign part of the operation or consequence to a third party;
+- Accept: consciously keep the risk with approval, conditions, and review.
+
+NIST CSF 2.0 functions to use:
+
+- Govern: policies, responsibilities, priorities, and decision criteria;
+- Identify: assets, dependencies, vulnerabilities, and risks;
+- Protect: safeguards that reduce probability or impact;
+- Detect: suspicious events, failures, and incidents;
+- Respond: contain, analyze, communicate, and handle incidents;
+- Recover: restore services and data after incidents.
+
+The NIST function is not the control. For example, `Protect` is a function, "protect account access" is an expected outcome, and MFA is a possible control.
+
+Controls must be concrete and observable. Avoid generic controls like "improve security" or "use cryptography" unless the document explains where, why, how, who owns it, and how it will be verified.
+
 ## 5. Individual Participation and Commits
 
 Evaluation is individual even though the project is group work. Every member must show participation through their own commits.
@@ -201,7 +272,7 @@ HospedaTche/
 
 ## 7. Evaluation Criteria
 
-The work will be evaluated by:
+Stage 1 work will be evaluated by:
 
 - clarity and quality of system description;
 - correct identification of users, assets, and components;
@@ -214,6 +285,26 @@ The work will be evaluated by:
 - repository organization;
 - project history;
 - individual participation demonstrated by commits.
+
+Stage 2 work will also be evaluated by:
+
+- continuity and coherence with Stage 1;
+- clear probability and impact criteria;
+- correct risk calculations;
+- quality of justifications;
+- coherent prioritization;
+- correct distinction between threat, vulnerability, attack, and risk;
+- adequate treatment strategy choice;
+- contextual use of NIST CSF functions;
+- correct distinction between function, expected outcome, and control;
+- specific proposed controls;
+- responsible parties;
+- verification evidence;
+- coherent implementation order;
+- realistic residual risk estimate;
+- readable organization;
+- project evolution through commits;
+- individual participation.
 
 ## 8. Delivery
 

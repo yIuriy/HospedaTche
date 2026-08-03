@@ -420,6 +420,8 @@ Run the Stage 2 validator when risk-treatment files change:
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1
 ```
 
+The repository pre-commit hook also runs this check with the other validations.
+
 ## Commit Message Examples
 
 - `Add identity risk treatment entries`
@@ -760,3 +762,5 @@ Rodar quando arquivos de tratamento de risco forem alterados:
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1
 ```
+
+O hook de pre-commit do repositorio tambem roda essa verificacao junto com as outras validacoes.

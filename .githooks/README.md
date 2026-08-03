@@ -1,7 +1,7 @@
 # Git Hooks
 
 This repository uses a `commit-msg` hook to keep commit messages clear.
-It also uses a `pre-commit` hook to validate security analysis files.
+It also uses a `pre-commit` hook to run all repository validation checks.
 
 Rules:
 
@@ -25,4 +25,10 @@ Manual STRIDE threat validation:
 
 ```sh
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stride-threats.ps1
+```
+
+Manual risk treatment validation:
+
+```sh
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1
 ```

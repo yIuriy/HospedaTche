@@ -234,7 +234,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-business-ru
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1
 ```
 
-Pre-commit also runs RF, NFR, business rules, STRIDE, and abuse case validations.
+Pre-commit runs all repository validation checks, including RF, NFR, business rules, STRIDE, abuse cases, and risk treatment.
 
 ## Commit Message Suggestions
 

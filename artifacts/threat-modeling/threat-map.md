@@ -67,6 +67,17 @@ This file maps threats to modules, assets, STRIDE categories, and abuse cases.
 | T09 | payments | [`payments/T09-Payment-Reference-Substitution.md`](./payments/T09-Payment-Reference-Substitution.md) | Payment Reference Substitution | Payment Transaction | Tampering | AC01 | draft |
 | T10 | payments | [`payments/T10-Refund-Recipient-Spoofing.md`](./payments/T10-Refund-Recipient-Spoofing.md) | Refund Recipient Spoofing | Refund Processing | Spoofing | AC04 | draft |
 | T11 | payments | [`payments/T11-Credit-Card-Information-Disclosure.md`](./payments/T11-Credit-Card-Information-Disclosure.md) | Credit Card Information Disclosure | Payment Information | Information Disclosure | AC03 | draft |
+| T01 | accommodation | [`accommodation/T01-room-availability-manipulation.md`](./accommodation/T01-.md) | Room Availability Manipulation | Room availability and blocking module | Tampering | AC01 | draft |
+| T02 | accommodation | [`accommodation/T02-false-room-status-update.md`](./accommodation/T02-false-room-status-update.md) | False Room Status Update | Room operational status module | Tampering | AC02 | draft |
+| T03 | accommodation | [`accommodation/T03-unauthorized-room-deactivation.md`](./accommodation/T03-unauthorized-room-deactivation.md) | Unauthorized Room Deactivation | Room management module | Tampering | AC03 | draft |
+| T04 | accommodation | [`accommodation/T04-unauthorized-room-rate-tampering.md`](./accommodation/T04-unauthorized-room-rate-tampering.md) | Unauthorized Room Rate Tampering | Room rate management module | Tampering | AC04 | draft |
+| T05 | accommodation | [`accommodation/T05-staff-room-schedule-exposure.md`](./accommodation/T05-staff-room-schedule-exposure.md) | Staff Room Schedule Exposure | Room schedule view | Information Disclosure | AC05 | draft |
+| T06 | accommodation | [`accommodation/T06-occupancy-capacity-tampering.md`](./accommodation/T06-occupancy-capacity-tampering.md) | Occupancy Capacity Tampering | Room capacity validation | Tampering | AC06 | draft |
+| T07 | accommodation | [`accommodation/T07-fraudulent-check-in-or-check-out-update.md`](./accommodation/T07-fraudulent-check-in-or-check-out-update.md) | Fraudulent Check In Or Check Out Update | Stay operation status workflow | Tampering | AC34 | draft |
+| T08 | accommodation | [`accommodation/T08-guest-stay-identification-tampering.md`](./accommodation/T08-guest-stay-identification-tampering.md) | Guest Stay Identification Tampering | Guest identification at check-in | Tampering | AC08 | draft |
+| T09 | accommodation | [`accommodation/T09-companion-registration-tampering.md`](./accommodation/T09-companion-registration-tampering.md) | Companion Registration Tampering | Companion registration module | Tampering | AC09 | draft |
+| T10 | accommodation | [`accommodation/T10-cleaning-queue-tampering.md`](./accommodation/T10-cleaning-queue-tampering.md) | Cleaning Queue Tampering | Cleaning queue | Tampering | AC10 | draft |
+| T11 | accommodation | [`accommodation/T11-maintenance-note-tampering.md`](./accommodation/T11-maintenance-note-tampering.md) | Maintenance Note Tampering | Maintenance tracking module | Tampering | AC11 | draft |
 
 ## Status Values
 

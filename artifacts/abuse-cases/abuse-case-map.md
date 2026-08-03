@@ -62,6 +62,17 @@ This file maps abuse cases to modules, assets, and STRIDE categories.
 | AC08 | payment | [`payment/ac08-payment-audit-record-repudiation.md`](./payment/ac08-payment-audit-record-repudiation.md) | Payment Audit Record Repudiation | Payment audit history | Repudiation | draft |
 | AC09 | payment | [`payment/ac09-payment-process-interruption.md`](./payment/ac09-payment-process-interruption.md) | Payment Process Interruption | Payment processing | Denial of Service | draft |
 | AC10 | payment | [`payment/ac10-payment-gateway-token-tampering.md`](./payment/ac10-payment-gateway-token-tampering.md) | Payment Gateway Token Tampering | Payment gateway response | Tampering | draft |
+| AC01 | accommodation | [`accommodation/AC01-room-availability-manipulation.md`](./accommodation/AC01-room-availability-manipulation.md) | Room Availability Manipulation | Room availability and blocking module | Tampering, Denial of Service | draft |
+| AC02 | accommodation | [`accommodation/AC02-false-room-status-update.md`](./accommodation/AC02-false-room-status-update.md) | False Room Status Update | Room operational status module | Tampering, Denial of Service | draft |
+| AC03 | accommodation | [`accommodation/AC03-unauthorized-room-deactivation.md`](./accommodation/AC03-unauthorized-room-deactivation.md) | Unauthorized Room Deactivation | Room management module | Tampering, Denial of Service | draft |
+| AC04 | accommodation | [`accommodation/AC04-unauthorized-room-rate-tampering.md`](./accommodation/AC04-unauthorized-room-rate-tampering.md) | Unauthorized Room Rate Tampering | Room rate management module | Tampering | draft |
+| AC05 | accommodation | [`accommodation/AC05-staff-room-schedule-exposure.md`](./accommodation/AC05-staff-room-schedule-exposure.md) | Staff Room Schedule Exposure | Room schedule view | Information Disclosure | draft |
+| AC06 | accommodation | [`accommodation/AC06-occupancy-capacity-tampering.md`](./accommodation/AC06-occupancy-capacity-tampering.md) | Occupancy Capacity Tampering | Room capacity validation | Tampering | draft |
+| AC07 | accommodation | [`accommodation/AC07-fraudulent-check-in-or-check-out-update.md`](./accommodation/AC07-fraudulent-check-in-or-check-out-update.md) | Fraudulent Check In Or Check Out Update | Stay operation status workflow | Tampering, Repudiation | draft |
+| AC08 | accommodation | [`accommodation/AC08-guest-stay-identification-tampering.md`](./accommodation/AC08-guest-stay-identification-tampering.md) | Guest Stay Identification Tampering | Guest identification at check-in | Tampering, Information Disclosure | draft |
+| AC09 | accommodation | [`accommodation/AC09-companion-registration-tampering.md`](./accommodation/AC09-companion-registration-tampering.md) | Companion Registration Tampering | Companion registration module | Tampering | draft |
+| AC10 | accommodation | [`accommodation/AC10-cleaning-queue-tampering.md`](./accommodation/AC10-cleaning-queue-tampering.md) | Cleaning Queue Tampering | Cleaning queue | Tampering, Denial of Service | draft |
+| AC11 | accommodation | [`accommodation/AC11-maintenance-note-tampering.md`](./accommodation/AC11-maintenance-note-tampering.md) | Maintenance Note Tampering | Maintenance tracking module | Tampering, Denial of Service | draft |
 
 ## Status Values
 

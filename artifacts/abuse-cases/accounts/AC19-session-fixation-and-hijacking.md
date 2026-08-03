@@ -1,4 +1,4 @@
-### AC27 - Session Fixation And Hijacking
+### AC19 - Session Fixation And Hijacking
 
 Actor: malicious network attacker or unauthenticated user.
 

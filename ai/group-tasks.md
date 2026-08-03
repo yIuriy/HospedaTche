@@ -25,6 +25,7 @@ The system does not manage room consumption, such as drinks, minibar items, snac
 - Business rules: `artifacts/business-rules/business-rules.md`
 - STRIDE template: `artifacts/templates/stride-threat-template.md`
 - Abuse case template: `artifacts/templates/abuse-case-template.md`
+- Risk treatment template: `artifacts/templates/risk-treatment-template.md`
 - STRIDE threat map: `artifacts/threat-modeling/threat-map.md`
 - Abuse case map: `artifacts/abuse-cases/abuse-case-map.md`
 - Stage 2 risk treatment workspace: `artifacts/risk-treatment/`
@@ -230,6 +231,7 @@ Run only the scripts related to changed artifacts:
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stride-threats.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-abuse-cases.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-business-rules.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1
 ```
 
 Pre-commit also runs RF, NFR, business rules, STRIDE, and abuse case validations.
@@ -317,4 +319,5 @@ Rodar somente scripts dos artefatos alterados:
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stride-threats.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-abuse-cases.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-business-rules.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1
 ```

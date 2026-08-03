@@ -63,5 +63,7 @@ Stage 2 does not require implementing controls. Proposed controls must be specif
 - Store STRIDE threats under `artifacts/threat-modeling/<module>/TNN-short-title.md`.
 - Track STRIDE threats in `artifacts/threat-modeling/threat-map.md`.
 - Store Stage 2 risk analysis and treatment artifacts under `artifacts/risk-treatment/`.
+- Use `artifacts/templates/risk-treatment-template.md` for Stage 2 module skeletons.
+- Validate Stage 2 skeletons with `scripts/validate-risk-treatment.ps1` when risk treatment docs change.
 - Keep repository validations documented in `README.md`.
 - Git validations are stored in `.githooks/` and enabled with `git config core.hooksPath .githooks`.

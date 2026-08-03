@@ -20,3 +20,21 @@ Expected content:
 - expected residual risk.
 
 Controls are not implemented in Stage 2. They are proposed, justified, assigned, and linked to verification evidence.
+
+Module skeletons:
+
+- `accounts/risk-register.md`
+- `accommodation/risk-register.md`
+- `booking/risk-register.md`
+- `payment/risk-register.md`
+- `search-messaging/risk-register.md`
+
+Reusable template:
+
+- `artifacts/templates/risk-treatment-template.md`
+
+Validation script:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1
+```

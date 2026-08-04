@@ -17,6 +17,7 @@ Stage 1 sources:
 | R04 | T11 - Password Reset Token Leakage | AC11 - Password Reset Token Leakage | An attacker obtains a password reset token and changes the victim's password, gaining control of the account. | Password reset tokens are not properly protected, expire too slowly, are exposed in logs or URLs, or can be reused after password recovery. | 2 | 4 | 8 | High |
 | R05 | T19 - Unauthorized Role Elevation | AC03 - Unauthorized Role Elevation | A guest or other low-privileged user gains Manager or Administrator privileges and performs restricted administrative actions. | Role assignment or account update endpoints fail to enforce strict server-side authorization, allowing role parameters or token payloads to be manipulated. | 3 | 4 | 12 | Critical |
 | R06 | T15 - Unauthorized Guest Profile Access | AC15 - Unauthorized Guest Profile Access | An authenticated attacker accesses another guest's profile data by changing a profile identifier, URL, or request parameter. | Profile access control is weak, profile identifiers are predictable, or the system does not verify that the requested profile belongs to the authenticated user. | 3 | 4 | 12 | Critical |
+| R07 | T20 - Broken Route Authorization | AC04 - Broken Route Authorization | A low-privileged or unauthenticated user accesses restricted internal routes or API endpoints and views staff-only data or performs protected actions. | Route protection relies on front-end hiding or incomplete endpoint checks instead of consistent server-side authorization for every protected route and REST endpoint. | 3 | 4 | 12 | Critical |
 
 ## Evaluation Justifications
 
@@ -92,6 +93,18 @@ Expected consequences: Personal data exposure, privacy violation, misuse of gues
 
 Risk level justification: The calculated score is critical because profile data is sensitive and directly linked to guest identity and bookings. Even if the attacker does not gain administrator privileges, unauthorized access to another guest's profile can expose personal information and damage the trust required for a hotel accommodation system.
 
+### R07 - Broken Route Authorization Risk
+
+Probability justification: The probability is medium-high because route protection is conceptually simple, but individual routes or API endpoints can be forgotten, misconfigured, or temporarily exposed during development. The risk is more severe when the route allows protected staff, manager, or administrator actions instead of only viewing restricted information.
+
+Impact justification: The impact is very high because accessing protected routes may expose hotel statistics, employee information, guest data, internal records, or administrative functions. In severe cases, the attacker may perform actions that alter legitimate data, disrupt operations, or affect system availability.
+
+Affected users, data, features, or components: Protected front-end routes, REST endpoints, staff pages, manager pages, administrator pages, hotel operational data, employee data, guest data, booking records, room management, payment-related administration, and audit data.
+
+Expected consequences: Loss of trust in the system, information disclosure, unauthorized administrative actions, legitimate data tampering, service unavailability, and bypass of role boundaries without the attacker needing a formally elevated role.
+
+Risk level justification: The calculated score is critical because an unprotected route can behave like privilege escalation while the attacker keeps a low-privileged role. If the route is easy to discover, multiple attackers may reuse the same weakness to access internal data or perform restricted actions.
+
 ## Prioritization
 
 | Priority | Risk | Reason |
@@ -102,6 +115,7 @@ Risk level justification: The calculated score is critical because profile data 
 | 4 | R04 | This risk can be treated after the broader account takeover and mass abuse risks, but it remains important because a leaked reset token can directly lead to account takeover and exposure of sensitive guest data. |
 | 5 | R05 | This risk should be treated as critical because unauthorized role elevation can compromise the whole hotel operation, including rooms, staff accounts, prices, internal information, and administrative actions. |
 | 6 | R06 | This risk should be treated as critical because unauthorized profile access exposes sensitive guest data and can permanently damage trust in the platform. It is listed after role elevation because it is narrower in scope, but it still requires early treatment. |
+| 7 | R07 | This risk should be treated as critical because protected route enforcement is a basic requirement for a secure system. If a protected route is exposed, users may access staff or administrator functions without formally changing their role. |
 
 ## NIST CSF 2.0 Mapping
 
@@ -113,6 +127,7 @@ Risk level justification: The calculated score is critical because profile data 
 | R04 | X | X | X | X | X | X | Password reset token leakage requires governance for recovery-token rules, identification of token storage and delivery points, protection through short-lived single-use tokens, detection of abnormal reset activity, response through token invalidation and session revocation, and recovery of account access for the legitimate user. |
 | R05 | X | X | X | X | X | X | Unauthorized role elevation requires governance for role assignment rules, identification of privileged APIs and roles, protection through server-side authorization and deny-by-default role changes, detection of abnormal privilege changes, response through account suspension and role rollback, and recovery of affected configuration, rooms, staff accounts, or audit records. |
 | R06 | X | X | X | X | X | X | Unauthorized guest profile access requires governance for profile access rules, identification of sensitive profile data and endpoints, protection through strict ownership checks and deny-by-default authorization, detection of abnormal profile access attempts, response through access revocation and investigation, and recovery through incident communication and correction of exposed records. |
+| R07 | X | X | X | X | X | X | Broken route authorization requires governance for route and endpoint access rules, identification of protected routes and admin-only actions, protection through server-side authorization checks on every route and form, detection of abnormal access to restricted pages, response through blocking and route correction, and recovery of data or configuration changed through exposed routes. |
 
 ## Treatment Plan
 
@@ -124,6 +139,7 @@ Risk level justification: The calculated score is critical because profile data 
 | R04 | Reduce | Short-lived single-use reset tokens; hashed token storage; no reset tokens in logs; token invalidation after password change; session revocation after password reset; notification to the account owner after password recovery. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Password reset token expiration tests; token reuse tests; log review confirming tokens are not exposed; session revocation tests; password recovery notification tests. |
 | R05 | Reduce | Server-side authorization checks for role changes; deny-by-default role assignment policy; approval flow for privileged role changes; audit log for all role updates; alert for unexpected Manager or Administrator assignment; rollback procedure for unauthorized role changes. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Authorization tests proving guests cannot assign roles; role-change approval records; role update audit logs; alert simulation for unexpected privilege changes; rollback test records. |
 | R06 | Reduce | Server-side ownership checks for every profile endpoint; deny-by-default authorization policy; unpredictable profile references or indirect identifiers; audit log for profile access; alert for repeated unauthorized profile access attempts. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Authorization tests proving users cannot access other profiles; profile endpoint access logs; denied-access audit records; alert simulation for repeated profile access attempts; incident review records. |
+| R07 | Reduce | Server-side authorization checks for every protected route and REST endpoint; deny-by-default route policy; role-based access matrix; automated authorization tests for guest, receptionist, manager, and administrator roles; audit log for denied access to protected routes. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Route authorization tests; role access matrix review; denied-access logs; alert simulation for restricted route access; incident records for corrected exposed routes. |
 
 ## Initial Implementation Order
 
@@ -136,6 +152,7 @@ Risk level justification: The calculated score is critical because profile data 
 | 5 | Add administrative review and cleanup process for suspicious or confirmed fake accounts. | R01, R03 | Cleanup and response reduce remaining operational impact after suspicious accounts are detected. |
 | 6 | Add server-side role-change authorization and privileged role approval. | R05 | Role elevation can compromise the whole system, so privileged role changes must be blocked by default and approved explicitly. |
 | 7 | Add server-side ownership checks and deny-by-default authorization for profile endpoints. | R06 | Profile data exposure is critical, and ownership checks are the main control needed to prevent one guest from accessing another guest's profile. |
+| 8 | Add server-side authorization checks and automated authorization tests for all protected routes. | R07 | Protected route enforcement is broad and affects every restricted module, so route checks must be verified systematically across roles. |
 
 ## Expected Residual Risk
 
@@ -147,9 +164,10 @@ Risk level justification: The calculated score is critical because profile data 
 | R04 | High | Low | Residual risk is accepted only if reset tokens are short-lived, single-use, stored hashed, absent from logs, invalidated after use, and followed by session revocation and user notification. |
 | R05 | Critical | Medium | Residual risk is accepted only if role changes require server-side authorization, privileged assignments require approval, role updates are audited, unexpected privilege changes generate alerts, and rollback procedures are verified. |
 | R06 | Critical | Medium | Residual risk is accepted only if profile endpoints enforce server-side ownership checks, deny unauthorized access by default, log profile access attempts, and generate evidence through authorization tests and audit records. |
+| R07 | Critical | Medium | Residual risk is accepted only if protected routes and REST endpoints enforce server-side authorization, route access is tested for each role, denied access is logged, and exposed route corrections are documented. |
 
 ## Final Notes
 
-The current account risks focus on fake registration, account takeover, mass account creation, password reset token leakage, unauthorized role elevation, and unauthorized guest profile access. The most urgent controls are authentication protections and password recovery safeguards because they prevent direct compromise of legitimate guest accounts. Registration controls and account creation monitoring should follow because they reduce fake-account abuse, system pollution, and availability problems. Role-change authorization is essential because unauthorized privileged access can compromise the entire hotel operation. Profile ownership checks are also important because they prevent privacy violations between legitimate guest accounts.
+The current account risks focus on fake registration, account takeover, mass account creation, password reset token leakage, unauthorized role elevation, unauthorized guest profile access, and broken route authorization. The most urgent controls are authentication protections and password recovery safeguards because they prevent direct compromise of legitimate guest accounts. Registration controls and account creation monitoring should follow because they reduce fake-account abuse, system pollution, and availability problems. Role-change authorization and protected route checks are essential because unauthorized privileged access or exposed internal routes can compromise the entire hotel operation. Profile ownership checks are also important because they prevent privacy violations between legitimate guest accounts.
 
 Residual risk is only an estimate. The group cannot claim that risk was reduced until the controls are implemented, tested, and supported by evidence such as validation tests, audit logs, alert records, and administrative review records.

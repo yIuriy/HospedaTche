@@ -28,17 +28,103 @@ Stage 1 sources:
 
 ## Evaluation Justifications
 
-### RNN - Risk Title
+### R01 - Automated Room Search Overload
+Probability justification: High likelihood (3) because public search endpoints are exposed to unauthenticated web traffic and bots without CAPTCHA or rate limits.
+Impact justification: High impact (3) because search unavailability prevents new bookings, causing direct revenue loss and customer dissatisfaction.
+Affected users, data, features, or components: Prospective guests, public room availability search API, database query engine.
+Expected consequences: System slowdown, database connection pool exhaustion, temporary search outage, and dropped reservations.
+Risk level justification: High level (Score 9 = 3x3) due to business criticality of public search availability.
 
-Probability justification: TODO.
+### R02 - Chat Message Flooding
+Probability justification: High likelihood (3) as any guest or anonymous chat session can send rapid API requests without rate limiting.
+Impact justification: High impact (3) because reception staff get overwhelmed, delaying response to urgent guest needs during check-in or stay.
+Affected users, data, features, or components: Hotel receptionists, active guests, WebSocket/HTTP chat API, reception queue interface.
+Expected consequences: Reception queue pollution, staff fatigue, missed guest emergencies, and service degradation.
+Risk level justification: High level (Score 9 = 3x3) due to operational disruption at front desk.
 
-Impact justification: TODO.
+### R03 - Guest Chat History Exposure
+Probability justification: Medium-high likelihood (3) because parameter tampering (IDOR) on REST API endpoints is a common attack vector when authorization is missing.
+Impact justification: Very high impact (4) due to severe guest privacy violation, LGPD non-compliance, exposure of travel dates, room numbers, and personal inquiries.
+Affected users, data, features, or components: All hotel guests, chat history database, chat REST API.
+Expected consequences: Massive data privacy breach, legal penalties, loss of guest trust, and brand damage.
+Risk level justification: Critical level (Score 12 = 3x4) due to severe privacy and legal compliance consequences.
 
-Affected users, data, features, or components: TODO.
+### R04 - Internal Maintenance Notes Exposure
+Probability justification: Medium-high likelihood (3) as API responses often return full database models when DTO projections are omitted.
+Impact justification: High impact (3) because physical lock defects and security vulnerability notes exposed to guests pose physical security risks.
+Affected users, data, features, or components: Hotel physical security, room maintenance logs, public room detail API.
+Expected consequences: Exploitation of physical room vulnerabilities, unauthorized intrusion risk, and hotel liability.
+Risk level justification: High level (Score 9 = 3x3) due to physical security implications.
 
-Expected consequences: TODO.
+### R05 - Hidden Review Data Exposure
+Probability justification: Medium-low likelihood (2) requiring parameter manipulation on review search filters.
+Impact justification: High impact (3) as publishing moderated defamatory or policy-violating reviews damages hotel image and violates moderation rules.
+Affected users, data, features, or components: Hotel management, reviews database, public reviews API.
+Expected consequences: Public exposure of offensive or filtered review content and reputational harm.
+Risk level justification: Medium level (Score 6 = 2x3) due to moderate exposure scope.
 
-Risk level justification: TODO.
+### R06 - Review Spamming And Manipulation
+Probability justification: Medium-high likelihood (3) because review forms without stay verification invite fake reviews from competitors or bots.
+Impact justification: High impact (3) as fake negative ratings directly depress booking conversion and distort hotel reputation.
+Affected users, data, features, or components: Prospective guests, hotel management, review submission API, rating calculation service.
+Expected consequences: Rating distortion, misleading prospective guests, unfair competition, and revenue loss.
+Risk level justification: High level (Score 9 = 3x3) due to direct impact on hotel revenue and reputation.
+
+### R07 - Notification Preferences Tampering
+Probability justification: Medium-low likelihood (2) requiring IDOR parameter manipulation on user settings endpoints.
+Impact justification: High impact (3) as disabling notification preferences causes guests to miss check-in alerts, door codes, and security notices.
+Affected users, data, features, or components: Hotel guests, notification preference settings DB, push/email notification service.
+Expected consequences: Missed stay alerts, operational confusion, and undetected account settings modification.
+Risk level justification: Medium level (Score 6 = 2x3).
+
+### R08 - Fake Stay Notification Injection
+Probability justification: Medium-high likelihood (3) as spoofing unauthenticated email or push channels is frequently exploited in phishing campaigns.
+Impact justification: Very high impact (4) because guests clicking fake payment links suffer financial theft, credential loss, and brand damage.
+Affected users, data, features, or components: Hotel guests, notification delivery service, guest credentials.
+Expected consequences: Guest financial loss, credential theft, phishing damage, and severe brand distrust.
+Risk level justification: Critical level (Score 12 = 3x4) due to financial theft and credential compromise.
+
+### R09 - Bulk Review Rating Tampering
+Probability justification: Medium-low likelihood (2) requiring compromised staff credentials or insider access.
+Impact justification: Very high impact (4) as wiping or modifying dozens of reviews in bulk destroys overall rating accuracy overnight.
+Affected users, data, features, or components: Hotel reputation rating system, reviews DB, hotel management.
+Expected consequences: Instant rating destruction, loss of prospective bookings, and audit log contamination.
+Risk level justification: High level (Score 8 = 2x4).
+
+### R10 - Permanent Guest Review Purge
+Probability justification: Medium-low likelihood (2) requiring manager role access or API endpoint misuse.
+Impact justification: Very high impact (4) because hard-deleting review records violates the mandatory "hide/retain" policy and prevents auditability.
+Affected users, data, features, or components: Guest review records, moderation system, audit history.
+Expected consequences: Irreversible loss of guest feedback history, repudiation of moderation decisions, and policy violation.
+Risk level justification: High level (Score 8 = 2x4).
+
+### R11 - Hidden Room Enumeration And Brute Force
+Probability justification: Medium-high likelihood (3) because automated scripts easily iterate sequential room IDs in search APIs.
+Impact justification: Moderate impact (2) as it leaks unlisted room inventory and maintenance states without exposing guest PII.
+Affected users, data, features, or components: Room search API, room inventory DB.
+Expected consequences: Intelligence leak of hidden hotel inventory and extra database load.
+Risk level justification: Medium level (Score 6 = 3x2).
+
+### R12 - Misdirected Chat Billing Request And Staff Message Spoofing
+Probability justification: Medium-low likelihood (2) requiring receptionist portal session hijacking or misrouting.
+Impact justification: Very high impact (4) as sending payment links to the wrong guest causes accidental or fraudulent financial transactions.
+Affected users, data, features, or components: Hotel guests, reception chat queue, billing link integration.
+Expected consequences: Misdirected billing, guest financial loss, dispute overhead, and legal liability.
+Risk level justification: High level (Score 8 = 2x4).
+
+### R13 - Guest Privilege Escalation To Receptionist Chat Queue
+Probability justification: Medium-low likelihood (2) requiring missing server-side RBAC validation on staff endpoints.
+Impact justification: Very high impact (4) as gaining receptionist privileges exposes all active guest chats and allows impersonating staff.
+Affected users, data, features, or components: Staff chat queue, receptionist portal, all active guest chat sessions.
+Expected consequences: Total breakdown of guest chat privacy, staff impersonation, and unauthorized access to reception tools.
+Risk level justification: High level (Score 8 = 2x4).
+
+### R14 - Chat Message Tampering And History Repudiation Purge
+Probability justification: Medium-low likelihood (2) requiring API editing/deletion permissions on chat message endpoints.
+Impact justification: High impact (3) as altering or deleting chat history destroys evidence during dispute resolution and breaks non-repudiation.
+Affected users, data, features, or components: Chat database, message audit log, dispute resolution workflow.
+Expected consequences: Non-repudiation failure, loss of dispute evidence, and inability to verify past staff/guest agreements.
+Risk level justification: Medium level (Score 6 = 2x3).
 
 ## Prioritization
 

@@ -130,7 +130,20 @@ Risk level justification: Medium level (Score 6 = 2x3).
 
 | Priority | Risk | Reason |
 | --- | --- | --- |
-| 1 | RNN | TODO |
+| 1 | R03 | Critical risk (Score 12). Severe guest privacy breach and LGPD violation via chat IDOR. |
+| 2 | R08 | Critical risk (Score 12). Direct guest financial theft and credential phishing via notification spoofing. |
+| 3 | R01 | High risk (Score 9). Core public search API availability collapse prevents new revenue. |
+| 4 | R02 | High risk (Score 9). Reception chat queue flooding paralyzes front desk operations. |
+| 5 | R06 | High risk (Score 9). Review spamming directly distorts hotel reputation and booking conversion. |
+| 6 | R04 | High risk (Score 9). Exposure of physical maintenance defects creates physical security liabilities. |
+| 7 | R09 | High risk (Score 8). Bulk review tampering corrupts hotel reputation rating overnight. |
+| 8 | R10 | High risk (Score 8). Hard deletion of reviews violates mandatory retention and audit rules. |
+| 9 | R12 | High risk (Score 8). Misdirected billing links in chat cause financial misattribution. |
+| 10 | R13 | High risk (Score 8). Privilege escalation to staff chat queue compromises master communications. |
+| 11 | R05 | Medium risk (Score 6). Exposure of moderated reviews damages image. |
+| 12 | R07 | Medium risk (Score 6). Notification preference tampering causes missed alerts. |
+| 13 | R11 | Medium risk (Score 6). Sequential room ID enumeration leaks hidden inventory. |
+| 14 | R14 | Medium risk (Score 6). Chat message tampering destroys dispute evidence. |
 
 ## NIST CSF 2.0 Mapping
 

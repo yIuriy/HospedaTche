@@ -149,7 +149,20 @@ Risk level justification: Medium level (Score 6 = 2x3).
 
 | Risk | Govern | Identify | Protect | Detect | Respond | Recover | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| RNN | TODO | TODO | TODO | TODO | TODO | TODO | TODO |
+| R01 | Yes | Yes | Yes | Yes | Yes | No | Rate limiting, CAPTCHA, and search query caching protect availability; alerts detect spikes. |
+| R02 | Yes | No | Yes | Yes | Yes | No | WebSocket rate limiting and staff queue throttling prevent reception paralysis. |
+| R03 | Yes | Yes | Yes | Yes | Yes | No | Strict server-side RBAC and session-matching middleware block unauthorized chat access. |
+| R04 | Yes | Yes | Yes | Yes | No | No | DTO field projection policies ensure internal maintenance fields are stripped from public APIs. |
+| R05 | No | Yes | Yes | Yes | No | No | Review status filtering enforces manager-only access for hidden review flags. |
+| R06 | Yes | Yes | Yes | Yes | Yes | No | Mandatory booking completion check before accepting review submissions. |
+| R07 | Yes | No | Yes | Yes | No | No | Ownership validation middleware for notification preference updates. |
+| R08 | Yes | Yes | Yes | Yes | Yes | Yes | Cryptographic email/push signing (DKIM/HMAC) and phishing response protocols. |
+| R09 | Yes | Yes | Yes | Yes | Yes | Yes | Multi-actor approval for bulk review edits and automated anomaly detection. |
+| R10 | Yes | Yes | Yes | Yes | No | Yes | Soft-delete enforcement at DB ORM layer and database backup recovery. |
+| R11 | No | Yes | Yes | Yes | No | No | Non-sequential UUID parameters and room visibility status checks. |
+| R12 | Yes | Yes | Yes | Yes | Yes | No | Mandatory guest session binding and pre-send confirmation for chat payment links. |
+| R13 | Yes | Yes | Yes | Yes | Yes | No | Server-side role check (`ROLE_STAFF`) enforced on all receptionist queue endpoints. |
+| R14 | Yes | Yes | Yes | Yes | No | No | Immutable append-only chat history database schema with change audit logs. |
 
 ## Treatment Plan
 

@@ -22,6 +22,7 @@ Stage 1 sources:
 | R09 | T17 - Role Change Without Approval | AC17 - Role Change Without Approval | An account role is changed to a higher privilege level without proper approval, allowing the user to perform actions outside the intended permission boundary. | The role management process allows role updates without enough authorization, approval workflow, audit control, or separation between request and approval. | 3 | 4 | 12 | Critical |
 | R10 | T12 - Session Not Invalidated After Password Change | AC12 - Session Not Invalidated After Password Change | An attacker keeps access to a compromised account because existing sessions remain valid after the legitimate user changes or resets the password. | Password change and recovery flows do not revoke active sessions, refresh tokens, remembered devices, or other authentication artifacts already issued before the password change. | 4 | 4 | 16 | Critical |
 | R11 | T14 - Mass Login Attempt Abuse | AC14 - Mass Login Attempt Abuse | An attacker performs many automated login attempts against one or many accounts, causing account lockouts, credential guessing attempts, authentication slowdown, or login-service degradation. | The login flow does not enforce enough rate limiting, progressive delays, temporary blocking, IP/device reputation checks, or suspicious-login monitoring for repeated authentication attempts. | 3 | 4 | 12 | Critical |
+| R12 | T13 - Missing Audit Log for Account Changes | AC13 - Missing Audit Log for Account Changes | Account, role, password, status, or profile changes cannot be investigated or attributed because the system does not keep enough audit evidence. | Some account-management modules or sensitive actions do not generate audit logs with actor, timestamp, target account, action type, previous value, new value, and source context. | 2 | 3 | 6 | Medium |
 
 ## Evaluation Justifications
 
@@ -157,6 +158,18 @@ Expected consequences: Login slowdown or outage, account lockouts, reduced trust
 
 Risk level justification: The calculated score is critical because authentication is required for most account-based workflows. A hotel system must have controls against automated and repeated login attempts to preserve availability, protect accounts, and avoid operational disruption.
 
+### R12 - Missing Audit Log for Account Changes Risk
+
+Probability justification: The probability is medium-low because a module or account-change flow may be forgotten during development and remain without proper audit logging. This does not mean abuse will always happen, but it makes it harder to prove who changed an account if a guest, employee, manager, or administrator performs an improper action.
+
+Impact justification: The impact is high because account changes can affect access, roles, passwords, active status, and sensitive profile data. Without logs, the hotel may be unable to prove responsibility, support disciplinary action, reconstruct the incident, or respond properly to legal, operational, or security questions.
+
+Affected users, data, features, or components: Guest accounts, staff accounts, role management, password change flow, account status management, profile data, administrative account updates, audit records, incident response workflow, and any module where account data can be changed.
+
+Expected consequences: Loss of trust between staff and management, inability to attribute account changes to a specific actor, weak incident investigation, delayed response, difficulty reversing unauthorized changes, and reduced evidence for internal review or legal accountability.
+
+Risk level justification: The calculated score is medium because missing audit logs do not directly cause account compromise by themselves, and responsibility may sometimes be inferred through other evidence. However, the risk remains important because audit logs are necessary to detect, investigate, prove, and recover from account-change incidents.
+
 ## Prioritization
 
 | Priority | Risk | Reason |
@@ -172,6 +185,7 @@ Risk level justification: The calculated score is critical because authenticatio
 | 9 | R07 | This risk should be treated as critical because protected route enforcement is a basic requirement for a secure system. If a protected route is exposed, users may access staff or administrator functions without formally changing their role. |
 | 10 | R08 | This risk is important, but it is ranked below the broader privilege and route risks because the former employee is usually identifiable and the abuse depends on malicious intent or failure to report remaining access. It still requires treatment because staff accounts can expose hotel data and affect operations. |
 | 11 | R09 | This risk should be treated early because role changes can turn a Guest or lower-privileged staff member into a Manager or Administrator without approval, giving access to restricted actions across the hotel operation. |
+| 12 | R12 | This risk can be treated after the direct authentication and authorization risks because missing audit logs do not cause abuse by themselves. However, it remains important because every sensitive account change should be traceable for investigation, accountability, and recovery. |
 
 ## NIST CSF 2.0 Mapping
 
@@ -187,7 +201,8 @@ Risk level justification: The calculated score is critical because authenticatio
 | R08 | X | X | X | X | X | X | Inactive account access requires governance for staff offboarding rules, identification of inactive accounts and remaining sessions, protection through automatic session and token revocation, detection of activity from inactive accounts, response through account blocking and investigation, and recovery of any data or configuration changed after inactivation. |
 | R09 | X | X | X | X | X | X | Role change without approval requires governance for role approval rules, identification of privileged roles and role-change workflows, protection through approval gates and deny-by-default role assignment, detection of unexpected role changes, response through role rollback and account suspension, and recovery of any data or configuration changed by unauthorized roles. |
 | R10 | X | X | X | X | X | X | Session invalidation after password change requires governance for account recovery rules, identification of active sessions and tokens, protection through automatic revocation after password change, detection of suspicious activity after recovery, response through forced logout and account blocking, and recovery of any data or account state changed during the remaining unauthorized session. |
-| R11 | X | X | X | X | X | X | Mass login attempt abuse requires governance for authentication abuse rules, identification of affected login assets and abnormal authentication patterns, protection through rate limiting and temporary blocking, detection of repeated failed attempts, response through IP or account throttling, and recovery of normal authentication availability after the abuse is contained. |
+| R11 | X | X | - | - | - | X | Mass login attempt abuse requires governance for authentication abuse rules, identification of affected login assets and abnormal authentication patterns, protection through rate limiting and temporary blocking, detection of repeated failed attempts, response through IP or account throttling, and recovery of normal authentication availability after the abuse is contained. |
+| R12 | X | X | X | X | X | X | Missing audit logs require governance for mandatory logging rules, identification of sensitive account-change actions, protection through tamper-resistant audit records, detection of account changes without expected logs, response through investigation and corrective action, and recovery by reconstructing or reverting unauthorized changes when possible. |
 
 ## Treatment Plan
 
@@ -204,6 +219,7 @@ Risk level justification: The calculated score is critical because authenticatio
 | R09 | Reduce | Mandatory approval workflow for role changes; server-side authorization checks before role updates; separation between role request and approval; audit log for every role change; alert for unexpected privileged role assignment; rollback procedure for unauthorized role changes. | Govern, Protect, Detect, Respond, Recover | Development team, system administrator, and hotel manager | Role-change approval records; authorization tests for role updates; role update audit logs; alert simulation for unexpected role changes; rollback test records. |
 | R10 | Reduce | Revoke all active sessions after password change or reset; invalidate refresh tokens and remembered devices; force re-authentication on all devices; notify the account owner after password change; log post-recovery access attempts; alert on suspicious activity after password change. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Session revocation tests; refresh-token invalidation tests; remembered-device invalidation tests; forced re-authentication tests; password change notification tests; audit logs for access attempts after recovery. |
 | R11 | Reduce | Rate limiting by account, IP, and device; progressive login delays; temporary account or IP blocking after repeated failures; suspicious-login monitoring; CAPTCHA or additional verification after abnormal attempts; alerting for authentication spikes; audit logs for failed login patterns. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Login rate-limit tests; brute-force simulation results; temporary block tests; authentication spike alert logs; failed-login audit records; CAPTCHA or additional-verification test records. |
+| R12 | Reduce | Mandatory audit logging for account, role, password, status, and profile changes; logs with actor, target, timestamp, action type, previous value, new value, and source context; tamper-resistant log storage; review process for sensitive account changes; alert for high-risk account changes without expected approval. | Govern, Identify, Protect, Detect, Respond, Recover | Development team, system administrator, and hotel manager | Audit-log coverage tests; account-change log review; role-change log records; tamper-resistance review; alert simulation for sensitive account changes; incident reconstruction exercise. |
 
 ## Initial Implementation Order
 
@@ -220,6 +236,7 @@ Risk level justification: The calculated score is critical because authenticatio
 | 9 | Add server-side authorization checks and automated authorization tests for all protected routes. | R07 | Protected route enforcement is broad and affects every restricted module, so route checks must be verified systematically across roles. |
 | 10 | Add automatic session/token revocation and inactive-account access alerts. | R08 | Offboarding controls prevent former employees from keeping access after inactivation and provide evidence if an inactive account tries to act. |
 | 11 | Add authentication spike alerts and failed-login audit review for repeated login attempts. | R11 | Monitoring and audit review support response after the first preventive controls are in place, helping the team identify abuse patterns and tune blocking rules. |
+| 12 | Add mandatory audit logs for account, role, password, status, and profile changes. | R12 | Audit logging should be added after the main preventive authentication and authorization controls because it supports accountability, investigation, and recovery for all account-change risks. |
 
 ## Expected Residual Risk
 
@@ -236,9 +253,20 @@ Risk level justification: The calculated score is critical because authenticatio
 | R09 | Critical | Medium | Residual risk is accepted only if privileged role changes require approval, role updates are audited, unexpected assignments generate alerts, unauthorized role changes can be rolled back, and authorization tests prove users cannot change roles without approval. |
 | R10 | Critical | Medium | Residual risk is accepted only if password change and reset revoke all active sessions, refresh tokens, and remembered devices, force re-authentication, notify the account owner, and generate audit evidence for post-recovery access attempts. |
 | R11 | Critical | Medium | Residual risk is accepted only if login rate limiting, progressive delays, temporary blocking, suspicious-login monitoring, authentication spike alerts, and failed-login audit records are implemented and verified. |
+| R12 | Medium | Low | Residual risk is accepted only if sensitive account changes generate complete audit records, logs are protected against tampering, audit coverage is tested, and staff can review logs during incident investigation. |
 
 ## Final Notes
 
-The current account risks focus on fake registration, account takeover, mass account creation, password reset token leakage, unauthorized role elevation, unauthorized guest profile access, broken route authorization, inactive account access, role changes without approval, session invalidation after password change, and mass login attempt abuse. The most urgent controls are authentication protections, password recovery safeguards, session revocation after password changes, and mass-login protections because they prevent direct compromise of legitimate guest accounts, remove attacker access during recovery, and keep login available for guests and staff. Registration controls and account creation monitoring should follow because they reduce fake-account abuse, system pollution, and availability problems. Role-change authorization, approval workflows, and protected route checks are essential because unauthorized privileged access or exposed internal routes can compromise the entire hotel operation. Profile ownership checks are also important because they prevent privacy violations between legitimate guest accounts.
+The current account risks focus on fake registration, account takeover, mass account creation, password reset token leakage, unauthorized role elevation, unauthorized guest profile access, broken route authorization, inactive account access, role changes without approval, session invalidation after password change, mass login attempt abuse, and missing audit logs for account changes. The most urgent controls are authentication protections, password recovery safeguards, session revocation after password changes, and mass-login protections because they prevent direct compromise of legitimate guest accounts, remove attacker access during recovery, and keep login available for guests and staff. Registration controls and account creation monitoring should follow because they reduce fake-account abuse, system pollution, and availability problems. Role-change authorization, approval workflows, and protected route checks are essential because unauthorized privileged access or exposed internal routes can compromise the entire hotel operation. Profile ownership checks are also important because they prevent privacy violations between legitimate guest accounts.
 
 Residual risk is only an estimate. The group cannot claim that risk was reduced until the controls are implemented, tested, and supported by evidence such as validation tests, audit logs, alert records, and administrative review records.
+
+## Coverage Notes
+
+The account risks above prioritize the most relevant abuse cases from the account scope. Some account-related abuse cases were not converted into separate risks because they are already covered by broader risks or fit better in another module:
+
+- AC05 - Legitimate Receptionist Inactivation: covered by R08 and R09 because both risks address inactive access, account status, role changes, and administrative account control.
+- AC06 - Receptionist Privilege Escalation: covered by R05 and R09 because both risks address unauthorized role elevation and role changes without approval.
+- AC07 - Room Information Tampering by Receptionist: better handled in the accommodation or room-management module, although R05 and R07 also reduce the account-side authorization risk.
+- AC08 - Room Configuration Tampering by Manager: better handled in the accommodation or room-management module, although R05, R07, and R12 support role control, route authorization, and audit evidence.
+- AC10 - Receptionist Password Disclosure: covered by R02, R10, and R11 because those risks address account takeover, session invalidation after password change, and mass login attempts.

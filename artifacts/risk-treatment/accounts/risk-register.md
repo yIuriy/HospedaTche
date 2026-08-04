@@ -1,4 +1,4 @@
-# Accounts Risk Register
+﻿# Accounts Risk Register
 
 Module scope: user registration, identity, authentication, sessions, profile access, roles, and internal account management.
 
@@ -20,6 +20,7 @@ Stage 1 sources:
 | R07 | T20 - Broken Route Authorization | AC04 - Broken Route Authorization | A low-privileged or unauthenticated user accesses restricted internal routes or API endpoints and views staff-only data or performs protected actions. | Route protection relies on front-end hiding or incomplete endpoint checks instead of consistent server-side authorization for every protected route and REST endpoint. | 3 | 4 | 12 | Critical |
 | R08 | T16 - Inactive Account Still Has Access | AC16 - Inactive Account Still Has Access | A former or inactive staff account continues accessing the online system after inactivation and uses remaining sessions or permissions to view hotel data or perform staff actions. | Account inactivation does not revoke active sessions, tokens, or effective permissions, allowing access to continue after offboarding. | 2 | 3 | 6 | Medium |
 | R09 | T17 - Role Change Without Approval | AC17 - Role Change Without Approval | An account role is changed to a higher privilege level without proper approval, allowing the user to perform actions outside the intended permission boundary. | The role management process allows role updates without enough authorization, approval workflow, audit control, or separation between request and approval. | 3 | 4 | 12 | Critical |
+| R10 | T12 - Session Not Invalidated After Password Change | AC12 - Session Not Invalidated After Password Change | An attacker keeps access to a compromised account because existing sessions remain valid after the legitimate user changes or resets the password. | Password change and recovery flows do not revoke active sessions, refresh tokens, remembered devices, or other authentication artifacts already issued before the password change. | 4 | 4 | 16 | Critical |
 
 ## Evaluation Justifications
 
@@ -131,19 +132,32 @@ Expected consequences: Incorrect room information, unauthorized employee changes
 
 Risk level justification: The calculated score is critical because role changes define the permission boundary of the whole system. Without approval and traceability, a user may gain powerful access and perform actions that affect many hotel workflows.
 
+### R10 - Session Not Invalidated After Password Change Risk
+
+Probability justification: The probability is high because account compromise can happen through weak passwords, reused credentials, phishing, credential leaks, or malware on the user's device. If the legitimate user changes the password to recover the account but old sessions remain active, the attacker may continue using the account even after recovery.
+
+Impact justification: The impact is very high because the damage depends on the compromised role. If the affected account is a guest, personal data, booking history, chat access, and payment-related information may be exposed. If the affected account is a receptionist, manager, or administrator, the attacker may also affect hotel operations and internal records.
+
+Affected users, data, features, or components: Guest accounts, staff accounts, authentication sessions, refresh tokens, remembered devices, login module, password change flow, password reset flow, profile data, booking data, chat, payment-related data, and role-dependent hotel administration modules.
+
+Expected consequences: Continued unauthorized access after password change, personal data exposure, unauthorized bookings or profile changes, abusive chat activity, operational changes made through compromised staff accounts, loss of access for legitimate users, poor hotel reviews, reputational damage, and financial or operational losses.
+
+Risk level justification: The calculated score is critical because password change is the expected recovery action after account compromise. If old sessions are not invalidated, the recovery action does not fully remove attacker access and may allow the compromise to continue unnoticed.
+
 ## Prioritization
 
 | Priority | Risk | Reason |
 | --- | --- | --- |
 | 1 | R02 | This risk should be treated first because it directly affects legitimate guests and may expose CPF, personal data, payment-related data, booking history, and chat access. If the compromise is caused or worsened by weak system controls, it may also create legal, operational, and reputational consequences for HospedaTche. |
 | 2 | R01 | This risk should also be treated early because the booking system is the core of the platform. Fake guest accounts can directly affect room availability, create unnecessary support demand, and reduce trust in booking, chat, and review workflows. |
-| 3 | R03 | This risk should be treated early because mass account creation can degrade system availability, pollute account records, and make account management less reliable for legitimate users. |
-| 4 | R04 | This risk can be treated after the broader account takeover and mass abuse risks, but it remains important because a leaked reset token can directly lead to account takeover and exposure of sensitive guest data. |
-| 5 | R05 | This risk should be treated as critical because unauthorized role elevation can compromise the whole hotel operation, including rooms, staff accounts, prices, internal information, and administrative actions. |
-| 6 | R06 | This risk should be treated as critical because unauthorized profile access exposes sensitive guest data and can permanently damage trust in the platform. It is listed after role elevation because it is narrower in scope, but it still requires early treatment. |
-| 7 | R07 | This risk should be treated as critical because protected route enforcement is a basic requirement for a secure system. If a protected route is exposed, users may access staff or administrator functions without formally changing their role. |
-| 8 | R08 | This risk is important, but it is ranked below the broader privilege and route risks because the former employee is usually identifiable and the abuse depends on malicious intent or failure to report remaining access. It still requires treatment because staff accounts can expose hotel data and affect operations. |
-| 9 | R09 | This risk should be treated early because role changes can turn a Guest or lower-privileged staff member into a Manager or Administrator without approval, giving access to restricted actions across the hotel operation. |
+| 3 | R10 | This risk should be treated early because password change is the expected recovery action after account compromise. If old sessions remain valid, the attacker may keep access even after the legitimate user tries to recover the account. |
+| 4 | R03 | This risk should be treated early because mass account creation can degrade system availability, pollute account records, and make account management less reliable for legitimate users. |
+| 5 | R04 | This risk can be treated after the broader account takeover and session risks, but it remains important because a leaked reset token can directly lead to account takeover and exposure of sensitive guest data. |
+| 6 | R05 | This risk should be treated as critical because unauthorized role elevation can compromise the whole hotel operation, including rooms, staff accounts, prices, internal information, and administrative actions. |
+| 7 | R06 | This risk should be treated as critical because unauthorized profile access exposes sensitive guest data and can permanently damage trust in the platform. It is listed after role elevation because it is narrower in scope, but it still requires early treatment. |
+| 8 | R07 | This risk should be treated as critical because protected route enforcement is a basic requirement for a secure system. If a protected route is exposed, users may access staff or administrator functions without formally changing their role. |
+| 9 | R08 | This risk is important, but it is ranked below the broader privilege and route risks because the former employee is usually identifiable and the abuse depends on malicious intent or failure to report remaining access. It still requires treatment because staff accounts can expose hotel data and affect operations. |
+| 10 | R09 | This risk should be treated early because role changes can turn a Guest or lower-privileged staff member into a Manager or Administrator without approval, giving access to restricted actions across the hotel operation. |
 
 ## NIST CSF 2.0 Mapping
 
@@ -158,6 +172,7 @@ Risk level justification: The calculated score is critical because role changes 
 | R07 | X | X | X | X | X | X | Broken route authorization requires governance for route and endpoint access rules, identification of protected routes and admin-only actions, protection through server-side authorization checks on every route and form, detection of abnormal access to restricted pages, response through blocking and route correction, and recovery of data or configuration changed through exposed routes. |
 | R08 | X | X | X | X | X | X | Inactive account access requires governance for staff offboarding rules, identification of inactive accounts and remaining sessions, protection through automatic session and token revocation, detection of activity from inactive accounts, response through account blocking and investigation, and recovery of any data or configuration changed after inactivation. |
 | R09 | X | X | X | X | X | X | Role change without approval requires governance for role approval rules, identification of privileged roles and role-change workflows, protection through approval gates and deny-by-default role assignment, detection of unexpected role changes, response through role rollback and account suspension, and recovery of any data or configuration changed by unauthorized roles. |
+| R10 | X | X | X | X | X | X | Session invalidation after password change requires governance for account recovery rules, identification of active sessions and tokens, protection through automatic revocation after password change, detection of suspicious activity after recovery, response through forced logout and account blocking, and recovery of any data or account state changed during the remaining unauthorized session. |
 
 ## Treatment Plan
 
@@ -172,6 +187,7 @@ Risk level justification: The calculated score is critical because role changes 
 | R07 | Reduce | Server-side authorization checks for every protected route and REST endpoint; deny-by-default route policy; role-based access matrix; automated authorization tests for guest, receptionist, manager, and administrator roles; audit log for denied access to protected routes. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Route authorization tests; role access matrix review; denied-access logs; alert simulation for restricted route access; incident records for corrected exposed routes. |
 | R08 | Reduce | Automatic session and token revocation when an account is inactivated; permission re-check on every request; offboarding checklist for staff accounts; audit log for inactive account access attempts; alert when an inactive account attempts any action. | Govern, Protect, Detect, Respond, Recover | Development team, system administrator, and hotel manager | Account inactivation tests; session revocation tests; permission re-check tests; offboarding checklist records; inactive-account access alert logs; audit records for blocked attempts. |
 | R09 | Reduce | Mandatory approval workflow for role changes; server-side authorization checks before role updates; separation between role request and approval; audit log for every role change; alert for unexpected privileged role assignment; rollback procedure for unauthorized role changes. | Govern, Protect, Detect, Respond, Recover | Development team, system administrator, and hotel manager | Role-change approval records; authorization tests for role updates; role update audit logs; alert simulation for unexpected role changes; rollback test records. |
+| R10 | Reduce | Revoke all active sessions after password change or reset; invalidate refresh tokens and remembered devices; force re-authentication on all devices; notify the account owner after password change; log post-recovery access attempts; alert on suspicious activity after password change. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Session revocation tests; refresh-token invalidation tests; remembered-device invalidation tests; forced re-authentication tests; password change notification tests; audit logs for access attempts after recovery. |
 
 ## Initial Implementation Order
 
@@ -179,13 +195,14 @@ Risk level justification: The calculated score is critical because role changes 
 | --- | --- | --- | --- |
 | 1 | Add login rate limiting, suspicious-login detection, and temporary account blocking. | R02 | Account takeover is the highest-priority risk because it directly compromises legitimate guests and may expose CPF, personal data, booking history, and payment-related data. |
 | 2 | Add short-lived single-use password reset tokens, hashed token storage, token invalidation, and session revocation after password reset. | R04, R02 | Password reset token leakage can become account takeover, so recovery controls should be implemented soon after login protections. |
-| 3 | Add email ownership verification before account activation and registration rate limiting. | R01, R03 | These controls reduce fake guest registration and mass account creation before accounts can affect booking, chat, reviews, or system availability. |
-| 4 | Add account creation audit logs and abnormal registration alerts. | R01, R03 | Detection and audit evidence are needed to identify fake-account patterns and support administrative response. |
-| 5 | Add administrative review and cleanup process for suspicious or confirmed fake accounts. | R01, R03 | Cleanup and response reduce remaining operational impact after suspicious accounts are detected. |
-| 6 | Add server-side role-change authorization and privileged role approval. | R05, R09 | Role elevation and role changes without approval can compromise the whole system, so privileged role changes must be blocked by default and approved explicitly. |
-| 7 | Add server-side ownership checks and deny-by-default authorization for profile endpoints. | R06 | Profile data exposure is critical, and ownership checks are the main control needed to prevent one guest from accessing another guest's profile. |
-| 8 | Add server-side authorization checks and automated authorization tests for all protected routes. | R07 | Protected route enforcement is broad and affects every restricted module, so route checks must be verified systematically across roles. |
-| 9 | Add automatic session/token revocation and inactive-account access alerts. | R08 | Offboarding controls prevent former employees from keeping access after inactivation and provide evidence if an inactive account tries to act. |
+| 3 | Revoke all active sessions, refresh tokens, and remembered devices after password change or reset. | R10, R02, R04 | Session invalidation must happen early because password change is the expected recovery action after compromise and must fully remove attacker access. |
+| 4 | Add email ownership verification before account activation and registration rate limiting. | R01, R03 | These controls reduce fake guest registration and mass account creation before accounts can affect booking, chat, reviews, or system availability. |
+| 5 | Add account creation audit logs and abnormal registration alerts. | R01, R03 | Detection and audit evidence are needed to identify fake-account patterns and support administrative response. |
+| 6 | Add administrative review and cleanup process for suspicious or confirmed fake accounts. | R01, R03 | Cleanup and response reduce remaining operational impact after suspicious accounts are detected. |
+| 7 | Add server-side role-change authorization and privileged role approval. | R05, R09 | Role elevation and role changes without approval can compromise the whole system, so privileged role changes must be blocked by default and approved explicitly. |
+| 8 | Add server-side ownership checks and deny-by-default authorization for profile endpoints. | R06 | Profile data exposure is critical, and ownership checks are the main control needed to prevent one guest from accessing another guest's profile. |
+| 9 | Add server-side authorization checks and automated authorization tests for all protected routes. | R07 | Protected route enforcement is broad and affects every restricted module, so route checks must be verified systematically across roles. |
+| 10 | Add automatic session/token revocation and inactive-account access alerts. | R08 | Offboarding controls prevent former employees from keeping access after inactivation and provide evidence if an inactive account tries to act. |
 
 ## Expected Residual Risk
 
@@ -200,9 +217,11 @@ Risk level justification: The calculated score is critical because role changes 
 | R07 | Critical | Medium | Residual risk is accepted only if protected routes and REST endpoints enforce server-side authorization, route access is tested for each role, denied access is logged, and exposed route corrections are documented. |
 | R08 | Medium | Low | Residual risk is accepted only if inactive accounts immediately lose sessions, tokens, and permissions, inactive-account access attempts are logged and alerted, and staff offboarding records are maintained. |
 | R09 | Critical | Medium | Residual risk is accepted only if privileged role changes require approval, role updates are audited, unexpected assignments generate alerts, unauthorized role changes can be rolled back, and authorization tests prove users cannot change roles without approval. |
+| R10 | Critical | Medium | Residual risk is accepted only if password change and reset revoke all active sessions, refresh tokens, and remembered devices, force re-authentication, notify the account owner, and generate audit evidence for post-recovery access attempts. |
 
 ## Final Notes
 
-The current account risks focus on fake registration, account takeover, mass account creation, password reset token leakage, unauthorized role elevation, unauthorized guest profile access, broken route authorization, inactive account access, and role changes without approval. The most urgent controls are authentication protections and password recovery safeguards because they prevent direct compromise of legitimate guest accounts. Registration controls and account creation monitoring should follow because they reduce fake-account abuse, system pollution, and availability problems. Role-change authorization, approval workflows, and protected route checks are essential because unauthorized privileged access or exposed internal routes can compromise the entire hotel operation. Profile ownership checks are also important because they prevent privacy violations between legitimate guest accounts.
+The current account risks focus on fake registration, account takeover, mass account creation, password reset token leakage, unauthorized role elevation, unauthorized guest profile access, broken route authorization, inactive account access, role changes without approval, and session invalidation after password change. The most urgent controls are authentication protections, password recovery safeguards, and session revocation after password changes because they prevent direct compromise of legitimate guest accounts and remove attacker access during recovery. Registration controls and account creation monitoring should follow because they reduce fake-account abuse, system pollution, and availability problems. Role-change authorization, approval workflows, and protected route checks are essential because unauthorized privileged access or exposed internal routes can compromise the entire hotel operation. Profile ownership checks are also important because they prevent privacy violations between legitimate guest accounts.
 
 Residual risk is only an estimate. The group cannot claim that risk was reduced until the controls are implemented, tested, and supported by evidence such as validation tests, audit logs, alert records, and administrative review records.
+

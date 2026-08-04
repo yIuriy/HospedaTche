@@ -97,14 +97,23 @@ Risk level justification: The calculated score is high because the probability d
 
 | Order | Control or Action | Related Risks | Reason |
 | --- | --- | --- | --- |
-| 1 | TODO: first control/action to implement for this risk. | R01 | TODO: explain why this comes first. |
+| 1 | Add login rate limiting, suspicious-login detection, and temporary account blocking. | R02 | Account takeover is the highest-priority risk because it directly compromises legitimate guests and may expose CPF, personal data, booking history, and payment-related data. |
+| 2 | Add short-lived single-use password reset tokens, hashed token storage, token invalidation, and session revocation after password reset. | R04, R02 | Password reset token leakage can become account takeover, so recovery controls should be implemented soon after login protections. |
+| 3 | Add email ownership verification before account activation and registration rate limiting. | R01, R03 | These controls reduce fake guest registration and mass account creation before accounts can affect booking, chat, reviews, or system availability. |
+| 4 | Add account creation audit logs and abnormal registration alerts. | R01, R03 | Detection and audit evidence are needed to identify fake-account patterns and support administrative response. |
+| 5 | Add administrative review and cleanup process for suspicious or confirmed fake accounts. | R01, R03 | Cleanup and response reduce remaining operational impact after suspicious accounts are detected. |
 
 ## Expected Residual Risk
 
 | Risk | Initial Level | Expected Residual Level | Condition to Accept Residual |
 | --- | --- | --- | --- |
-| R01 | TODO: same as initial calculated level. | TODO: expected level after controls. | TODO: condition needed to accept remaining risk. |
+| R01 | Critical | Medium | Residual risk is accepted only if email verification, duplicate CPF/email checks, account creation audit logs, and suspicious-account review records are implemented and verified. |
+| R02 | Critical | Medium | Residual risk is accepted only if login rate limiting, suspicious-login detection, temporary account blocking, session revocation, and account owner notifications are implemented and tested. |
+| R03 | Critical | Medium | Residual risk is accepted only if registration rate limiting, email ownership verification, fake-account detection, audit logs, and cleanup procedures are implemented and verified. |
+| R04 | High | Low | Residual risk is accepted only if reset tokens are short-lived, single-use, stored hashed, absent from logs, invalidated after use, and followed by session revocation and user notification. |
 
 ## Final Notes
 
-TODO.
+The current account risks focus on fake registration, account takeover, mass account creation, and password reset token leakage. The most urgent controls are authentication protections and password recovery safeguards because they prevent direct compromise of legitimate guest accounts. Registration controls and account creation monitoring should follow because they reduce fake-account abuse, system pollution, and availability problems.
+
+Residual risk is only an estimate. The group cannot claim that risk was reduced until the controls are implemented, tested, and supported by evidence such as validation tests, audit logs, alert records, and administrative review records.

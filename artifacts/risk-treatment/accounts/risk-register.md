@@ -14,6 +14,7 @@ Stage 1 sources:
 | R01 | T01 - Fake Guest Registration | AC01 - Fake Guest Registration | Fake guest accounts create fraudulent bookings, unnecessary chat requests, or fake reviews that affect legitimate guests and hotel operation. | Account creation depends mainly on a valid email address, without stronger identity or abuse verification. | 4 | 3 | 12 | Critical |
 | R02 | T02 - Account Takeover | AC02 - Account Takeover | An attacker takes over a legitimate account and uses it to access personal data, perform unauthorized bookings, misuse chat, or act as the victim inside the platform. | Weak or reused passwords, credential leaks, brute-force attempts, malware on user devices, and missing suspicious-login protection. | 3 | 4 | 12 | Critical |
 | R03 | T09 - Mass Account Creation | AC09 - Mass Account Creation | An attacker creates many fake guest accounts to pollute account records, consume storage, overload account management, or degrade system availability. | The registration flow allows repeated account creation with different email addresses and does not enforce enough rate limits, abuse detection, or registration controls. | 4 | 3 | 12 | Critical |
+| R04 | T11 - Password Reset Token Leakage | AC11 - Password Reset Token Leakage | An attacker obtains a password reset token and changes the victim's password, gaining control of the account. | Password reset tokens are not properly protected, expire too slowly, are exposed in logs or URLs, or can be reused after password recovery. | 2 | 4 | 8 | High |
 
 ## Evaluation Justifications
 
@@ -53,6 +54,18 @@ Expected consequences: Fake account records accumulate in the database, storage 
 
 Risk level justification: The calculated score is critical because the attack is easy to repeat and directly affects availability and account integrity. In a hotel accommodation system, degraded availability and polluted account data can disrupt guest registration, support, and later booking flows.
 
+### R04 - Password Reset Token Leakage Risk
+
+Probability justification: The probability is medium-low because token leakage depends on a specific weakness, such as reset tokens being stored or transmitted insecurely, exposed in logs or URLs, not expiring quickly, or not being invalidated after use. It is less likely than common password reuse, but still possible.
+
+Impact justification: The impact is very high because possession of a valid reset token may allow an attacker to change the user's password and take over the account using the recovery flow. This can expose personal data, booking information, and payment-related information.
+
+Affected users, data, features, or components: Guest account owner, password recovery flow, reset tokens, login module, active sessions, profile data, booking module, and payment-related data.
+
+Expected consequences: Account takeover, unauthorized password change, victim lockout, exposure or sale of personal information, fraudulent bookings, misuse of payment-related data, and financial or reputational harm to the guest and hotel.
+
+Risk level justification: The calculated score is high because the probability depends on a specific token-handling weakness, but the impact is severe. Losing control of the account can prevent the guest from using hotel services and can expose data connected to bookings, identity, and payments.
+
 ## Prioritization
 
 | Priority | Risk | Reason |
@@ -60,6 +73,7 @@ Risk level justification: The calculated score is critical because the attack is
 | 1 | R02 | This risk should be treated first because it directly affects legitimate guests and may expose CPF, personal data, payment-related data, booking history, and chat access. If the compromise is caused or worsened by weak system controls, it may also create legal, operational, and reputational consequences for HospedaTche. |
 | 2 | R01 | This risk should also be treated early because the booking system is the core of the platform. Fake guest accounts can directly affect room availability, create unnecessary support demand, and reduce trust in booking, chat, and review workflows. |
 | 3 | R03 | This risk should be treated early because mass account creation can degrade system availability, pollute account records, and make account management less reliable for legitimate users. |
+| 4 | R04 | This risk can be treated after the broader account takeover and mass abuse risks, but it remains important because a leaked reset token can directly lead to account takeover and exposure of sensitive guest data. |
 
 ## NIST CSF 2.0 Mapping
 
@@ -68,6 +82,7 @@ Risk level justification: The calculated score is critical because the attack is
 | R01 | X | X | X | X | X | X | Fake guest registration requires governance for account validation rules, identification of affected account and booking assets, protection against automated or fraudulent registration, detection of suspicious account creation, response to remove abusive accounts, and recovery of affected bookings, reviews, or support queues. |
 | R02 | X | X | X | X | X | X | Account takeover requires governance for authentication and account recovery rules, identification of sensitive account assets, protection against weak authentication and brute-force attempts, detection of suspicious logins, response through account blocking and session revocation, and recovery of account access for the legitimate user. |
 | R03 | X | X | X | X | X | X | Mass account creation requires governance for registration limits, identification of affected account and storage assets, protection against automated or repeated registrations, detection of abnormal account creation patterns, response procedures to block abusive accounts, and recovery through cleanup of fake account records. |
+| R04 | X | X | X | X | X | X | Password reset token leakage requires governance for recovery-token rules, identification of token storage and delivery points, protection through short-lived single-use tokens, detection of abnormal reset activity, response through token invalidation and session revocation, and recovery of account access for the legitimate user. |
 
 ## Treatment Plan
 
@@ -76,6 +91,7 @@ Risk level justification: The calculated score is critical because the attack is
 | R01 | Reduce | Email verification before account activation, duplicate CPF/email checks, staff review for repeated abuse patterns | Govern, Protect, Detect, Respond | Development team and system administrator | Registration validation tests; rate-limit test results; account creation audit logs; review records for blocked or suspicious accounts. |
 | R02 | Reduce | Login rate limiting; strong password policy; suspicious login detection; temporary account block after suspicious login attempts; session revocation after password reset; notification to the account owner after sensitive login or recovery events. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Login validation tests; brute-force rate-limit tests; suspicious-login alert logs; account block tests; session revocation tests; account recovery test records. |
 | R03 | Reduce | Registration rate limiting; email ownership verification before account activation; abuse detection for repeated account creation; account creation audit log; administrative cleanup process for confirmed fake accounts. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Registration rate-limit tests; email verification tests; account creation audit logs; abnormal registration alert logs; cleanup records for confirmed fake accounts. |
+| R04 | Reduce | Short-lived single-use reset tokens; hashed token storage; no reset tokens in logs; token invalidation after password change; session revocation after password reset; notification to the account owner after password recovery. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Password reset token expiration tests; token reuse tests; log review confirming tokens are not exposed; session revocation tests; password recovery notification tests. |
 
 ## Initial Implementation Order
 

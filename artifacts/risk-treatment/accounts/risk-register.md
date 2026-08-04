@@ -13,7 +13,7 @@ Stage 1 sources:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | R01 | T01 - Fake Guest Registration | AC01 - Fake Guest Registration | Fake guest accounts create fraudulent bookings, unnecessary chat requests, or fake reviews that affect legitimate guests and hotel operation. | Account creation depends mainly on a valid email address, without stronger identity or abuse verification. | 4 | 3 | 12 | Critical |
 | R02 | T02 - Account Takeover | AC02 - Account Takeover | An attacker takes over a legitimate account and uses it to access personal data, perform unauthorized bookings, misuse chat, or act as the victim inside the platform. | Weak or reused passwords, credential leaks, brute-force attempts, malware on user devices, and missing suspicious-login protection. | 3 | 4 | 12 | Critical |
-| R03 | T03 - Unverified Guest Identity Abuse | AC01 - Fake Guest Registration | A person creates or uses an account without enough identity verification, impersonates another guest, or creates many unverified accounts to disrupt booking, chat, and system availability. | Guest identity is not verified with stronger unique data, such as CPF validation, and account activation may happen without confirmed email ownership or abuse controls. | 4 | 3 | 12 | Critical |
+| R03 | T09 - Mass Account Creation | AC09 - Mass Account Creation | An attacker creates many fake guest accounts to pollute account records, consume storage, overload account management, or degrade system availability. | The registration flow allows repeated account creation with different email addresses and does not enforce enough rate limits, abuse detection, or registration controls. | 4 | 3 | 12 | Critical |
 
 ## Evaluation Justifications
 
@@ -41,17 +41,17 @@ Expected consequences: Unauthorized bookings, exposure or misuse of payment-rela
 
 Risk level justification: The calculated score is critical because the guest account concentrates sensitive information and system access. It is linked to identity data such as CPF, may expose payment-related information and booking dates, and is required for the guest to use the platform. If the account is compromised, the attacker can harm both the guest and HospedaTche.
 
-### R03 - Unverified Guest Identity Abuse Risk
+### R03 - Mass Account Creation Risk
 
-Probability justification: The probability is high because a person can impersonate another guest if the system does not verify identity with stronger unique data, such as CPF validation. In mass abuse scenarios, allowing account creation without confirmed email ownership also makes it much easier to create many fake accounts.
+Probability justification: The probability is high because an attacker can prepare many email addresses and repeatedly use the registration flow if the system does not enforce enough rate limits, abuse detection, or account creation controls.
 
-Impact justification: The impact is high because the system may become full of false accounts created only to disrupt normal workflows, create fraudulent bookings, overload chat support, fill the database with useless records, or degrade system availability.
+Impact justification: The impact is high because mass fake accounts can pollute account records, increase storage usage, slow account management, affect system performance, and reduce availability for legitimate users.
 
-Affected users, data, features, or components: Legitimate guests, booking module, login and registration modules, chat support, account database, email verification flow, and overall system availability.
+Affected users, data, features, or components: Legitimate guests, registration module, account database, account management process, storage resources, system performance, and overall availability.
 
-Expected consequences: Fake users may create fraudulent bookings, occupy rooms that legitimate guests would use, overload support channels, increase database noise, and contribute to system instability or denial of service.
+Expected consequences: Fake account records accumulate in the database, storage and maintenance costs increase, account management becomes less reliable, and normal users may experience degraded performance or reduced availability.
 
-Risk level justification: The calculated score is critical because fraudulent bookings can directly remove availability from legitimate paying guests. Since accommodation is the core business flow of HospedaTche, unverified identity abuse can create operational and financial damage.
+Risk level justification: The calculated score is critical because the attack is easy to repeat and directly affects availability and account integrity. In a hotel accommodation system, degraded availability and polluted account data can disrupt guest registration, support, and later booking flows.
 
 ## Prioritization
 
@@ -59,7 +59,7 @@ Risk level justification: The calculated score is critical because fraudulent bo
 | --- | --- | --- |
 | 1 | R02 | This risk should be treated first because it directly affects legitimate guests and may expose CPF, personal data, payment-related data, booking history, and chat access. If the compromise is caused or worsened by weak system controls, it may also create legal, operational, and reputational consequences for HospedaTche. |
 | 2 | R01 | This risk should also be treated early because the booking system is the core of the platform. Fake guest accounts can directly affect room availability, create unnecessary support demand, and reduce trust in booking, chat, and review workflows. |
-| 3 | R03 | This risk should be treated early because unverified identities can directly affect system availability, booking reliability, and the ability of legitimate guests to reserve rooms. |
+| 3 | R03 | This risk should be treated early because mass account creation can degrade system availability, pollute account records, and make account management less reliable for legitimate users. |
 
 ## NIST CSF 2.0 Mapping
 
@@ -67,7 +67,7 @@ Risk level justification: The calculated score is critical because fraudulent bo
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | R01 | X | X | X | X | X | X | Fake guest registration requires governance for account validation rules, identification of affected account and booking assets, protection against automated or fraudulent registration, detection of suspicious account creation, response to remove abusive accounts, and recovery of affected bookings, reviews, or support queues. |
 | R02 | X | X | X | X | X | X | Account takeover requires governance for authentication and account recovery rules, identification of sensitive account assets, protection against weak authentication and brute-force attempts, detection of suspicious logins, response through account blocking and session revocation, and recovery of account access for the legitimate user. |
-| R03 | X | X | X | X | X | X | Unverified guest identity abuse requires governance for identity and email verification rules, identification of affected account and booking flows, protection against unverified or mass account creation, detection of fake-account patterns, response procedures to suspend abusive accounts, and recovery of affected bookings or support queues. |
+| R03 | X | X | X | X | X | X | Mass account creation requires governance for registration limits, identification of affected account and storage assets, protection against automated or repeated registrations, detection of abnormal account creation patterns, response procedures to block abusive accounts, and recovery through cleanup of fake account records. |
 
 ## Treatment Plan
 
@@ -75,7 +75,7 @@ Risk level justification: The calculated score is critical because fraudulent bo
 | --- | --- | --- | --- | --- | --- |
 | R01 | Reduce | Email verification before account activation, duplicate CPF/email checks, staff review for repeated abuse patterns | Govern, Protect, Detect, Respond | Development team and system administrator | Registration validation tests; rate-limit test results; account creation audit logs; review records for blocked or suspicious accounts. |
 | R02 | Reduce | Login rate limiting; strong password policy; suspicious login detection; temporary account block after suspicious login attempts; session revocation after password reset; notification to the account owner after sensitive login or recovery events. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Login validation tests; brute-force rate-limit tests; suspicious-login alert logs; account block tests; session revocation tests; account recovery test records. |
-| R03 | Reduce | Email ownership verification before account activation; CPF uniqueness checks; registration rate limiting; audit log for account creation; administrative review for repeated fake-account patterns. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Email verification tests; CPF uniqueness validation tests; registration rate-limit tests; account creation audit logs; review records for suspicious or blocked accounts. |
+| R03 | Reduce | Registration rate limiting; email ownership verification before account activation; abuse detection for repeated account creation; account creation audit log; administrative cleanup process for confirmed fake accounts. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Registration rate-limit tests; email verification tests; account creation audit logs; abnormal registration alert logs; cleanup records for confirmed fake accounts. |
 
 ## Initial Implementation Order
 

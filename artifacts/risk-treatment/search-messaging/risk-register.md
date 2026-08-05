@@ -168,7 +168,20 @@ Risk level justification: Medium level (Score 6 = 2x3).
 
 | Risk | Strategy | Proposed Controls | NIST Functions | Responsible Parties | Evidence and Verification |
 | --- | --- | --- | --- | --- | --- |
-| RNN | TODO | TODO | TODO | TODO | TODO |
+| R01 | Reduce | Implement API rate limiting (10 req/min per IP on search), Redis query caching, and Cloudflare CAPTCHA for burst traffic. | Protect, Detect, Respond | Backend Team, DevOps | Automated load tests (`k6`), rate-limit header checks, and Redis cache hit/miss metrics. |
+| R02 | Reduce | Enforce WebSocket message throttling (max 5 msgs/min per user) and automated queue spam isolation. | Protect, Detect, Respond | Backend Team, Frontend Team | Automated chat flood unit tests, rate-limit rejection logs, and queue stress simulation. |
+| R03 | Reduce | Enforce strict server-side authorization check verifying `session.userId == chat.guestId` before returning chat history. | Govern, Protect, Detect, Respond | Security Engineer, Backend Team | Automated RBAC integration tests, IDOR vulnerability scan reports, and denied access logs. |
+| R04 | Reduce | Implement explicit DTO response mappers (`PublicRoomDTO`) stripping internal maintenance notes and staff comments. | Govern, Protect, Detect | Backend Team | Unit tests verifying DTO output fields and API response payload inspection. |
+| R05 | Reduce | Add server-side filter forcing `status == 'PUBLISHED'` on public review listings unless requester has `ROLE_MANAGER`. | Protect, Detect | Backend Team | Automated authorization tests attempting hidden review retrieval with guest token. |
+| R06 | Reduce | Integrate DB verification requiring a completed booking in `CHECKED_OUT` state tied to `guestId` before review submission. | Govern, Protect, Detect, Respond | Backend Team | Integration tests attempting review creation without completed stay and verification logs. |
+| R07 | Reduce | Add ownership authorization middleware verifying `token.userId == path.userId` on settings endpoints. | Protect, Detect | Backend Team | Automated REST API authorization test suite for user preference endpoints. |
+| R08 | Reduce | Enforce DKIM/SPF/DMARC for emails and HMAC token signatures on push notifications with verified domain links. | Govern, Protect, Detect, Respond, Recover | DevOps, Security Team | Email deliverability & DKIM verification reports, link domain whitelist tests. |
+| R09 | Reduce | Implement multi-actor approval workflow for bulk review edits (>5 reviews) and anomaly alerts on mass rating changes. | Govern, Protect, Detect, Respond, Recover | Security Team, Management | Approval workflow unit tests, bulk change audit logs, and anomaly alert trigger tests. |
+| R10 | Reduce | Remove SQL `DELETE` permissions on reviews table for application role; enforce soft-delete (`is_hidden = true`) in ORM. | Govern, Protect, Detect, Recover | Database Admin, Backend Team | DB permission schema inspection, ORM soft-delete test, and backup recovery simulation. |
+| R11 | Reduce | Replace sequential integer IDs with random UUIDv4 for room parameters and enforce active status checks. | Protect, Detect | Backend Team | Endpoint penetration test attempting room ID iteration and 404 response check. |
+| R12 | Reduce | Bind payment links to specific `bookingId` and `guestId`, requiring explicit receptionist pre-send confirmation modal. | Protect, Detect, Respond | Frontend Team, Backend Team | Chat payment link binding unit tests and session verification logs. |
+| R13 | Reduce | Apply `@PreAuthorize("hasRole('RECEPTIONIST')")` annotation on all staff chat queue controller endpoints. | Govern, Protect, Detect, Respond | Backend Team | Automated role access matrix tests attempting staff endpoint access with guest token. |
+| R14 | Reduce | Enforce append-only message DB schema where edits create a new version entry and deletions are soft-marked with audit log. | Govern, Protect, Detect | Database Admin, Backend Team | DB immutability test, message versioning unit test, and audit log inspection. |
 
 ## Initial Implementation Order
 

@@ -187,7 +187,20 @@ Risk level justification: Medium level (Score 6 = 2x3).
 
 | Order | Control or Action | Related Risks | Reason |
 | --- | --- | --- | --- |
-| 1 | TODO | RNN | TODO |
+| 1 | Add server-side chat ownership authorization middleware (`session.userId == chat.guestId`). | R03 | Resolves Critical privacy risk (Score 12) preventing guest chat history exposure. |
+| 2 | Enforce DKIM/SPF email signing and HMAC push notification token validation. | R08 | Resolves Critical phishing risk (Score 12) protecting guests from credential theft. |
+| 3 | Apply `@PreAuthorize("hasRole('RECEPTIONIST')")` on staff chat queue endpoints. | R13 | Prevents guest privilege escalation to master staff chat queue (Score 8). |
+| 4 | Add `CHECKED_OUT` booking verification check to review submission API. | R06 | Prevents fake review spam and rating manipulation (Score 9). |
+| 5 | Implement API rate limiting on search endpoints (10 req/min) and Redis query caching. | R01 | Protects public search availability from bot overload (Score 9). |
+| 6 | Enforce DTO field projection (`PublicRoomDTO`) excluding internal maintenance notes. | R04 | Prevents physical maintenance defect leakage in public APIs (Score 9). |
+| 7 | Enforce WebSocket message throttling (5 msgs/min per user) on chat API. | R02 | Prevents front desk chat queue flooding and staff exhaustion (Score 9). |
+| 8 | Remove SQL `DELETE` permissions on reviews table and enforce ORM soft-delete. | R10 | Prevents permanent purge of guest reviews and upholds audit rules (Score 8). |
+| 9 | Implement multi-actor approval and anomaly alerts for bulk review rating changes. | R09 | Prevents bulk review tampering and rating distortion (Score 8). |
+| 10 | Bind chat payment links to verified `bookingId` and `guestId`. | R12 | Prevents misdirected billing requests in chat (Score 8). |
+| 11 | Implement ownership authorization middleware on notification preferences API. | R07 | Protects guest notification settings from unauthorized changes (Score 6). |
+| 12 | Enforce `status == 'PUBLISHED'` filter on public review listings. | R05 | Prevents unauthorized viewing of hidden/moderated reviews (Score 6). |
+| 13 | Replace sequential room IDs with UUIDv4 and add active status filtering. | R11 | Blocks sequential room ID enumeration and unlisted inventory leaks (Score 6). |
+| 14 | Implement append-only chat message DB schema with immutable change logs. | R14 | Preserves chat dispute evidence and ensures non-repudiation (Score 6). |
 
 ## Expected Residual Risk
 

@@ -8,4 +8,4 @@ Identified Threat: a Guest creates a reservation and later denies having perform
 
 Possible Impact: booking disputes, financial losses, customer support overhead, and lack of accountability.
 
-Related Abuse Cases: AC07
+Related Abuse Cases: AC05

@@ -1,4 +1,4 @@
-### T10 - Booking Cancellation Blocking
+### T06 - Booking Cancellation Blocking
 
 STRIDE Category: Denial of Service
 
@@ -8,4 +8,4 @@ Identified Threat: an attacker prevents legitimate Guests from submitting or com
 
 Possible Impact: Guests are unable to cancel eligible bookings, resulting in financial losses, customer disputes, and operational issues.
 
-Related Abuse Cases: AC13
+Related Abuse Cases: AC02

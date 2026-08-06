@@ -54,17 +54,137 @@ Score = Probability x Impact.
 
 ## Evaluation Justifications
 
-### RNN - Risk Title
+### R01 - False Room Availability
 
-Probability justification: TODO.
+Probability justification: Availability updates are part of normal room operations, so misuse is plausible if staff permissions and approval rules are weak.
 
-Impact justification: TODO.
+Impact justification: False availability can create double booking, block legitimate reservations, or make unavailable rooms appear bookable.
 
-Affected users, data, features, or components: TODO.
+Affected users, data, features, or components: Guests, Receptionists, Managers, room availability records, booking search, and maintenance blocks.
 
-Expected consequences: TODO.
+Expected consequences: Booking inconsistency, guest dissatisfaction, lost revenue, staff rework, and manual correction of availability records.
 
-Risk level justification: TODO.
+Risk level justification: Probability 3 and impact 4 produce score 12, classified as Critical because room availability directly affects booking correctness.
+
+### R02 - False Room Status
+
+Probability justification: Room status is frequently updated by staff during check-in, check-out, cleaning, and maintenance workflows.
+
+Impact justification: Incorrect status can lead to unsafe room assignment, hidden occupancy, delayed cleaning, or check-in failure.
+
+Affected users, data, features, or components: Guests, Receptionists, Managers, room status records, cleaning flow, maintenance flow, and stay operations.
+
+Expected consequences: Operational disruption, guest service failure, room turnover errors, and unreliable room status history.
+
+Risk level justification: Probability 3 and impact 4 produce score 12, classified as Critical because wrong room status can affect safety and core operations.
+
+### R03 - Unauthorized Room Deactivation
+
+Probability justification: Deactivation requires privileged room management access, so it depends on a specific staff action or control failure.
+
+Impact justification: Deactivated rooms stop receiving reservations, but the condition can usually be corrected after review.
+
+Affected users, data, features, or components: Managers, room inventory, public availability, and reservation planning.
+
+Expected consequences: Reduced sellable inventory, lost reservations, inaccurate reports, and operational confusion.
+
+Risk level justification: Probability 2 and impact 3 produce score 6, classified as Medium because the effect is relevant but usually recoverable.
+
+### R04 - Unauthorized Room Rate Tampering
+
+Probability justification: Rate management is a normal Manager activity and can be abused if changes do not require approval or review.
+
+Impact justification: Incorrect rates can cause financial loss, guest disputes, voucher inconsistency, and distrust in pricing records.
+
+Affected users, data, features, or components: Guests, Managers, room rates, booking price calculation, reservation voucher, and financial reporting.
+
+Expected consequences: Undercharging, overcharging, manual refunds or corrections, and revenue reporting errors.
+
+Risk level justification: Probability 3 and impact 3 produce score 9, classified as High because pricing errors directly affect revenue and guest trust.
+
+### R05 - Staff Room Schedule Exposure
+
+Probability justification: The risk depends on an authorization failure or exposed endpoint, but schedule views are common staff features.
+
+Impact justification: Schedule exposure can reveal guest stay patterns and operational information, but it does not directly change room records.
+
+Affected users, data, features, or components: Guests, staff users, room schedules, reservation dates, and staff-only operational views.
+
+Expected consequences: Privacy violation, misuse of stay timing information, and loss of trust in staff-only access controls.
+
+Risk level justification: Probability 2 and impact 3 produce score 6, classified as Medium because privacy harm is relevant but operational integrity is not directly modified.
+
+### R06 - Occupancy Capacity Tampering
+
+Probability justification: Capacity changes require privileged configuration access, but the action is plausible during room management.
+
+Impact justification: False capacity can allow unsafe occupancy, violate hotel rules, and corrupt reservation validation.
+
+Affected users, data, features, or components: Guests, Managers, room capacity records, booking validation, companion registration, and hotel policy enforcement.
+
+Expected consequences: Unsafe stays, over-occupancy, guest disputes, policy violations, and unreliable capacity reports.
+
+Risk level justification: Probability 2 and impact 4 produce score 8, classified as High because capacity directly affects safety and policy compliance.
+
+### R07 - Fraudulent Check In Or Check Out Update
+
+Probability justification: Check-in and check-out are controlled staff actions, so abuse depends on Receptionist access or workflow weakness.
+
+Impact justification: Fraudulent stay transitions affect reservation lifecycle, room status, cleaning triggers, and audit reliability.
+
+Affected users, data, features, or components: Guests, Receptionists, reservation status, room status, cleaning queue, and stay history.
+
+Expected consequences: Incorrect stay records, wrong room availability, check-in disputes, billing confusion, and audit inconsistency.
+
+Risk level justification: Probability 2 and impact 4 produce score 8, classified as High because stay transitions connect room operations with reservation correctness.
+
+### R08 - Guest Stay Identification Tampering
+
+Probability justification: Identification confirmation is limited to check-in staff, but incorrect edits are possible without traceable correction workflow.
+
+Impact justification: Tampered identification data can harm stay registration accuracy and expose or misrepresent guest information.
+
+Affected users, data, features, or components: Guests, Receptionists, guest identification confirmation, reservation history, and audit records.
+
+Expected consequences: Incorrect stay registration, support disputes, privacy risk, and unreliable historical records.
+
+Risk level justification: Probability 2 and impact 3 produce score 6, classified as Medium because the risk affects privacy and records but is more limited than booking or safety risks.
+
+### R09 - Companion Registration Tampering
+
+Probability justification: Companion edits are restricted to staff workflows and depend on missing validation or review.
+
+Impact justification: Incorrect companion data can violate occupancy policy, but its impact is usually limited to one stay record.
+
+Affected users, data, features, or components: Guests, companions, Receptionists, companion records, occupancy count, and stay details.
+
+Expected consequences: Inaccurate stay records, guest disputes, occupancy mismatch, and manual correction needs.
+
+Risk level justification: Probability 2 and impact 2 produce score 4, classified as Medium because the risk is operationally relevant but usually contained.
+
+### R10 - Cleaning Queue Tampering
+
+Probability justification: Cleaning queue updates happen frequently during room turnover and can be abused if completion evidence is not required.
+
+Impact justification: Incorrect cleaning status can lead to assigning an unclean room and harming guest service.
+
+Affected users, data, features, or components: Guests, Receptionists, Managers, cleaning queue, room status, and room turnover process.
+
+Expected consequences: Guest dissatisfaction, delayed cleaning, check-in disruption, and unreliable cleaning status records.
+
+Risk level justification: Probability 3 and impact 3 produce score 9, classified as High because cleaning status affects daily operations and guest experience.
+
+### R11 - Maintenance Note Tampering
+
+Probability justification: Maintenance status and notes are expected operational updates, so misuse is plausible without approval and audit controls.
+
+Impact justification: Hidden maintenance issues can make unsafe rooms appear operational and delay necessary repair.
+
+Affected users, data, features, or components: Guests, Receptionists, Managers, maintenance notes, room status, availability blocks, and repair workflow.
+
+Expected consequences: Unsafe room assignment, delayed repair, operational interruption, guest complaints, and loss of maintenance traceability.
+
+Risk level justification: Probability 3 and impact 4 produce score 12, classified as Critical because maintenance integrity is tied to guest safety and room availability.
 
 ## Prioritization
 

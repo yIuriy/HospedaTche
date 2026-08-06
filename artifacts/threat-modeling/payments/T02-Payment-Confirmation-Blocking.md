@@ -1,4 +1,4 @@
-### T07 - Payment Confirmation Blocking
+### T02 - Payment Confirmation Blocking
 
 STRIDE Category: Denial of Service
 

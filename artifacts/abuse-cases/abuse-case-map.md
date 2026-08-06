@@ -53,10 +53,6 @@ This file maps abuse cases to modules, assets, and STRIDE categories.
 | AC04 | payment | [`payment/AC04-Fraudulent-Refund-Claim.md`](./payment/AC04-Fraudulent-Refund-Claim.md) | Fraudulent Refund Claim | Refund processing | Spoofing | draft |
 | AC05 | payment | [`payment/AC05-Payment-Confirmation-Blocking.md`](./payment/AC05-Payment-Confirmation-Blocking.md) | Payment Confirmation Blocking | Payment confirmation process | Denial of Service | draft |
 | AC06 | payment | [`payment/AC06-Payment-Synchronization-Flood.md`](./payment/AC06-Payment-Synchronization-Flood.md) | Payment Synchronization Flood | Payment synchronization service | Denial of Service | draft |
-| AC07 | payment | [`payment/ac07-refund-value-tampering.md`](./payment/ac07-refund-value-tampering.md) | Refund Value Tampering | Refund transaction | Tampering | draft |
-| AC08 | payment | [`payment/ac08-payment-audit-record-repudiation.md`](./payment/ac08-payment-audit-record-repudiation.md) | Payment Audit Record Repudiation | Payment audit history | Repudiation | draft |
-| AC09 | payment | [`payment/ac09-payment-process-interruption.md`](./payment/ac09-payment-process-interruption.md) | Payment Process Interruption | Payment processing | Denial of Service | draft |
-| AC10 | payment | [`payment/ac10-payment-gateway-token-tampering.md`](./payment/ac10-payment-gateway-token-tampering.md) | Payment Gateway Token Tampering | Payment gateway response | Tampering | draft |
 | AC01 | accommodation | [`accommodation/AC01-room-availability-manipulation.md`](./accommodation/AC01-room-availability-manipulation.md) | Room Availability Manipulation | Room availability and blocking module | Tampering, Denial of Service | draft |
 | AC02 | accommodation | [`accommodation/AC02-false-room-status-update.md`](./accommodation/AC02-false-room-status-update.md) | False Room Status Update | Room operational status module | Tampering, Denial of Service | draft |
 | AC03 | accommodation | [`accommodation/AC03-unauthorized-room-deactivation.md`](./accommodation/AC03-unauthorized-room-deactivation.md) | Unauthorized Room Deactivation | Room management module | Tampering, Denial of Service | draft |

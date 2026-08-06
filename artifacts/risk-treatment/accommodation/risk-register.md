@@ -190,32 +190,80 @@ Risk level justification: Probability 3 and impact 4 produce score 12, classifie
 
 | Priority | Risk | Reason |
 | --- | --- | --- |
-| 1 | RNN | TODO |
+| 1 | R01 | False availability can directly corrupt booking decisions and create double booking or lost reservations. |
+| 2 | R11 | Hidden maintenance issues can affect guest safety and make unavailable rooms appear operational. |
+| 3 | R02 | False room status affects check-in, cleaning, maintenance, and room assignment decisions. |
+| 4 | R04 | Rate tampering affects revenue, guest trust, and booking price correctness. |
+| 5 | R10 | Cleaning queue tampering affects room turnover and can damage guest experience. |
+| 6 | R06 | Capacity tampering can violate occupancy rules and create unsafe stays. |
+| 7 | R07 | Fraudulent check-in or check-out changes reservation lifecycle and room state. |
+| 8 | R05 | Schedule exposure creates privacy risk and exposes staff-only operational data. |
+| 9 | R08 | Identification tampering affects check-in records and guest data reliability. |
+| 10 | R03 | Unauthorized deactivation reduces inventory but is usually easier to detect and reverse. |
+| 11 | R09 | Companion tampering is relevant but usually limited to one reservation or stay record. |
 
 ## NIST CSF 2.0 Mapping
 
 | Risk | Govern | Identify | Protect | Detect | Respond | Recover | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| RNN | TODO | TODO | TODO | TODO | TODO | TODO | TODO |
+| R01 | Define availability change policy and approval criteria. | Inventory availability states and block reasons. | Enforce role-based permission and approval for critical changes. | Alert on bulk or unusual availability changes. | Review and correct suspicious availability updates. | Restore previous availability state from history. | All selected functions support traceable and reversible availability control. |
+| R02 | Define allowed room status transitions. | Identify valid status sources and operational owners. | Enforce state transition validation. | Detect conflicting or rapid status changes. | Investigate status anomalies before room assignment. | Restore last trusted room status when needed. | Status integrity needs preventive and recovery controls. |
+| R03 | Define deactivation authorization policy. | Identify active room inventory and deactivation reasons. | Require confirmation and reason for deactivation. | Monitor unexpected drops in active room count. | Review unauthorized deactivation events. | Reactivate rooms after approved correction. | Recovery is relevant because room inventory can be restored. |
+| R04 | Define pricing approval and review rules. | Identify rate types and pricing owners. | Restrict and approve rate changes. | Detect unusual rate changes or outlier prices. | Review and correct suspicious pricing records. | Restore previous rate values when needed. | Rate controls reduce financial and guest dispute risk. |
+| R05 | Define schedule access policy by staff role. | Identify staff-only schedule data and access paths. | Enforce authorization on schedule views and endpoints. | Log and detect unauthorized schedule access. | Revoke improper access and review exposure scope. | Not primary for this risk. | Recovery is limited because exposed information cannot be fully undone. |
+| R06 | Define occupancy capacity policy per room type. | Identify allowed capacity values and policy limits. | Restrict capacity edits and validate against room type. | Detect capacity changes outside allowed ranges. | Review and correct invalid capacity records. | Restore previous capacity configuration. | Capacity controls protect safety and policy consistency. |
+| R07 | Define check-in and check-out evidence rules. | Identify valid stay lifecycle transitions. | Enforce sequencing and staff authorization for transitions. | Detect impossible or suspicious stay transitions. | Review fraudulent transition attempts. | Restore reservation and room state after correction. | Stay transitions need auditability and rollback. |
+| R08 | Define identification correction policy. | Identify identification fields and confirmation history. | Restrict edits after confirmation. | Detect repeated or late identification changes. | Review suspicious identity confirmation changes. | Restore prior confirmed values when appropriate. | Recovery must preserve audit history, not erase corrections. |
+| R09 | Define companion registration rules. | Identify companion count limits and required fields. | Validate count against reservation occupancy. | Detect companion changes after check-in. | Review suspicious companion updates. | Restore previous companion record when justified. | Controls are lighter because impact is narrower. |
+| R10 | Define cleaning completion evidence rules. | Identify cleaning states and responsible staff roles. | Require completion confirmation before marking room free. | Detect fast or repeated cleaning status changes. | Reopen cleaning task after suspicious update. | Restore room to waiting cleaning when needed. | Cleaning controls combine operational verification with system logs. |
+| R11 | Define maintenance update and closure policy. | Identify maintenance states, notes, and responsible roles. | Require reason and approval for maintenance closure. | Alert when maintenance notes are removed or status changes unexpectedly. | Reopen maintenance case and block room when needed. | Restore maintenance notes and prior room status. | Maintenance integrity requires strong recovery because safety can be affected. |
 
 ## Treatment Plan
 
 | Risk | Strategy | Proposed Controls | NIST Functions | Responsible Parties | Evidence and Verification |
 | --- | --- | --- | --- | --- | --- |
-| RNN | TODO | TODO | TODO | TODO | TODO |
+| R01 | Reduce | Role-based permission for availability changes, reason-required availability blocks, Manager approval for bulk changes, immutable availability history, restore previous state action. | Govern, Identify, Protect, Detect, Respond, Recover | Manager, Receptionist, Administrator, development team | Permission tests, availability audit records, approval records, anomaly alert simulation, recovery simulation. |
+| R02 | Reduce | Allowed status transition matrix, staff authorization checks, status change audit log, conflict detection with reservation and maintenance status, rollback to last trusted status. | Govern, Identify, Protect, Detect, Respond, Recover | Manager, Receptionist, development team | State transition tests, status audit logs, conflicting-status alert test, rollback test. |
+| R03 | Reduce | Deactivation confirmation, mandatory reason, impact preview for active reservations and future availability, active room count monitoring. | Govern, Identify, Protect, Detect, Respond, Recover | Manager, Administrator, development team | Deactivation workflow test, reason records, active room count report, reactivation test. |
+| R04 | Reduce | Rate change approval for promotions and seasonal rates, price range checks, rate history, outlier alerts, previous-rate restoration. | Govern, Identify, Protect, Detect, Respond, Recover | Manager, Administrator, development team | Rate permission tests, approval records, price outlier alert log, rate restoration test. |
+| R05 | Reduce | Staff-only authorization checks, deny-by-default schedule endpoint policy, access logging, schedule access review. | Govern, Identify, Protect, Detect, Respond | Administrator, Manager, development team | Authorization tests, access matrix, denied-access logs, schedule access review report. |
+| R06 | Reduce | Capacity limit policy per room type, approval for capacity changes, validation against occupancy rules, capacity change audit log. | Govern, Identify, Protect, Detect, Respond, Recover | Manager, Administrator, development team | Capacity validation tests, approval records, audit logs, configuration restore test. |
+| R07 | Reduce | Reservation lifecycle state machine, check-in/check-out authorization, required event timestamp and actor, suspicious transition alert, correction workflow. | Govern, Identify, Protect, Detect, Respond, Recover | Receptionist, Manager, development team | State machine tests, stay transition logs, suspicious transition alert, correction record. |
+| R08 | Reduce | Restricted identification correction workflow, audit log with old and new values, late-change alert, Manager review for corrections. | Govern, Identify, Protect, Detect, Respond, Recover | Receptionist, Manager, development team | Identification correction tests, audit entries, late-change alert log, review record. |
+| R09 | Reduce | Companion count validation, required change reason, post-check-in change log, staff review for occupancy mismatch. | Govern, Identify, Protect, Detect, Respond, Recover | Receptionist, Manager, development team | Companion validation tests, change reason records, occupancy mismatch report, restore test. |
+| R10 | Reduce | Cleaning completion confirmation, role separation for cleaning completion and room assignment when possible, cleaning status audit log, suspicious turnover alert. | Govern, Identify, Protect, Detect, Respond, Recover | Receptionist, Manager, cleaning staff, development team | Cleaning workflow test, audit logs, turnover alert simulation, reopen cleaning task record. |
+| R11 | Reduce | Maintenance closure approval, mandatory maintenance notes, room block while under maintenance, note history, unexpected maintenance change alert, restore previous note/status. | Govern, Identify, Protect, Detect, Respond, Recover | Receptionist, Manager, maintenance staff, development team | Maintenance workflow tests, note history records, room block test, alert simulation, restore test. |
+
+Treatment strategies: avoid, reduce, share, accept.
 
 ## Initial Implementation Order
 
 | Order | Control or Action | Related Risks | Reason |
 | --- | --- | --- | --- |
-| 1 | TODO | RNN | TODO |
+| 1 | Define accommodation state policies for availability, room status, maintenance, cleaning, capacity, and rates. | R01, R02, R04, R06, R10, R11 | Clear policies are required before validation, approval, and audit rules can be tested. |
+| 2 | Implement role-based authorization and deny-by-default checks for all accommodation management actions. | R01, R02, R03, R04, R05, R06, R07, R08, R09, R10, R11 | Access control is the foundation for preventing unauthorized operational changes. |
+| 3 | Add audit logs with actor, timestamp, previous value, new value, and change reason for room operations. | R01, R02, R03, R04, R06, R07, R08, R09, R10, R11 | Traceability is needed for detection, review, and accountability. |
+| 4 | Add approval or confirmation workflows for high-impact changes such as bulk availability, rate changes, deactivation, and maintenance closure. | R01, R03, R04, R11 | High-impact changes need stronger governance than ordinary updates. |
+| 5 | Add anomaly detection and review reports for unusual room status, availability, cleaning, maintenance, and pricing changes. | R01, R02, R04, R06, R07, R08, R10, R11 | Detection helps staff find abuse or mistakes before guests are affected. |
+| 6 | Add restore or correction workflows for previous availability, status, rate, capacity, companion, cleaning, and maintenance records. | R01, R02, R03, R04, R06, R07, R08, R09, R10, R11 | Recovery reduces residual impact when a wrong update is detected. |
+| 7 | Perform operational verification with Managers, Receptionists, cleaning staff, and maintenance staff. | R01, R02, R07, R10, R11 | Accommodation risks depend on real hotel workflows, not only technical permissions. |
 
 ## Expected Residual Risk
 
 | Risk | Initial Level | Expected Residual Level | Condition to Accept Residual |
 | --- | --- | --- | --- |
-| RNN | TODO | TODO | TODO |
+| R01 | Critical | Medium | Accept only if availability changes are authorized, logged, reviewed, and reversible. |
+| R02 | Critical | Medium | Accept only if room status transitions are validated, monitored, and recoverable. |
+| R03 | Medium | Low | Accept if deactivation requires reason, impact preview, audit, and reactivation support. |
+| R04 | High | Medium | Accept if pricing changes require approval, history, outlier monitoring, and correction. |
+| R05 | Medium | Low | Accept if staff-only schedule access is denied by default, tested, and logged. |
+| R06 | High | Medium | Accept if capacity edits are policy-bound, approved, audited, and reversible. |
+| R07 | High | Medium | Accept if stay transitions follow a state machine and suspicious changes are reviewable. |
+| R08 | Medium | Low | Accept if identification corrections are restricted, logged, and reviewed. |
+| R09 | Medium | Low | Accept if companion updates are validated, logged, and tied to occupancy limits. |
+| R10 | High | Medium | Accept if cleaning completion is verifiable and false clean status can be reopened. |
+| R11 | Critical | Medium | Accept only if maintenance closure is approved, room blocks are enforced, and notes are recoverable. |
 
 ## Final Notes
 
-TODO.
+This Stage 2 register proposes risk treatment for accommodation management and stay operations. It does not implement controls. The highest priorities are false availability, hidden maintenance issues, and false room status because they can affect booking correctness, guest safety, room turnover, and hotel revenue.

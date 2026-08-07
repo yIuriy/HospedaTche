@@ -1,4 +1,4 @@
-### T09 - Payment Reference Substitution
+### T04 - Payment Reference Substitution
 
 STRIDE Category: Tampering
 

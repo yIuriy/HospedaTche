@@ -1,4 +1,4 @@
-### T11 - Credit Card Information Disclosure
+### T06 - Credit Card Information Disclosure
 
 STRIDE Category: Information Disclosure
 

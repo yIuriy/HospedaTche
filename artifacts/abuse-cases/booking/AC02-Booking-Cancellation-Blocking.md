@@ -1,4 +1,4 @@
-### AC13 - Booking Cancellation Blocking
+### AC02 - Booking Cancellation Blocking
 
 Actor: malicious Guest or competitor.
 

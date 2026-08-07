@@ -1,4 +1,4 @@
-### T08 - Forced Booking Expiration
+### T04 - Forced Booking Expiration
 
 STRIDE Category: Denial of Service
 

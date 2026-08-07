@@ -1,4 +1,4 @@
-### T11 - Booking Information Disclosure
+### T02 - Booking Information Disclosure
 
 STRIDE Category: Information Disclosure
 
@@ -8,4 +8,4 @@ Identified Threat: an attacker gains unauthorized access to booking records, exp
 
 Possible Impact: privacy violations, disclosure of sensitive Guest information, identity theft risks, and loss of customer trust.
 
-Related Abuse Cases: AC08
+Related Abuse Cases: AC03

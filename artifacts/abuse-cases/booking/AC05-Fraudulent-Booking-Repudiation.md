@@ -1,4 +1,4 @@
-### AC07 - Fraudulent Booking Repudiation
+### AC05 - Fraudulent Booking Repudiation
 
 Actor: malicious Guest.
 

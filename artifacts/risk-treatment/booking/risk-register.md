@@ -129,24 +129,24 @@ Risk level justification: The risk is classified as Medium because the attack de
 
 | Order | Control or Action | Related Risks | Reason |
 | --- | --- | --- | --- |
-| 1 | TODO | RNN | TODO |
-| 1 | TODO | RNN | TODO |
-| 1 | TODO | RNN | TODO |
-| 1 | TODO | RNN | TODO |
-| 1 | TODO | RNN | TODO |
-| 1 | TODO | RNN | TODO |
+| 1 | Implement idempotency and booking-state validation for cancellation and refund operations. | R05 | R05 is classified as Critical (score 12), and repeated exploitation may generate multiple unauthorized refunds and substantial cumulative financial losses. This control directly addresses the primary vulnerability and should therefore be implemented first. |
+| 2 | Implement strict authorization and booking ownership checks for booking access and cancellation. | R02, R03 | These controls prevent unauthorized Guests from accessing or modifying other Guests' bookings. They directly address the vulnerabilities behind two high-priority risks involving information disclosure and unauthorized booking cancellation. |
+| 3 | Implement comprehensive and protected reservation and payment audit logging. | R01, R02, R03, R05 | Auditability provides evidence for detecting and investigating unauthorized access, cancellation, repudiation, and fraudulent refund activity. It also supports incident response and recovery across multiple risks. |
+| 4 | Restrict and protect the booking expiration mechanism from unauthorized triggering or manipulation. | R04 | This control directly addresses the condition that allows pending bookings to be prematurely expired. Implementing it reduces the likelihood of disrupting legitimate Guests' payment and reservation completion. |
+| 5 | Implement rate limiting, controlled resource locking, and lock timeouts for booking and cancellation requests. | R06 | These controls mitigate resource-locking and request-flooding attacks that could prevent legitimate Guests from cancelling bookings. The risk is lower priority because its impact is generally temporary and recoverable. |
+| 6 | Establish monitoring, incident response, and recovery procedures for booking and payment anomalies. | R01, R02, R03, R04, R05, R06 | These procedures provide ongoing detection, response, and recovery capabilities across all identified risks. They are important for operational resilience but should follow the implementation of the primary preventive controls. |
 
 ## Expected Residual Risk
 
 | Risk | Initial Level | Expected Residual Level | Condition to Accept Residual |
 | --- | --- | --- | --- |
-| R01 | TODO | TODO | TODO |
-| R02 | TODO | TODO | TODO |
-| R03 | TODO | TODO | TODO |
-| R04 | TODO | TODO | TODO |
-| R05 | TODO | TODO | TODO |
-| R06 | TODO | TODO | TODO |
+| R01 | Medium (6) | Low (2) | Accept when reservation and payment audit trails reliably record the actor, timestamp, transaction status, and relevant actions, and audit records are protected against unauthorized modification. |
+| R02 | High (9) | Low (3) | Accept when strict authorization and booking ownership checks are enforced and security testing confirms that Guests cannot access other Guests' booking information through predictable identifiers or IDOR vulnerabilities. |
+| R03 | High (9) | Low (3) | Accept when booking ownership and authorization are validated before cancellation, and testing confirms that a Guest cannot cancel another Guest's booking. |
+| R04 | Medium (4) | Low (2) | Accept when only authorized system processes can trigger booking expiration, payment deadlines are correctly enforced, and testing confirms that pending bookings cannot be prematurely expired by unauthorized users. |
+| R05 | Critical (12) | Medium (4) | Accept only when cancellation and refund operations implement effective idempotency and booking-state validation, repeated and concurrent requests are safely rejected, and testing confirms that no duplicate refunds can be generated. |
+| R06 | Medium (4) | Low (2) | Accept when resource locks have appropriate timeouts, cancellation requests are rate-limited, and testing confirms that abusive requests cannot prevent legitimate Guests from cancelling their bookings. |
 
 ## Final Notes
 
-TODO.
+The risk treatment plan prioritizes controls according to the severity and exploitability of the identified risks. R05 receives the highest priority because of its Critical initial risk level and potential for repeated exploitation and cumulative financial losses. The proposed controls focus primarily on authorization, auditability, state validation, idempotency, concurrency control, and monitoring. Residual risks are considered acceptable only after the corresponding controls have been implemented and their effectiveness has been verified through appropriate testing and evidence. Continuous monitoring and periodic reassessment are recommended to ensure that changes to the booking and payment processes do not introduce new or increased risks.

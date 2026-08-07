@@ -107,23 +107,23 @@ Risk level justification: The risk is classified as Medium because the attack de
 
 | Risk | Govern | Identify | Protect | Detect | Respond | Recover | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| R01 | X | X | X | X | X | X | TODO |
-| R02 | X | X | X | X | X | X | TODO |
-| R03 | X | X | X | X | X | X | TODO |
-| R04 | X | X | X | X | X | X | TODO |
-| R05 | X | X | X | X | X | X | TODO |
-| R06 | X | X | X | X | X | X | TODO |
+| R01 | X | X | X | X | X | X | Risk governance, identification of repudiation conditions, auditability and non-repudiation, detection of disputed bookings, response to fraudulent claims, and recovery through audit evidence and dispute resolution. |
+| R02 | X | X | X | X | X | X | Governance and protection of Guest data, identification of sensitive information, access control, detection of unauthorized access, incident response, and recovery from information disclosure. |
+| R03 | X | X | X | X | X | X | Governance of reservation integrity, identification of authorization risks, protection of cancellation operations, detection of unauthorized cancellations, response to affected bookings, and recovery through reservation correction. |
+| R04 | X | X | X | X | X | X | Governance of booking availability, identification of expiration weaknesses, protection of the expiration mechanism, detection of abnormal expiration activity, response to affected bookings, and recovery of prematurely expired reservations. |
+| R05 | X | X | X | X | X | X | Governance of financial risks, identification of duplicate refund risks, protection through state validation and idempotency, detection of repeated refund activity, response to fraudulent transactions, and recovery through financial and record correction. |
+| R06 | X | X | X | X | X | X | Governance of cancellation availability, identification of resource-locking risks, protection through concurrency controls and rate limiting, detection of abnormal request patterns, response to blocked cancellations, and recovery through resource release and resolution of affected bookings. |
 
 ## Treatment Plan
 
 | Risk | Strategy | Proposed Controls | NIST Functions | Responsible Parties | Evidence and Verification |
 | --- | --- | --- | --- | --- | --- |
-| R01 | TODO | TODO | TODO | TODO | TODO |
-| R02 | TODO | TODO | TODO | TODO | TODO |
-| R03 | TODO | TODO | TODO | TODO | TODO |
-| R04 | TODO | TODO | TODO | TODO | TODO |
-| R05 | TODO | TODO | TODO | TODO | TODO |
-| R06 | TODO | TODO | TODO | TODO | TODO |
+| R01 | Reduce | Maintain immutable reservation and payment audit histories; record actor, timestamp, affected record, payment status, and refund information; restrict audit history modification; provide audit reports for dispute investigation. | Govern, Identify, Protect, Detect, Respond, Recover | Administrator, Manager | Audit records from RF48, RF53, and RF54; verification that actor and timestamp are recorded and that normal users cannot modify audit history; audit report review. |
+| R02 | Reduce | Enforce Guest ownership and authorization checks before returning booking records; prevent access using only predictable booking identifiers; restrict booking information according to user roles; monitor unauthorized access attempts. | Govern, Identify, Protect, Detect, Respond, Recover | Administrator, Manager | Authorization and IDOR security tests; verification that Guests can access only their own reservations; access-control logs; review of failed unauthorized requests. |
+| R03 | Reduce | Enforce authorization and booking ownership checks before cancellation; allow cancellation only for eligible reservations; record cancellation actor and timestamp; validate reservation status before processing cancellation. | Govern, Identify, Protect, Detect, Respond, Recover | Administrator, Manager | Functional and authorization tests; cancellation audit records from RF53; verification that unauthorized Guests cannot cancel another Guest's booking; review of reservation status after cancellation. |
+| R04 | Reduce | Restrict the booking expiration mechanism to authorized system processes; validate booking status and payment deadline before expiration; prevent Guests from directly triggering expiration; monitor abnormal expiration events. | Govern, Identify, Protect, Detect, Respond, Recover | Administrator, Manager | Tests attempting unauthorized expiration; verification of booking status transitions; audit records for expiration-related events; confirmation that pending bookings remain valid until the configured deadline. |
+| R05 | Reduce | Enforce booking-state validation and idempotency for cancellation and refund operations; reject cancellation requests for already-cancelled bookings; prevent duplicate refund processing; record every payment and refund event with timestamp and external reference. | Govern, Identify, Protect, Detect, Respond, Recover | Administrator, Manager | Concurrent and repeated cancellation tests; verification that only one refund is generated; payment/refund audit records from RF54; financial reconciliation between booking and payment records. |
+| R06 | Reduce | Implement controlled resource locking with short timeouts; prevent indefinite booking locks; apply rate limiting to cancellation and booking-modification requests; ensure legitimate cancellation requests can proceed after abusive requests; provide administrative resolution for blocked bookings. | Govern, Identify, Protect, Detect, Respond, Recover | Administrator, Manager | Load and concurrency tests; rate-limit verification; tests with repeated requests against the same booking; verification that locks are released correctly and legitimate cancellation requests can be completed. |
 
 ## Initial Implementation Order
 

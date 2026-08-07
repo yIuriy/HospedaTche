@@ -1,4 +1,4 @@
-### T08 - Payment Synchronization Flood
+### T03 - Payment Synchronization Flood
 
 STRIDE Category: Denial of Service
 

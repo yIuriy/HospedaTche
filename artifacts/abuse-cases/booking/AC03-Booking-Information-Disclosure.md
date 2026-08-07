@@ -1,4 +1,4 @@
-### AC08 - Booking Information Disclosure
+### AC03 - Booking Information Disclosure
 
 Actor: malicious user.
 

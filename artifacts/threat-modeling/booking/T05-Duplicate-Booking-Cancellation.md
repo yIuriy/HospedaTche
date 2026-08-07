@@ -1,4 +1,4 @@
-### T09 - Duplicate Booking Cancellation
+### T05 - Duplicate Booking Cancellation
 
 STRIDE Category: Tampering
 

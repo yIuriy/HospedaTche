@@ -14,11 +14,13 @@ Stage 1 must produce Markdown documentation in this repository containing:
 
 Stage 2 continues that work by transforming Stage 1 threats and abuse cases into risks that can be evaluated, compared, prioritized, and treated using NIST Cybersecurity Framework 2.0 functions.
 
+Stages 3 to 7 were reduced to a minimum viable scope for the final delivery period. They may be completed with practical artifacts when code exists, or with descriptive artifacts such as pseudocode, configurations, diagrams, examples, and detailed implementation descriptions.
+
 ## 2. Chosen System
 
 HospedaTche is a hotel accommodation system.
 
-The system should support different user types, information exchange, and security-relevant operations. Implementation is not required for Stage 1 or Stage 2; focus is understanding the system, analyzing security problems, and planning risk treatment.
+The system should support different user types, information exchange, and security-relevant operations. A complete implementation is not required; focus on understanding the system, analyzing security problems, planning treatment, and documenting how controls would be designed, implemented, verified, monitored, and integrated into DevSecOps.
 
 ## 3. Repository Requirements
 
@@ -228,6 +230,22 @@ NIST CSF 2.0 functions to use:
 The NIST function is not the control. For example, `Protect` is a function, "protect account access" is an expected outcome, and MFA is a possible control.
 
 Controls must be concrete and observable. Avoid generic controls like "improve security" or "use cryptography" unless the document explains where, why, how, who owns it, and how it will be verified.
+
+### 4.9 Stages 3 to 7 - Reduced Final Scope
+
+Detailed final guidance is available in `ai/final-seven-days-guidance.md`.
+
+Minimum scope:
+
+| Stage | Minimum Required Content |
+| --- | --- |
+| Stage 3 - Secure Architecture | Three security requirements derived from priority risks; three cataloged vulnerability mappings; one secure architecture diagram; three justified architecture decisions. |
+| Stage 4 - Secure Code and Security Tests | Two secure coding practices tied to previous risks and requirements; two security tests per practice written before the implementation example; implementation, pseudocode, or detailed description; expected result; OWASP reference. |
+| Stage 5 - Vulnerability Verification | One authorized verification session using a tool such as OWASP ZAP; basic configuration; execution evidence; analysis of up to three alerts or findings; proposed correction for each finding; evidence stored in `evidences/stage-5/`. |
+| Stage 6 - Monitoring and Intrusion Detection | Textual script in `roteiros/etapa-6-deteccao-de-intrusoes.md`; explanation of intrusion detection; prevention vs detection; events to log; three detection rules; initial response after alerts. |
+| Stage 7 - DevSecOps and Final Video | Textual pipeline or diagram; final video script in `roteiros/etapa-7-devsecops-e-video-final.md`; final video covering the project evolution, main decisions, verification, detection, pipeline, and lessons learned. |
+
+Testing third-party systems without authorization is prohibited. If the group does not have an implemented web system for Stage 5, OWASP Juice Shop may be used as a deliberately vulnerable educational environment.
 
 ## 5. Individual Participation and Commits
 

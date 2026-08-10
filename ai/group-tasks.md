@@ -1,231 +1,169 @@
-# Group Tasks by System Module
+# Group Tasks by Stage - Minimum Scope
+
+This document defines the minimum group work for each project stage. The English section is the canonical repository version. A PT-BR operational translation is included after it for group use.
 
 ## Group Members
 
-- **Member 1 (User / Lead)**: Iuri - User Registration & Identity Module
-- **Member 2**: Sidnei - Authentication & Access Control Module
-- **Member 3**: Lara - Accommodation & Listing Management Module
-- **Member 4**: Dyonathan - Booking & Payment Transactions Module
-- **Member 5**: Rafaela - Search, Reviews & Messaging Module
+| Member | Name | Main Module |
+| --- | --- | --- |
+| 1 | Iuri | User registration and identity |
+| 2 | Sidnei | Authentication and access control |
+| 3 | Lara | Accommodation and room operations |
+| 4 | Dyonathan | Booking and payment |
+| 5 | Rafaela | Search, reviews, notifications, and messaging |
+
+## Shared Rules
+
+- Use the same HospedaTche risks and modules throughout all stages.
+- Stages 3 to 7 may use code, pseudocode, configurations, diagrams, or detailed descriptions.
+- A complete application implementation is not required.
+- Every member must make identifiable commits in different stages.
+- Version all documents, diagram sources, exported images, reports, and evidence in GitHub.
+- Only perform security tests against the group system, an expressly authorized system, or an intentionally vulnerable educational application.
+
+## Detailed Task Guides
+
+- Stage 1: `ai/stage-1-threat-modeling-tasks.md`
+- Stage 2: `ai/stage-2-risk-treatment-tasks.md`
+- Stage 3: `ai/stage-3-secure-architecture-tasks.md`
+- Stage 4: `ai/stage-4-secure-code-testing-tasks.md`
+- Stage 5: `ai/stage-5-vulnerability-verification-tasks.md`
+- Stage 6: `ai/stage-6-intrusion-detection-tasks.md`
+- Stage 7: `ai/stage-7-devsecops-video-tasks.md`
+
+## Stage 1 - Threat Modeling and Abuse Cases
+
+### Minimum Deliverable
+
+- STRIDE threats for every assigned module;
+- abuse cases linked to the threats;
+- references to related functional and non-functional requirements;
+- updated threat and abuse-case maps;
+- successful validation of changed artifacts.
+
+| Member | Minimum Contribution | Main Output |
+| --- | --- | --- |
+| Iuri | Review identity registration, CPF/email misuse, fake accounts, account takeover, and recovery threats and abuse cases. | `artifacts/threat-modeling/accounts/` and `artifacts/abuse-cases/accounts/` |
+| Sidnei | Review login, session, role, protected-route, and privilege-escalation threats and abuse cases. Coordinate account IDs with Iuri. | `artifacts/threat-modeling/accounts/` and `artifacts/abuse-cases/accounts/` |
+| Lara | Review room availability, status, rates, capacity, cleaning, maintenance, and stay-operation threats and abuse cases. | `artifacts/threat-modeling/accommodation/` and `artifacts/abuse-cases/accommodation/` |
+| Dyonathan | Review booking, cancellation, expiration, payment, refund, and transaction-audit threats and abuse cases. | `artifacts/threat-modeling/booking/`, `artifacts/threat-modeling/payments/`, `artifacts/abuse-cases/booking/`, and `artifacts/abuse-cases/payment/` |
+| Rafaela | Review search overload, hidden data, chat, notifications, reviews, and message-history threats and abuse cases. | `artifacts/threat-modeling/search-messaging/` and `artifacts/abuse-cases/search-messaging/` |
+
+## Stage 2 - Risk Analysis, Prioritization, and Treatment
+
+### Minimum Deliverable
+
+- common probability and impact criteria;
+- risk register with score, level, and justification;
+- risk prioritization;
+- treatment strategy and NIST CSF 2.0 mapping;
+- concrete controls, owners, verification evidence, implementation order, and expected residual risk;
+- successful risk-treatment validation.
+
+| Member | Minimum Contribution | Main Output |
+| --- | --- | --- |
+| Iuri | Maintain identity, fake-account, account-takeover, CPF/email exposure, and password-recovery risks. | `artifacts/risk-treatment/accounts/risk-register.md` |
+| Sidnei | Maintain authentication, session, route authorization, staff hierarchy, and privilege-escalation risks. Coordinate risk IDs with Iuri. | `artifacts/risk-treatment/accounts/risk-register.md` |
+| Lara | Maintain availability, room status, rate, capacity, cleaning, maintenance, and operational risks. | `artifacts/risk-treatment/accommodation/risk-register.md` |
+| Dyonathan | Maintain booking-state, cancellation, payment, confirmation, refund, and auditability risks. | `artifacts/risk-treatment/booking/risk-register.md` and `artifacts/risk-treatment/payment/risk-register.md` |
+| Rafaela | Maintain search availability, information exposure, chat abuse, notification, and review-manipulation risks. | `artifacts/risk-treatment/search-messaging/risk-register.md` |
+
+## Stage 3 - Secure Architecture Design
+
+### Minimum Deliverable
+
+- three verifiable security requirements derived from high or critical risks;
+- three mappings to recognized CWE or OWASP references;
+- one secure architecture diagram, including its source and exported image;
+- three justified architecture decisions.
+
+| Member | Minimum Contribution | Expected Output |
+| --- | --- | --- |
+| Iuri | Write security requirement SR01 and its vulnerability mapping. | One requirement and one CWE/OWASP mapping |
+| Sidnei | Write security requirement SR02 and its vulnerability mapping. | One requirement and one CWE/OWASP mapping |
+| Lara | Write security requirement SR03 and its vulnerability mapping. | One requirement and one CWE/OWASP mapping |
+| Dyonathan | Create the architecture diagram with users, application, authentication, authorization, database, logs, controls, and relevant external services. | Diagram source and exported image |
+| Rafaela | Write and justify AD01, AD02, and AD03, linking each decision to a risk, affected component, and expected result. | Three architecture decisions and final consistency review |
+
+## Stage 4 - Secure Code and Security Tests
+
+### Minimum Deliverable
+
+- two secure coding practices related to Stage 3;
+- two tests per practice, defined before the implementation example;
+- implementation, pseudocode, configuration, or detailed description;
+- expected secure result and OWASP reference for each practice.
+
+| Member | Minimum Contribution | Expected Output |
+| --- | --- | --- |
+| Iuri | Define Practice 1, its related risk and requirement, and its implementation or pseudocode. | Secure Practice 1 |
+| Sidnei | Define one valid test and one malicious, invalid, or unauthorized test for Practice 1. | Two tests for Practice 1 |
+| Lara | Define Practice 2, its related risk and requirement, and its implementation or pseudocode. | Secure Practice 2 |
+| Dyonathan | Define one valid test and one malicious, invalid, or unauthorized test for Practice 2. | Two tests for Practice 2 |
+| Rafaela | Add expected results and OWASP references and verify traceability to Stage 3. | Integrated Stage 4 document |
+
+## Stage 5 - Vulnerability Verification
+
+### Minimum Deliverable
 
-## Shared Scope
+- one authorized verification session using OWASP ZAP or an equivalent tool;
+- identification of the system, environment, tool, and basic configuration;
+- screenshots or report excerpts stored in `evidences/stage-5/`;
+- analysis of up to three relevant alerts or findings;
+- proposed correction for each finding.
 
-HospedaTche is a hotel accommodation system with four user roles: Administrator, Manager, Receptionist, and Guest.
+| Member | Minimum Contribution | Expected Output |
+| --- | --- | --- |
+| Iuri | Document the authorized target, environment, scope, and basic test configuration. | Scope and configuration record |
+| Sidnei | Execute or document the verification session and organize screenshots or report excerpts. | Execution evidence in `evidences/stage-5/` |
+| Lara | Analyze finding A01, including evidence, impact, CWE/OWASP relationship, and correction. | Finding A01 analysis |
+| Dyonathan | Analyze finding A02 using the same fields. | Finding A02 analysis |
+| Rafaela | Analyze finding A03 and consolidate the report. If fewer findings exist, explain why other tool results were discarded. | Finding A03 or discard justification and final report |
 
-The system covers guest registration, authentication, room management, availability, booking, online payment, cancellation, check-in, check-out, chat, reviews, reports, audit, and hotel rules.
+## Stage 6 - Monitoring and Intrusion Detection
 
-The system does not manage room consumption, such as drinks, minibar items, snacks, or room service charges.
+### Minimum Deliverable
 
-## Shared References
+- a short explanation of intrusion detection;
+- the difference between prevention and detection;
+- the system events that should be logged;
+- three detection rules;
+- an initial response for each alert.
 
-- Functional requirements: `artifacts/functional-requirements/functional-requirements.md`
-- Functional requirements summary: `artifacts/functional-requirements/summary.md`
-- Non-functional requirements: `artifacts/non-functional-requirements/non-functional-requirements.md`
-- Non-functional requirements summary: `artifacts/non-functional-requirements/summary.md`
-- Business rules: `artifacts/business-rules/business-rules.md`
-- STRIDE template: `artifacts/templates/stride-threat-template.md`
-- Abuse case template: `artifacts/templates/abuse-case-template.md`
-- Risk treatment template: `artifacts/templates/risk-treatment-template.md`
-- STRIDE threat map: `artifacts/threat-modeling/threat-map.md`
-- Abuse case map: `artifacts/abuse-cases/abuse-case-map.md`
-- Stage 2 risk treatment workspace: `artifacts/risk-treatment/`
+Main output: `roteiros/etapa-6-deteccao-de-intrusoes.md`.
 
-## Stage 1 Work Order
+| Member | Minimum Contribution | Expected Output |
+| --- | --- | --- |
+| Iuri | Explain intrusion detection and the difference between prevention and detection. | Introductory section |
+| Sidnei | Define the authentication, authorization, business, payment, error, and audit events that should be logged without exposing sensitive data. | Logging-events section |
+| Lara | Define Rule 1 with observed risk, data source, alert condition, and initial response. | Detection Rule 1 |
+| Dyonathan | Define Rule 2 with the same fields. | Detection Rule 2 |
+| Rafaela | Define Rule 3 and consolidate the response and escalation guidance. | Detection Rule 3 and final review |
 
-1. Create STRIDE threats and abuse cases for the assigned module.
-2. Review related RF and NFR links.
-3. Add or update business rules only if a real business rule appears.
-4. Add diagrams or mitigations only if time remains.
-5. Run assigned validation scripts before commit.
+## Stage 7 - DevSecOps and Final Video
 
-## Stage 2 Work Order
+### Minimum Deliverable
 
-1. Use Stage 1 STRIDE threats and abuse cases as source material.
-2. Define common probability and impact criteria before scoring.
-3. Convert relevant threats into risks with IDs such as `R01`.
-4. Calculate score as probability x impact and classify level.
-5. Justify probability, impact, score, and priority.
-6. Choose treatment strategy: avoid, reduce, share, or accept.
-7. Map each risk to relevant NIST CSF 2.0 functions.
-8. Propose concrete controls, owners, verification evidence, and residual risk.
-9. Define initial control implementation order.
+- a textual description or diagram of the DevSecOps pipeline;
+- at least three conditions that stop pipeline continuity;
+- a versioned final-video script;
+- a final video, preferably 5 to 8 minutes, with participation from all members.
 
-Stage 2 does not require implementing controls.
+Main output: `roteiros/etapa-7-devsecops-e-video-final.md`.
 
-## Equal Workload Matrix
+| Member | Minimum Contribution | Expected Output |
+| --- | --- | --- |
+| Iuri | Describe planning, threat analysis, security requirements, and architecture in the pipeline and video. | Planning and architecture segment |
+| Sidnei | Describe secure implementation and automated security tests in the pipeline and video. | Implementation and tests segment |
+| Lara | Describe code and dependency analysis and define at least three pipeline stop conditions. | Analysis gates and stop conditions |
+| Dyonathan | Describe dynamic testing, deployment, monitoring, and response in the pipeline and video. | Verification and operations segment |
+| Rafaela | Consolidate the pipeline and script, introduce the system, and close with project evolution and lessons learned. | Final script and integration |
 
-| Member | Name | Assigned Module | Main RF/NFR Area | STRIDE Focus | Abuse Cases |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| Member 1 | Iuri | User Registration & Identity | RF01-RF10, NFR01, NFR03, NFR04, NFR20 | Spoofing | AC01, AC02 |
-| Member 2 | Sidnei | Authentication & Access Control | RF01, RF04-RF09, NFR01-NFR04, NFR07 | Elevation of Privilege | AC03, AC04 |
-| Member 3 | Lara | Accommodation & Listing Management | RF14-RF21, RF35-RF40, NFR13 | Tampering | AC05, AC06 |
-| Member 4 | Dyonathan | Booking & Payment Transactions | RF22-RF34, NFR06, NFR10, NFR13, NFR14 | Repudiation, Tampering | AC07, AC08 |
-| Member 5 | Rafaela | Search, Reviews & Messaging | RF11-RF13, RF18-RF21, RF41-RF47, NFR05, NFR09 | Denial of Service, Information Disclosure | AC09, AC10 |
+All members must appear or speak in the final video and confirm that their contribution is represented accurately.
 
-## Stage 2 Equal Workload Guidance
+## Validation Commands
 
-Each member should create risk entries and treatment notes for their Stage 1 module:
-
-| Member | Name | Stage 2 Scope | Expected Focus |
-| :--- | :--- | :--- | :--- |
-| Member 1 | Iuri | User registration and identity risks | spoofing, CPF/email abuse, account ownership, profile data exposure |
-| Member 2 | Sidnei | Authentication and access-control risks | session abuse, route authorization, role escalation, privileged actions |
-| Member 3 | Lara | Accommodation and room-operation risks | availability, room status, rates, cleaning, maintenance, capacity |
-| Member 4 | Dyonathan | Booking and payment risks | reservation integrity, payment confirmation, cancellation, refund, auditability |
-| Member 5 | Rafaela | Search, reviews, notifications, and chat risks | search overload, information exposure, message abuse, review manipulation |
-
-Shared decisions, such as scoring criteria and NIST CSF interpretation, should be common across all members.
-
-## Member 1 - Iuri: User Registration & Identity
-
-### Task 1.1 - Create STRIDE Threats
-
-- Create threats for identity registration and guest/internal account data.
-- Focus on Spoofing.
-- Suggested topics:
-  - Fake guest registration with stolen CPF or email.
-  - Account takeover using stolen credentials.
-  - Unverified guest identity abuse.
-
-### Task 1.2 - Create Abuse Cases
-
-- Create AC01 and AC02.
-- Use `artifacts/templates/abuse-case-template.md`.
-- Suggested abuse cases:
-  - AC01 - Fake Guest Registration.
-  - AC02 - Account Takeover.
-
-### Task 1.3 - Review Requirements
-
-- Review RF01-RF10.
-- Review NFR01, NFR03, NFR04, NFR20.
-- Add business rules only if identity-specific rules appear.
-
-### Task 1.4 - Optional
-
-- Update system overview sections.
-- Add simple context diagram if needed.
-
-## Member 2 - Sidnei: Authentication & Access Control
-
-### Task 2.1 - Create STRIDE Threats
-
-- Create threats for login, sessions, route protection, and role authorization.
-- Focus on Elevation of Privilege.
-- Suggested topics:
-  - Guest accesses staff route.
-  - Receptionist accesses manager features.
-  - Manager accesses administrator features.
-
-### Task 2.2 - Create Abuse Cases
-
-- Create AC03 and AC04.
-- Use `artifacts/templates/abuse-case-template.md`.
-- Suggested abuse cases:
-  - AC03 - Unauthorized Role Elevation.
-  - AC04 - Broken Route Authorization.
-
-### Task 2.3 - Review Requirements
-
-- Review RF01, RF04-RF09.
-- Review NFR01-NFR04 and NFR07.
-- Add business rules only if access-control rules appear.
-
-### Task 2.4 - Optional
-
-- Add simple role/access diagram.
-
-## Member 3 - Lara: Accommodation & Listing Management
-
-### Task 3.1 - Create STRIDE Threats
-
-- Create threats for rooms, room status, availability, rates, cleaning, and maintenance.
-- Focus on Tampering.
-- Suggested topics:
-  - Unauthorized room rate change.
-  - Room availability manipulation.
-  - Room status changed to hide occupancy or maintenance.
-
-### Task 3.2 - Create Abuse Cases
-
-- Create AC05 and AC06.
-- Use `artifacts/templates/abuse-case-template.md`.
-- Suggested abuse cases:
-  - AC05 - Unauthorized Room Rate Tampering.
-  - AC06 - Room Availability Manipulation.
-
-### Task 3.3 - Review Requirements
-
-- Review RF14-RF21 and RF35-RF40.
-- Review NFR13.
-- Add business rules only if hotel room operation rules appear.
-
-### Task 3.4 - Optional
-
-- Add simple DFD for room status, availability, and booking interaction.
-
-## Member 4 - Dyonathan: Booking & Payment Transactions
-
-### Task 4.1 - Create STRIDE Threats
-
-- Create threats for booking, payment, cancellation, refund, voucher, and reservation history.
-- Focus on Repudiation and Tampering.
-- Suggested topics:
-  - Payment response manipulation.
-  - User denies cancellation or refund request.
-  - Reservation changed without trace.
-
-### Task 4.2 - Create Abuse Cases
-
-- Create AC07 and AC08.
-- Use `artifacts/templates/abuse-case-template.md`.
-- Suggested abuse cases:
-  - AC07 - Payment Confirmation Tampering.
-  - AC08 - Fraudulent Cancellation Repudiation.
-
-### Task 4.3 - Review Requirements
-
-- Review RF22-RF34.
-- Review NFR06, NFR10, NFR13, NFR14.
-- Add business rules only if booking/refund/payment rules appear.
-
-### Task 4.4 - Optional
-
-- Add simple sequence diagram for booking and payment confirmation.
-
-## Member 5 - Rafaela: Search, Reviews & Messaging
-
-### Task 5.1 - Create STRIDE Threats
-
-- Create threats for room search, public info, notifications, chat, and reviews.
-- Focus on Denial of Service and Information Disclosure.
-- Suggested topics:
-  - Bot overloads room search.
-  - Guest chat history exposed.
-  - Review manipulation or spam.
-
-### Task 5.2 - Create Abuse Cases
-
-- Create AC09 and AC10.
-- Use `artifacts/templates/abuse-case-template.md`.
-- Suggested abuse cases:
-  - AC09 - Automated Search Abuse.
-  - AC10 - Chat or Review Data Exposure.
-
-### Task 5.3 - Review Requirements
-
-- Review RF11-RF13, RF18-RF21, RF41-RF47.
-- Review NFR05 and NFR09.
-- Add business rules only if communication or review rules appear.
-
-### Task 5.4 - Optional
-
-- Add final considerations.
-- Add simple abuse case diagram or mitigation notes if needed.
-
-## Validation
-
-Run only the scripts related to changed artifacts:
+Run only validators related to changed artifacts:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stride-threats.ps1
@@ -234,86 +172,174 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-business-ru
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1
 ```
 
-Pre-commit runs all repository validation checks, including RF, NFR, business rules, STRIDE, abuse cases, and risk treatment.
-
-## Commit Message Suggestions
-
-- Iuri: `Add identity STRIDE threats and abuse cases`
-- Sidnei: `Add access control STRIDE threats and abuse cases`
-- Lara: `Add accommodation STRIDE threats and abuse cases`
-- Dyonathan: `Add booking and payment STRIDE threats and abuse cases`
-- Rafaela: `Add search messaging STRIDE threats and abuse cases`
-
 ---
 
-# Versao em Portugues
+# Divisão de Tarefas por Etapa - Escopo Mínimo (PT-BR)
+
+Esta seção traduz a divisão operacional acima. A versão em inglês permanece como referência canônica do repositório.
 
 ## Integrantes
 
-- **Membro 1 (Lead)**: Iuri - Modulo de Cadastro e Identidade
-- **Membro 2**: Sidnei - Modulo de Autenticacao e Controle de Acesso
-- **Membro 3**: Lara - Modulo de Acomodacoes e Quartos
-- **Membro 4**: Dyonathan - Modulo de Reservas e Pagamentos
-- **Membro 5**: Rafaela - Modulo de Busca, Avaliacoes e Mensagens
+| Membro | Nome | Módulo principal |
+| --- | --- | --- |
+| 1 | Iuri | Cadastro de usuários e identidade |
+| 2 | Sidnei | Autenticação e controle de acesso |
+| 3 | Lara | Acomodações e operações dos quartos |
+| 4 | Dyonathan | Reservas e pagamentos |
+| 5 | Rafaela | Busca, avaliações, notificações e mensagens |
 
-## Ordem das Tarefas
+## Regras Compartilhadas
 
-1. Criar ameacas STRIDE e casos de abuso do modulo.
-2. Revisar RFs e NFRs relacionados.
-3. Adicionar regras de negocio somente se alguma regra real aparecer.
-4. Adicionar diagramas ou mitigacoes somente se sobrar tempo.
-5. Rodar validadores dos artefatos alterados antes do commit.
+- Usar os mesmos riscos e módulos do HospedaTche em todas as etapas.
+- Nas Etapas 3 a 7 podem ser usados código, pseudocódigo, configurações, diagramas ou descrições detalhadas.
+- Não é necessário implementar o sistema completo.
+- Cada integrante deve possuir commits identificáveis em diferentes etapas.
+- Versionar no GitHub documentos, fontes de diagramas, imagens exportadas, relatórios e evidências.
+- Realizar testes de segurança somente no sistema do grupo, em sistema expressamente autorizado ou em aplicação educacional intencionalmente vulnerável.
 
-## Divisao
+## Guias Detalhados por Etapa
 
-| Membro | Nome | Modulo | RF/NFR Principais | Foco STRIDE | Casos de Abuso |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| Membro 1 | Iuri | Cadastro e Identidade | RF01-RF10, NFR01, NFR03, NFR04, NFR20 | Spoofing | AC01, AC02 |
-| Membro 2 | Sidnei | Autenticacao e Controle de Acesso | RF01, RF04-RF09, NFR01-NFR04, NFR07 | Elevation of Privilege | AC03, AC04 |
-| Membro 3 | Lara | Acomodacoes e Quartos | RF14-RF21, RF35-RF40, NFR13 | Tampering | AC05, AC06 |
-| Membro 4 | Dyonathan | Reservas e Pagamentos | RF22-RF34, NFR06, NFR10, NFR13, NFR14 | Repudiation, Tampering | AC07, AC08 |
-| Membro 5 | Rafaela | Busca, Avaliacoes e Mensagens | RF11-RF13, RF18-RF21, RF41-RF47, NFR05, NFR09 | Denial of Service, Information Disclosure | AC09, AC10 |
+- Etapa 1: `ai/stage-1-threat-modeling-tasks.md`
+- Etapa 2: `ai/stage-2-risk-treatment-tasks.md`
+- Etapa 3: `ai/stage-3-secure-architecture-tasks.md`
+- Etapa 4: `ai/stage-4-secure-code-testing-tasks.md`
+- Etapa 5: `ai/stage-5-vulnerability-verification-tasks.md`
+- Etapa 6: `ai/stage-6-intrusion-detection-tasks.md`
+- Etapa 7: `ai/stage-7-devsecops-video-tasks.md`
 
-## Tarefas por Membro
+## Etapa 1 - Modelagem de Ameaças e Casos de Abuso
 
-### Iuri
+### Mínimo Entregável
 
-- Criar ameacas STRIDE para cadastro, identidade e dados de contas.
-- Criar AC01 e AC02.
-- Revisar RF01-RF10 e NFR01, NFR03, NFR04, NFR20.
-- Sugestoes: cadastro falso de hospede, roubo de conta, abuso de identidade nao verificada.
+- ameaças STRIDE para todos os módulos atribuídos;
+- casos de abuso ligados às ameaças;
+- referências aos requisitos funcionais e não funcionais relacionados;
+- mapas de ameaças e casos de abuso atualizados;
+- validação dos artefatos alterados concluída com sucesso.
 
-### Sidnei
+| Integrante | Contribuição mínima | Entrega principal |
+| --- | --- | --- |
+| Iuri | Revisar ameaças e casos de abuso de cadastro, uso indevido de CPF/e-mail, contas falsas, roubo de conta e recuperação de senha. | `artifacts/threat-modeling/accounts/` e `artifacts/abuse-cases/accounts/` |
+| Sidnei | Revisar ameaças e casos de abuso de login, sessão, papéis, rotas protegidas e elevação de privilégio. Coordenar IDs de contas com Iuri. | `artifacts/threat-modeling/accounts/` e `artifacts/abuse-cases/accounts/` |
+| Lara | Revisar ameaças e casos de abuso de disponibilidade, status, tarifa, capacidade, limpeza, manutenção e operação da hospedagem. | `artifacts/threat-modeling/accommodation/` e `artifacts/abuse-cases/accommodation/` |
+| Dyonathan | Revisar ameaças e casos de abuso de reserva, cancelamento, expiração, pagamento, reembolso e auditoria das transações. | Pastas de `booking` e `payment` em `artifacts/threat-modeling/` e `artifacts/abuse-cases/` |
+| Rafaela | Revisar ameaças e casos de abuso de sobrecarga da busca, dados ocultos, chat, notificações, avaliações e histórico de mensagens. | `artifacts/threat-modeling/search-messaging/` e `artifacts/abuse-cases/search-messaging/` |
 
-- Criar ameacas STRIDE para login, sessao, rotas protegidas e autorizacao por papel.
-- Criar AC03 e AC04.
-- Revisar RF01, RF04-RF09 e NFR01-NFR04, NFR07.
-- Sugestoes: hospede acessa rota interna, recepcionista acessa funcao de gerente, gerente acessa funcao de administrador.
+## Etapa 2 - Análise, Priorização e Tratamento de Riscos
 
-### Lara
+### Mínimo Entregável
 
-- Criar ameacas STRIDE para quartos, status, disponibilidade, tarifas, limpeza e manutencao.
-- Criar AC05 e AC06.
-- Revisar RF14-RF21, RF35-RF40 e NFR13.
-- Sugestoes: alteracao indevida de tarifa, manipulacao de disponibilidade, status falso de quarto.
+- critérios comuns de probabilidade e impacto;
+- registro de riscos com pontuação, nível e justificativa;
+- priorização dos riscos;
+- estratégia de tratamento e mapeamento ao NIST CSF 2.0;
+- controles concretos, responsáveis, evidências de verificação, ordem de implementação e risco residual esperado;
+- validação do tratamento de riscos concluída com sucesso.
 
-### Dyonathan
+| Integrante | Contribuição mínima | Entrega principal |
+| --- | --- | --- |
+| Iuri | Manter riscos de identidade, contas falsas, roubo de conta, exposição de CPF/e-mail e recuperação de senha. | `artifacts/risk-treatment/accounts/risk-register.md` |
+| Sidnei | Manter riscos de autenticação, sessão, autorização de rotas, hierarquia interna e elevação de privilégio. Coordenar IDs com Iuri. | `artifacts/risk-treatment/accounts/risk-register.md` |
+| Lara | Manter riscos de disponibilidade, status, tarifa, capacidade, limpeza, manutenção e operação dos quartos. | `artifacts/risk-treatment/accommodation/risk-register.md` |
+| Dyonathan | Manter riscos de estado da reserva, cancelamento, pagamento, confirmação, reembolso e auditoria. | `artifacts/risk-treatment/booking/risk-register.md` e `artifacts/risk-treatment/payment/risk-register.md` |
+| Rafaela | Manter riscos de disponibilidade da busca, exposição de informações, abuso do chat, notificações e manipulação de avaliações. | `artifacts/risk-treatment/search-messaging/risk-register.md` |
 
-- Criar ameacas STRIDE para reserva, pagamento, cancelamento, reembolso, voucher e historico.
-- Criar AC07 e AC08.
-- Revisar RF22-RF34 e NFR06, NFR10, NFR13, NFR14.
-- Sugestoes: manipulacao de confirmacao de pagamento, negacao de cancelamento, alteracao de reserva sem registro.
+## Etapa 3 - Projeto de Arquitetura Segura
 
-### Rafaela
+### Mínimo Entregável
 
-- Criar ameacas STRIDE para busca, informacoes publicas, notificacoes, chat e avaliacoes.
-- Criar AC09 e AC10.
-- Revisar RF11-RF13, RF18-RF21, RF41-RF47 e NFR05, NFR09.
-- Sugestoes: bot sobrecarrega busca, vazamento de chat, spam ou manipulacao de avaliacoes.
+- três requisitos de segurança verificáveis derivados de riscos altos ou críticos;
+- três mapeamentos para referências reconhecidas da CWE ou OWASP;
+- um diagrama de arquitetura segura, com arquivo-fonte e imagem exportada;
+- três decisões de arquitetura justificadas.
 
-## Validacao
+| Integrante | Contribuição mínima | Entrega esperada |
+| --- | --- | --- |
+| Iuri | Escrever o requisito SR01 e mapear sua vulnerabilidade. | Um requisito e um mapeamento CWE/OWASP |
+| Sidnei | Escrever o requisito SR02 e mapear sua vulnerabilidade. | Um requisito e um mapeamento CWE/OWASP |
+| Lara | Escrever o requisito SR03 e mapear sua vulnerabilidade. | Um requisito e um mapeamento CWE/OWASP |
+| Dyonathan | Criar o diagrama com usuários, aplicação, autenticação, autorização, banco, logs, controles e serviços externos relevantes. | Fonte do diagrama e imagem exportada |
+| Rafaela | Escrever e justificar AD01, AD02 e AD03, ligando cada decisão ao risco, componente afetado e resultado esperado. | Três decisões e revisão final de coerência |
 
-Rodar somente scripts dos artefatos alterados:
+## Etapa 4 - Código Seguro e Testes de Segurança
+
+### Mínimo Entregável
+
+- duas práticas de código seguro relacionadas à Etapa 3;
+- dois testes por prática, definidos antes do exemplo de implementação;
+- implementação, pseudocódigo, configuração ou descrição detalhada;
+- resultado seguro esperado e referência OWASP para cada prática.
+
+| Integrante | Contribuição mínima | Entrega esperada |
+| --- | --- | --- |
+| Iuri | Definir a Prática 1, seu risco e requisito relacionados e sua implementação ou pseudocódigo. | Prática Segura 1 |
+| Sidnei | Definir um teste válido e um teste malicioso, inválido ou não autorizado para a Prática 1. | Dois testes da Prática 1 |
+| Lara | Definir a Prática 2, seu risco e requisito relacionados e sua implementação ou pseudocódigo. | Prática Segura 2 |
+| Dyonathan | Definir um teste válido e um teste malicioso, inválido ou não autorizado para a Prática 2. | Dois testes da Prática 2 |
+| Rafaela | Adicionar resultados esperados e referências OWASP e conferir a rastreabilidade com a Etapa 3. | Documento integrado da Etapa 4 |
+
+## Etapa 5 - Verificação de Vulnerabilidades
+
+### Mínimo Entregável
+
+- uma sessão autorizada de verificação com OWASP ZAP ou ferramenta equivalente;
+- identificação do sistema, ambiente, ferramenta e configuração básica;
+- capturas de tela ou trechos de relatório em `evidences/stage-5/`;
+- análise de até três alertas ou achados relevantes;
+- correção proposta para cada achado.
+
+| Integrante | Contribuição mínima | Entrega esperada |
+| --- | --- | --- |
+| Iuri | Documentar alvo autorizado, ambiente, escopo e configuração básica do teste. | Registro de escopo e configuração |
+| Sidnei | Executar ou documentar a sessão e organizar capturas de tela ou trechos do relatório. | Evidências em `evidences/stage-5/` |
+| Lara | Analisar o achado A01 com evidência, impacto, relação CWE/OWASP e correção. | Análise do achado A01 |
+| Dyonathan | Analisar o achado A02 usando os mesmos campos. | Análise do achado A02 |
+| Rafaela | Analisar o achado A03 e consolidar o relatório. Se houver menos achados, explicar por que outros resultados foram descartados. | Achado A03 ou justificativa de descarte e relatório final |
+
+## Etapa 6 - Monitoramento e Detecção de Intrusões
+
+### Mínimo Entregável
+
+- explicação breve sobre detecção de intrusões;
+- diferença entre prevenção e detecção;
+- eventos do sistema que devem ser registrados;
+- três regras de detecção;
+- resposta inicial para cada alerta.
+
+Entrega principal: `roteiros/etapa-6-deteccao-de-intrusoes.md`.
+
+| Integrante | Contribuição mínima | Entrega esperada |
+| --- | --- | --- |
+| Iuri | Explicar detecção de intrusões e a diferença entre prevenção e detecção. | Seção introdutoria |
+| Sidnei | Definir eventos de autenticação, autorização, negócio, pagamento, erro e auditoria que devem ser registrados sem expor dados sensíveis. | Seção de eventos e logs |
+| Lara | Definir a Regra 1 com risco observado, fonte de dados, condição do alerta e resposta inicial. | Regra de Detecção 1 |
+| Dyonathan | Definir a Regra 2 com os mesmos campos. | Regra de Detecção 2 |
+| Rafaela | Definir a Regra 3 e consolidar as orientações de resposta e escalonamento. | Regra de Detecção 3 e revisão final |
+
+## Etapa 7 - DevSecOps e Vídeo Final
+
+### Mínimo Entregável
+
+- descrição textual ou diagrama do pipeline DevSecOps;
+- pelo menos três condições que interrompem a continuidade do pipeline;
+- roteiro do vídeo final versionado;
+- vídeo final, preferencialmente de 5 a 8 minutos, com participação de todos.
+
+Entrega principal: `roteiros/etapa-7-devsecops-e-video-final.md`.
+
+| Integrante | Contribuição mínima | Entrega esperada |
+| --- | --- | --- |
+| Iuri | Descrever planejamento, análise de ameaças, requisitos de segurança e arquitetura no pipeline e no vídeo. | Trecho de planejamento e arquitetura |
+| Sidnei | Descrever implementação segura e testes automatizados de segurança no pipeline e no vídeo. | Trecho de implementação e testes |
+| Lara | Descrever análise de código e dependências e definir pelo menos três condições de bloqueio do pipeline. | Portões de análise e condições de bloqueio |
+| Dyonathan | Descrever teste dinâmico, implantação, monitoramento e resposta no pipeline e no vídeo. | Trecho de verificação e operação |
+| Rafaela | Consolidar pipeline e roteiro, apresentar o sistema e encerrar com evolução do projeto e aprendizados. | Roteiro final e integração |
+
+Todos devem aparecer ou falar no vídeo final e confirmar que sua contribuição foi representada corretamente.
+
+## Comandos de Validação
+
+Rodar somente os validadores relacionados aos artefatos alterados:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stride-threats.ps1

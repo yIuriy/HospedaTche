@@ -7,6 +7,35 @@ Stage 1 sources:
 - STRIDE threats: `artifacts/threat-modeling/accounts/`
 - Abuse cases: `artifacts/abuse-cases/accounts/`
 
+## Probability Criteria
+
+| Value | Classification | Criteria |
+| --- | --- | --- |
+| 1 | Low | Event depends on uncommon conditions, very specific access, or high technical capability. |
+| 2 | Medium-low | Event is possible, but depends on a specific vulnerability, missing workflow rule, privileged access, or successful account compromise. |
+| 3 | Medium-high | Event is plausible during common account, authentication, or authorization flows. |
+| 4 | High | Event can happen easily, frequently, or through predictable misuse when preventive controls are absent. |
+
+## Impact Criteria
+
+| Value | Classification | Criteria |
+| --- | --- | --- |
+| 1 | Low | Causes small disruption and can be corrected quickly. |
+| 2 | Moderate | Causes limited account inconsistency or access disruption, with recovery possible through staff review. |
+| 3 | High | Causes relevant harm to users, staff operations, privacy, availability, or account integrity. |
+| 4 | Very high | Can compromise privileged access, sensitive personal data, critical account recovery, or multiple hotel workflows. |
+
+## Risk Classification
+
+| Score | Level |
+| --- | --- |
+| 1 to 3 | Low |
+| 4 to 7 | Medium |
+| 8 to 11 | High |
+| 12 to 16 | Critical |
+
+Score = Probability x Impact.
+
 ## Risk Register
 
 | ID | Related STRIDE Threat | Related Abuse Case | Risk Event | Vulnerability or Condition | Probability | Impact | Score | Level |
@@ -26,6 +55,8 @@ Stage 1 sources:
 | R13 | T21 - Session Fixation And Hijacking | AC19 - Session Fixation And Hijacking | An attacker hijacks a legitimate guest or staff session or pre-sets a known session ID before login to perform unauthorized actions on behalf of the victim. | The authentication session manager fails to rotate session IDs upon successful login or issues tokens lacking entropy, HttpOnly/Secure/SameSite flags, or strict idle timeouts. | 3 | 4 | 12 | Critical |
 | R14 | T22 - Secondary Administrator Account Creation | AC20 - Secondary Administrator Account Creation | An attacker or rogue staff member creates a second Administrator account or escalates an existing account to Administrator, breaking system governance and single root authority (RF08). | The Administrator account creation or role assignment endpoint lacks atomic, transactional single-Administrator uniqueness constraints across concurrent requests. | 2 | 4 | 8 | High |
 | R15 | T23 - Internal Staff Hierarchy Bypass | AC21 - Internal Staff Hierarchy Bypass | A Manager or Receptionist account modifies, inactivates, or manages accounts belonging to equal or higher privilege levels (e.g. Manager deactivating Administrator). | Staff management endpoints check if the actor has staff privileges, but fail to validate the target account's role tier against the actor's role tier (missing hierarchy validation). | 2 | 4 | 8 | High |
+| R16 | T04 - Unauthorized Password Change | AC22 - Unauthorized Password Change | An attacker changes a legitimate user's password after obtaining account access, locking out the victim and preserving control of the account. | Password change flows do not require enough current-session verification, step-up authentication, owner notification, session revocation, or audit evidence. | 3 | 4 | 12 | Critical |
+| R17 | T05 - Legitimate Employee Inactivation | AC23 - Legitimate Employee Inactivation | An attacker with Administrator access inactivates legitimate employee accounts and disrupts hotel operations. | Employee inactivation can be performed without second approval, reason review, staff hierarchy safeguards, abnormal-action alerts, or recovery workflow. | 2 | 4 | 8 | High |
 
 ## Evaluation Justifications
 
@@ -209,6 +240,30 @@ Expected consequences: Operational denial of service, lockout of legitimate admi
 
 Risk level justification: The calculated score is high (8 = 2x4) because hierarchy bypass undermines managerial authority and can cause critical operational lockouts.
 
+### R16 - Unauthorized Password Change Risk
+
+Probability justification: The probability is medium-high because the event can happen after common account compromise scenarios such as phishing, reused credentials, malware, or a stolen session. If the password change flow does not require strong re-authentication or notify the account owner, the attacker can use ordinary account features to lock out the victim.
+
+Impact justification: The impact is very high because password control is central to account recovery. A successful unauthorized password change can block the legitimate user, preserve attacker access, expose personal data, and enable unauthorized bookings, chat actions, or staff actions depending on the account role.
+
+Affected users, data, features, or components: Guest and staff accounts, password change flow, active sessions, password recovery flow, audit logs, profile data, booking data, and role-protected functions.
+
+Expected consequences: Victim lockout, continued account compromise, personal data exposure, unauthorized account activity, recovery disputes, support workload, and loss of confidence in the account recovery process.
+
+Risk level justification: The calculated score is critical because password change is a core security boundary. If an attacker can change the password without enough verification and traceability, the legitimate user may lose control exactly when the account needs protection most.
+
+### R17 - Legitimate Employee Inactivation Risk
+
+Probability justification: The probability is medium-low because the event depends on Administrator compromise or abuse of privileged account-management access. It is less likely than direct guest-account attacks, but still plausible if the Administrator account is taken over or if privileged actions are not strongly governed.
+
+Impact justification: The impact is very high because inactivating legitimate employees can block Receptionists, Managers, or other staff from performing hotel operations, handling guests, managing rooms, or responding to incidents.
+
+Affected users, data, features, or components: Employee accounts, Administrator account, staff management module, Receptionist and Manager workflows, room operations, support/chat operations, and audit logs.
+
+Expected consequences: Staff lockout, interrupted hotel operations, delayed guest support, inability to manage rooms or reservations, emergency recovery work, and governance breakdown.
+
+Risk level justification: The calculated score is high because privileged access is required, but the impact can disrupt internal hotel operations quickly if legitimate staff accounts are disabled.
+
 ## Prioritization
 
 | Priority | Risk | Reason |
@@ -225,9 +280,11 @@ Risk level justification: The calculated score is high (8 = 2x4) because hierarc
 | 10 | R07 | This risk should be treated as critical because protected route enforcement is a basic requirement for a secure system. If a protected route is exposed, users may access staff or administrator functions without formally changing their role. |
 | 11 | R14 | Secondary administrator creation requires early enforcement of single root authority (RF08) through atomic database constraints to prevent unauthorized root provisioning. |
 | 12 | R15 | Staff hierarchy bypass must be controlled to prevent lower or peer staff accounts from locking out legitimate managers or administrators. |
-| 13 | R08 | This risk is important, but it is ranked below the broader privilege and route risks because the former employee is usually identifiable and the abuse depends on malicious intent or failure to report remaining access. It still requires treatment because staff accounts can expose hotel data and affect operations. |
-| 14 | R09 | This risk should be treated early because role changes can turn a Guest or lower-privileged staff member into a Manager or Administrator without approval, giving access to restricted actions across the hotel operation. |
-| 15 | R12 | This risk can be treated after the direct authentication and authorization risks because missing audit logs do not cause abuse by themselves. However, it remains important because every sensitive account change should be traceable for investigation, accountability, and recovery. |
+| 13 | R16 | Unauthorized password change is prioritized near other account recovery risks because it can lock out the legitimate user and keep attacker access alive. |
+| 14 | R17 | Legitimate employee inactivation is prioritized with staff governance risks because it can interrupt hotel operation after Administrator compromise. |
+| 15 | R08 | This risk is important, but it is ranked below the broader privilege and route risks because the former employee is usually identifiable and the abuse depends on malicious intent or failure to report remaining access. It still requires treatment because staff accounts can expose hotel data and affect operations. |
+| 16 | R09 | This risk should be treated early because role changes can turn a Guest or lower-privileged staff member into a Manager or Administrator without approval, giving access to restricted actions across the hotel operation. |
+| 17 | R12 | This risk can be treated after the direct authentication and authorization risks because missing audit logs do not cause abuse by themselves. However, it remains important because every sensitive account change should be traceable for investigation, accountability, and recovery. |
 
 ## NIST CSF 2.0 Mapping
 
@@ -248,6 +305,8 @@ Risk level justification: The calculated score is high (8 = 2x4) because hierarc
 | R13 | X | X | X | X | X | X | Session fixation and hijacking requires governance for session security policies, identification of active tokens and session state, protection through post-login session ID rotation and secure cookie flags, detection of concurrent or hijacked sessions, response through forced session termination, and recovery of account state. |
 | R14 | X | X | X | X | X | X | Secondary administrator account creation requires governance for single-admin rules (RF08), identification of root accounts, protection through atomic DB constraints and MFA, detection of admin creation attempts, response through account suspension, and recovery of single root governance. |
 | R15 | X | X | X | X | X | X | Staff hierarchy bypass requires governance for role hierarchy policies, identification of staff tiers, protection through server-side tier validation, detection of unauthorized hierarchy requests, response through account block, and recovery of target account status. |
+| R16 | X | X | X | X | X | X | Unauthorized password change requires governance for sensitive account-change rules, identification of password-change flows and active sessions, protection through re-authentication and session revocation, detection of suspicious password changes, response through account recovery and blocking, and recovery of legitimate user access. |
+| R17 | X | X | X | X | X | X | Legitimate employee inactivation requires governance for staff account lifecycle rules, identification of privileged inactivation actions, protection through approval and hierarchy checks, detection of abnormal inactivation patterns, response through account restoration, and recovery of staff access. |
 
 ## Treatment Plan
 
@@ -268,6 +327,8 @@ Risk level justification: The calculated score is high (8 = 2x4) because hierarc
 | R13 | Reduce | Session ID regeneration upon login; HttpOnly, Secure, SameSite=Strict cookie attributes; strict idle and absolute session timeouts; user agent and IP subnet binding; token revocation on logout. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Session rotation test suite; cookie attribute audit tool; session fixation penetration test results; idle timeout test logs. |
 | R14 | Reduce | Database-level unique constraint and atomic transactional check for single Administrator account; server-side deny-by-default role creation policy; mandatory multi-factor authentication and out-of-band approval for admin creation; immediate alert on admin creation attempt. | Govern, Identify, Protect, Detect, Respond, Recover | Development team, system administrator, and hotel manager | Concurrent admin creation integration tests; database schema constraint validation; role assignment audit logs; admin creation alert simulation records. |
 | R15 | Reduce | Hierarchical role authorization engine (Admin > Manager > Receptionist > Guest) enforcing actor-tier > target-tier check; server-side validation on all account management APIs; audit logging and alert on hierarchy violation attempts. | Govern, Protect, Detect, Respond, Recover | Development team and system administrator | Role hierarchy authorization unit tests; API access control integration tests; denied hierarchy action audit logs; alert trigger verification records. |
+| R16 | Reduce | Require current-password or step-up authentication for password changes; revoke all active sessions after password change; notify account owner; log actor, timestamp, IP, and device; alert on suspicious password-change patterns. | Govern, Identify, Protect, Detect, Respond, Recover | Development team and system administrator | Password-change re-authentication tests; session revocation tests; notification tests; password-change audit log review; suspicious-change alert simulation. |
+| R17 | Reduce | Require second approval or reason review for employee inactivation; enforce staff hierarchy checks; alert on bulk or high-privilege staff inactivation; provide emergency restoration workflow. | Govern, Identify, Protect, Detect, Respond, Recover | System administrator, hotel manager, and development team | Employee inactivation approval records; hierarchy authorization tests; abnormal inactivation alert logs; employee account restoration test records. |
 
 ## Initial Implementation Order
 
@@ -275,14 +336,14 @@ Risk level justification: The calculated score is high (8 = 2x4) because hierarc
 | --- | --- | --- | --- |
 | 1 | Add login rate limiting, suspicious-login detection, and temporary account blocking. | R02, R11 | Account takeover and mass login attempts are high-priority authentication risks because they can compromise legitimate guests, expose sensitive data, and degrade access to the system. |
 | 2 | Add short-lived single-use password reset tokens, hashed token storage, token invalidation, and session revocation after password reset. | R04, R02 | Password reset token leakage can become account takeover, so recovery controls should be implemented soon after login protections. |
-| 3 | Revoke all active sessions, refresh tokens, and remembered devices after password change or reset, and enforce post-login session rotation and secure cookie attributes. | R10, R13, R02, R04 | Session invalidation and session rotation must happen early because password change and authentication must completely clear and isolate user session state. |
+| 3 | Revoke all active sessions, refresh tokens, and remembered devices after password change or reset, require re-authentication for password changes, and enforce post-login session rotation and secure cookie attributes. | R10, R13, R16, R02, R04 | Session invalidation, re-authentication, and session rotation must happen early because password change and authentication must completely clear and isolate user session state. |
 | 4 | Add email ownership verification before account activation and registration rate limiting. | R01, R03 | These controls reduce fake guest registration and mass account creation before accounts can affect booking, chat, reviews, or system availability. |
 | 5 | Add account creation audit logs and abnormal registration alerts. | R01, R03 | Detection and audit evidence are needed to identify fake-account patterns and support administrative response. |
 | 6 | Add administrative review and cleanup process for suspicious or confirmed fake accounts. | R01, R03 | Cleanup and response reduce remaining operational impact after suspicious accounts are detected. |
 | 7 | Add server-side role-change authorization, single Administrator database constraints, and privileged role approval. | R05, R09, R14 | Role elevation, role changes without approval, and secondary administrator creation can compromise the whole system governance (RF08), so role modifications must be atomic and approved explicitly. |
 | 8 | Add server-side ownership checks and deny-by-default authorization for profile endpoints. | R06 | Profile data exposure is critical, and ownership checks are the main control needed to prevent one guest from accessing another guest's profile. |
 | 9 | Add server-side authorization checks and automated authorization tests for all protected routes. | R07 | Protected route enforcement is broad and affects every restricted module, so route checks must be verified systematically across roles. |
-| 10 | Add automatic session/token revocation, staff role hierarchy checks, and inactive-account access alerts. | R08, R15 | Offboarding and hierarchy controls prevent former employees or peer staff from keeping access or modifying higher-tier accounts. |
+| 10 | Add automatic session/token revocation, staff role hierarchy checks, employee-inactivation approvals, and inactive-account access alerts. | R08, R15, R17 | Offboarding, hierarchy, and employee lifecycle controls prevent former employees, peer staff, or compromised Administrator access from disrupting staff accounts. |
 | 11 | Add authentication spike alerts and failed-login audit review for repeated login attempts. | R11 | Monitoring and audit review support response after the first preventive controls are in place, helping the team identify abuse patterns and tune blocking rules. |
 | 12 | Add mandatory audit logs for account, role, password, status, and profile changes. | R12 | Audit logging should be added after the main preventive authentication and authorization controls because it supports accountability, investigation, and recovery for all account-change risks. |
 
@@ -305,10 +366,12 @@ Risk level justification: The calculated score is high (8 = 2x4) because hierarc
 | R13 | Critical | Medium | Residual risk is accepted only if post-login session rotation, secure cookie flags (HttpOnly/Secure/SameSite), idle timeouts, and token revocation on logout are fully implemented and verified. |
 | R14 | High | Low | Residual risk is accepted only if database-level single-admin constraint and server-side atomic checks prevent creating multiple Administrator accounts. |
 | R15 | High | Low | Residual risk is accepted only if server-side role hierarchy checks strictly enforce that staff cannot manage equal or higher privilege tiers. |
+| R16 | Critical | Medium | Residual risk is accepted only if password changes require step-up verification, revoke sessions, notify the account owner, and generate complete audit evidence. |
+| R17 | High | Low | Residual risk is accepted only if employee inactivation requires approval or reason review, enforces hierarchy rules, alerts abnormal actions, and supports verified account restoration. |
 
 ## Final Notes
 
-The current account risks focus on fake registration, account takeover, mass account creation, password reset token leakage, unauthorized role elevation, unauthorized guest profile access, broken route authorization, inactive account access, role changes without approval, session invalidation after password change, mass login attempt abuse, missing audit logs, session fixation/hijacking, secondary administrator creation, and internal staff hierarchy bypass. The most urgent controls are authentication protections, password recovery safeguards, session revocation and session rotation after password changes/logins, and mass-login protections because they prevent direct compromise of legitimate guest accounts, remove attacker access during recovery, and keep login available for guests and staff. Registration controls and account creation monitoring should follow because they reduce fake-account abuse, system pollution, and availability problems. Role-change authorization, single Administrator enforcement (RF08), staff hierarchy validation, approval workflows, and protected route checks are essential because unauthorized privileged access or exposed internal routes can compromise the entire hotel operation. Profile ownership checks are also important because they prevent privacy violations between legitimate guest accounts.
+The current account risks focus on fake registration, account takeover, mass account creation, password reset token leakage, unauthorized role elevation, unauthorized guest profile access, broken route authorization, inactive account access, role changes without approval, session invalidation after password change, mass login attempt abuse, missing audit logs, session fixation/hijacking, secondary administrator creation, internal staff hierarchy bypass, unauthorized password change, and legitimate employee inactivation. The most urgent controls are authentication protections, password recovery safeguards, session revocation and session rotation after password changes/logins, and mass-login protections because they prevent direct compromise of legitimate guest accounts, remove attacker access during recovery, and keep login available for guests and staff. Registration controls and account creation monitoring should follow because they reduce fake-account abuse, system pollution, and availability problems. Role-change authorization, single Administrator enforcement (RF08), staff hierarchy validation, approval workflows, employee lifecycle controls, and protected route checks are essential because unauthorized privileged access or exposed internal routes can compromise the entire hotel operation. Profile ownership checks are also important because they prevent privacy violations between legitimate guest accounts.
 
 Residual risk is only an estimate. The group cannot claim that risk was reduced until the controls are implemented, tested, and supported by evidence such as validation tests, audit logs, alert records, and administrative review records.
 
@@ -317,13 +380,14 @@ Residual risk is only an estimate. The group cannot claim that risk was reduced 
 The account risks above prioritize all relevant abuse cases and STRIDE threats from the account scope:
 
 - Member 1 (User Registration & Identity): R01 (T01/AC01), R02 (T02/AC02), R03 (T09/AC09), R04 (T11/AC11), R06 (T15/AC15), R12 (T13/AC13).
-- Member 2 (Authentication & Access Control): R05 (T19/AC03), R07 (T20/AC04), R08 (T16/AC16), R09 (T17/AC17), R10 (T12/AC12), R11 (T14/AC14), R13 (T21/AC19), R14 (T22/AC20), R15 (T23/AC21).
+- Member 2 (Authentication & Access Control): R05 (T19/AC03), R07 (T20/AC04), R08 (T16/AC16), R09 (T17/AC17), R10 (T12/AC12), R11 (T14/AC14), R13 (T21/AC19), R14 (T22/AC20), R15 (T23/AC21), R16 (T04/AC22), R17 (T05/AC23).
 
 Other secondary abuse cases from Stage 1 are addressed as follows:
-- AC05 - Legitimate Receptionist Inactivation: covered by R08, R09, and R15 (inactive access, role approval, and staff hierarchy checks).
-- AC06 - Receptionist Privilege Escalation: covered by R05, R09, and R15 (unauthorized role elevation, role approval, and staff hierarchy validation).
+- T03 - Unverified Guest Identity Abuse: covered by R01 and R03 because the current account risk model treats weak identity verification as fake-registration and mass-account-creation risk.
+- T06 / AC05 - Legitimate Receptionist Inactivation: covered by R08, R09, and R15 (inactive access, role approval, and staff hierarchy checks).
+- T07 / AC06 - Receptionist Privilege Escalation: covered by R05, R09, and R15 (unauthorized role elevation, role approval, and staff hierarchy validation).
 - AC07 - Room Information Tampering by Receptionist: covered by accommodation module, supported by R05 and R07 authorization controls.
-- AC08 - Room Configuration Tampering by Manager: covered by accommodation module, supported by R05, R07, and R12 controls.
-- AC10 - Receptionist Password Disclosure: covered by R02, R10, R11, and R13 (account takeover, session invalidation, rate limiting, and session rotation).
-- AC18 - Guest CPF Enumeration: covered under R01, R03, and R06 (registration verification, rate limiting, and profile access controls).
+- T08 / AC08 - Room Configuration Tampering by Manager: covered by accommodation module, supported by R05, R07, and R12 controls.
+- T10 / AC10 - Receptionist Password Disclosure: covered by R02, R10, R11, and R13 (account takeover, session invalidation, rate limiting, and session rotation).
+- T18 / AC18 - Guest CPF Enumeration: covered under R01, R03, and R06 (registration verification, rate limiting, and profile access controls).
 

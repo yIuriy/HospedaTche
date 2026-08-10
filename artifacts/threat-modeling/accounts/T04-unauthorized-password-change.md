@@ -8,5 +8,5 @@ Identified Threat: attacker who invades an account uses the password recovery or
 
 Possible Impact: account loss, private data exposure, and unauthorized control over the victim account.
 
-Related Abuse Cases: AC03
+Related Abuse Cases: AC22
 

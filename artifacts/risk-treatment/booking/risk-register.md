@@ -7,6 +7,35 @@ Stage 1 sources:
 - STRIDE threats: `artifacts/threat-modeling/booking/`
 - Abuse cases: `artifacts/abuse-cases/booking/`
 
+## Probability Criteria
+
+| Value | Classification | Criteria |
+| --- | --- | --- |
+| 1 | Low | Event depends on uncommon conditions, very specific access, or high technical capability. |
+| 2 | Medium-low | Event is possible, but depends on a specific booking workflow weakness or internal process failure. |
+| 3 | Medium-high | Event is plausible during common booking access, cancellation, payment, or state-transition flows. |
+| 4 | High | Event can happen easily or repeatedly during predictable booking operations when preventive controls are absent. |
+
+## Impact Criteria
+
+| Value | Classification | Criteria |
+| --- | --- | --- |
+| 1 | Low | Causes small disruption and can be corrected quickly. |
+| 2 | Moderate | Causes limited booking inconsistency or temporary disruption, with recovery possible through staff review. |
+| 3 | High | Causes relevant harm to guests, booking integrity, privacy, refunds, revenue, or hotel operations. |
+| 4 | Very high | Can affect critical booking/payment integrity, multiple reservations, major financial loss, or severe guest impact. |
+
+## Risk Classification
+
+| Score | Level |
+| --- | --- |
+| 1 to 3 | Low |
+| 4 to 7 | Medium |
+| 8 to 11 | High |
+| 12 to 16 | Critical |
+
+Score = Probability x Impact.
+
 ## Risk Register
 
 | ID | Related STRIDE Threat | Related Abuse Case | Risk Event | Vulnerability or Condition | Probability | Impact | Score | Level |
@@ -82,7 +111,7 @@ Risk level justification: The risk is classified as Critical because the vulnera
 
 ### R06 - Booking Cancellation Blocking
 
-Probability justification: The impact is classified as High because legitimate Guests may lose the opportunity to cancel eligible bookings within the allowed period, resulting in financial losses, customer disputes, increased support workload, and reduced trust in the booking system. Although the attack generally affects individual bookings, the consequences are significant for both Guests and hotel operations.
+Probability justification: The probability is classified as Medium-Low because the attack depends on a specific weakness such as prolonged resource locking, insufficient request limits, or concurrency control failure in the booking cancellation workflow. Without that condition, a normal Guest should not be able to block another Guest's cancellation request.
 
 Impact justification: The impact is classified as Moderate because the attack temporarily prevents legitimate Guests from cancelling their bookings within the allowed period. Although affected Guests may incur cancellation fees or lose their refund window, the issue can typically be resolved through customer support or manual intervention, limiting the overall business impact.
 

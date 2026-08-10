@@ -8,5 +8,5 @@ Identified Threat: attacker with access to the Administrator account inactivates
 
 Possible Impact: hotel operation interruption, blocked staff access, and loss of internal account availability.
 
-Related Abuse Cases: AC04
+Related Abuse Cases: AC23
 

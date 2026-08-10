@@ -7,6 +7,35 @@ Stage 1 sources:
 - STRIDE threats: `artifacts/threat-modeling/search-messaging/`
 - Abuse cases: `artifacts/abuse-cases/search-messaging/`
 
+## Probability Criteria
+
+| Value | Classification | Criteria |
+| --- | --- | --- |
+| 1 | Low | Event depends on uncommon conditions, very specific access, or high technical capability. |
+| 2 | Medium-low | Event is possible, but depends on a specific API, role, notification, review, or chat weakness. |
+| 3 | Medium-high | Event is plausible during common public search, review, notification, or messaging flows. |
+| 4 | High | Event can happen easily, frequently, or through predictable automated misuse when controls are absent. |
+
+## Impact Criteria
+
+| Value | Classification | Criteria |
+| --- | --- | --- |
+| 1 | Low | Causes small disruption and can be corrected quickly. |
+| 2 | Moderate | Causes limited exposure, inconsistency, or service disruption, with recovery possible through staff review. |
+| 3 | High | Causes relevant harm to availability, privacy, guest communication, hotel reputation, or operational trust. |
+| 4 | Very high | Can expose sensitive guest communication, enable phishing or financial harm, break staff trust, or cause serious compliance impact. |
+
+## Risk Classification
+
+| Score | Level |
+| --- | --- |
+| 1 to 3 | Low |
+| 4 to 7 | Medium |
+| 8 to 11 | High |
+| 12 to 16 | Critical |
+
+Score = Probability x Impact.
+
 ## Risk Register
 
 | ID | Related STRIDE Threat | Related Abuse Case | Risk Event | Vulnerability or Condition | Probability | Impact | Score | Level |

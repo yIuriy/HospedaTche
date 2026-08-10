@@ -7,11 +7,40 @@ Stage 1 sources:
 - STRIDE threats: `artifacts/threat-modeling/payments/`
 - Abuse cases: `artifacts/abuse-cases/payment/`
 
+## Probability Criteria
+
+| Value | Classification | Criteria |
+| --- | --- | --- |
+| 1 | Low | Event depends on uncommon conditions, very specific access, or high technical capability. |
+| 2 | Medium-low | Event is possible, but depends on a specific payment, refund, gateway, or synchronization weakness. |
+| 3 | Medium-high | Event is plausible during common payment, confirmation, refund, or synchronization flows. |
+| 4 | High | Event can happen easily, frequently, or through predictable misuse when payment controls are absent. |
+
+## Impact Criteria
+
+| Value | Classification | Criteria |
+| --- | --- | --- |
+| 1 | Low | Causes small disruption and can be corrected quickly. |
+| 2 | Moderate | Causes limited payment inconsistency or temporary disruption, with recovery possible through reconciliation. |
+| 3 | High | Causes relevant harm to guests, payment integrity, refund correctness, service availability, or revenue. |
+| 4 | Very high | Can affect critical financial integrity, sensitive payment data, multiple transactions, or serious monetary loss. |
+
+## Risk Classification
+
+| Score | Level |
+| --- | --- |
+| 1 to 3 | Low |
+| 4 to 7 | Medium |
+| 8 to 11 | High |
+| 12 to 16 | Critical |
+
+Score = Probability x Impact.
+
 ## Risk Register
 
 | ID | Related STRIDE Threat | Related Abuse Case | Risk Event | Vulnerability or Condition | Probability | Impact | Score | Level |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| R01 | T01-Payment-Status-Tampering | AC02-Unauthorized-Payment-Validation | An attacker causes an unpaid payment transaction to be incorrectly recognized as successfully paid, resulting in unauthorized confirmation of the associated reservation. | A validação insuficiente da confirmação de pagamento permite que um invasor manipule ou contorne o processo de atualização do status do pagamento. | 3 | 4 | 12 | Critical |
+| R01 | T01-Payment-Status-Tampering | AC02-Unauthorized-Payment-Validation | An attacker causes an unpaid payment transaction to be incorrectly recognized as successfully paid, resulting in unauthorized confirmation of the associated reservation. | Insufficient payment confirmation validation allows an attacker to manipulate or bypass the payment status update process. | 3 | 4 | 12 | Critical |
 | R02 | T02-Payment-Confirmation-Blocking | AC05-Payment-Confirmation-Blocking | An attacker prevents a legitimate payment confirmation from being processed, causing a successfully paid booking to remain pending or be incorrectly cancelled. | Insufficient protection and validation of the payment confirmation process allows an attacker to interfere with or block legitimate payment confirmation requests. | 2 | 3 | 6 | Medium |
 | R03 | T03-Payment-Synchronization-Flood | AC06-Payment-Synchronization-Flood | An attacker overwhelms the payment synchronization service with excessive requests, delaying or preventing legitimate payment confirmations from being processed. | The payment synchronization service lacks effective rate limiting, request throttling, or capacity controls, allowing excessive synchronization requests to consume available processing resources. | 3 | 3 | 9 | High |
 | R04 | T04-Payment-Reference-Substitution | AC01-Payment-Reference-Substitution | An attacker manipulates a payment reference to associate a valid payment with a different booking, causing an underpaid or unpaid booking to be incorrectly confirmed. | The system fails to securely bind payment transactions to their corresponding booking identifiers during payment creation and confirmation, allowing payment references to be manipulated or substituted. | 3 | 4 | 12 | Critical |

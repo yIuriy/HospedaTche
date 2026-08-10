@@ -2,6 +2,10 @@
 
 Use this template for Stage 4 secure coding practices and security tests.
 
+Status: Draft
+
+Change `Status` to `Final` only after both practices, all four tests, solutions, expected results, and OWASP references are complete.
+
 Save the completed artifact as:
 
 ```text

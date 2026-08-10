@@ -2,6 +2,10 @@
 
 Use this template for Stage 3 secure architecture design.
 
+Status: Draft
+
+Change `Status` to `Final` only after all sections and diagram files are complete.
+
 Save the completed artifact as:
 
 ```text

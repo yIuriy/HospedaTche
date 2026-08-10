@@ -18,6 +18,7 @@ $requiredHeadings = @(
 )
 
 $requiredPhrases = @(
+    "Status:",
     "Source Risk",
     "Security Requirement",
     "Verification Criterion",
@@ -57,21 +58,35 @@ function Test-Structure([string]$Path) {
 
 $null = Test-Structure $Template
 
+$artifactStatus = $null
+
 if (Test-Path -LiteralPath $Artifact) {
     $content = Test-Structure $Artifact
     if ($null -ne $content) {
-        if ($content -match "(?i)\bTODO\b|<[^>\r\n]+>") {
-            $failures.Add("${Artifact}: unresolved template placeholder found.")
+        $statusMatch = [regex]::Match($content, "(?m)^Status:\s*(Draft|Final)\s*$")
+        if (-not $statusMatch.Success) {
+            $failures.Add("${Artifact}: Status must be Draft or Final.")
+        } else {
+            $artifactStatus = $statusMatch.Groups[1].Value
         }
-        if ($content -notmatch "(?i)CWE-[0-9]+|OWASP") {
-            $failures.Add("${Artifact}: missing concrete CWE or OWASP reference.")
+
+        if ($artifactStatus -eq "Final") {
+            if ($content -match "(?i)\bTODO\b|\bPending\b|<[^>\r\n]+>") {
+                $failures.Add("${Artifact}: final artifact contains an unresolved placeholder.")
+            }
+            if ($content -notmatch "(?i)CWE-[0-9]+|OWASP") {
+                $failures.Add("${Artifact}: missing concrete CWE or OWASP reference.")
+            }
         }
     }
-    if (-not (Test-Path -LiteralPath $DiagramSource)) {
-        $failures.Add("Missing architecture diagram source: $DiagramSource")
-    }
-    if (-not (Test-Path -LiteralPath $DiagramImage)) {
-        $failures.Add("Missing exported architecture diagram: $DiagramImage")
+
+    if ($artifactStatus -eq "Final") {
+        if (-not (Test-Path -LiteralPath $DiagramSource)) {
+            $failures.Add("Missing architecture diagram source: $DiagramSource")
+        }
+        if (-not (Test-Path -LiteralPath $DiagramImage)) {
+            $failures.Add("Missing exported architecture diagram: $DiagramImage")
+        }
     }
 }
 
@@ -80,8 +95,10 @@ if ($failures.Count -gt 0) {
     exit 1
 }
 
-if (Test-Path -LiteralPath $Artifact) {
+if ($artifactStatus -eq "Final") {
     Write-Host "Secure architecture format valid."
+} elseif ($artifactStatus -eq "Draft") {
+    Write-Host "Secure architecture draft structure valid; pending content is allowed."
 } else {
     Write-Host "Secure architecture template valid; artifact not created yet."
 }

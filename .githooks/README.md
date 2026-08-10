@@ -32,3 +32,15 @@ Manual risk treatment validation:
 ```sh
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1
 ```
+
+Manual Stage 3 to Stage 7 validation:
+
+```sh
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-secure-architecture.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-secure-code.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-vulnerability-verification.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-intrusion-detection.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-devsecops-video.ps1
+```
+
+These validators always check their templates. Completed Stage 3 to Stage 7 artifacts are validated when their expected files exist.

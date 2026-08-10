@@ -28,6 +28,8 @@ risk and requirement -> tests defined first -> secure practice -> implementation
 
 Recommended output:
 
+Template: `artifacts/templates/secure-code-practice-template.md`
+
 ```text
 artifacts/secure-code/secure-code-and-tests.md
 ```
@@ -100,6 +102,8 @@ risco e requisito -> testes definidos primeiro -> prática segura -> exemplo de 
 - um teste válido e um teste malicioso, inválido ou não autorizado por prática;
 - implementação, pseudocódigo, configuração ou descrição detalhada;
 - resultado esperado e referência OWASP por prática.
+
+Template: `artifacts/templates/secure-code-practice-template.md`
 
 ## Divisão por Integrante
 

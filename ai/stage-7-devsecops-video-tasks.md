@@ -17,6 +17,8 @@ Show how security follows HospedaTche from planning through operation and summar
 
 Required output:
 
+Template: `artifacts/templates/devsecops-video-template.md`
+
 ```text
 roteiros/etapa-7-devsecops-e-video-final.md
 ```
@@ -107,6 +109,8 @@ Mostrar como a segurança acompanha o HospedaTche do planejamento até a operaç
 - roteiro do vídeo versionado;
 - vídeo final, preferencialmente de 5 a 8 minutos;
 - participação dos cinco integrantes.
+
+Template: `artifacts/templates/devsecops-video-template.md`
 
 ## Divisão por Integrante
 

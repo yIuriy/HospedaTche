@@ -22,6 +22,8 @@ Installing or implementing an intrusion detection system is not required.
 
 Required output:
 
+Template: `artifacts/templates/detection-rule-template.md`
+
 ```text
 roteiros/etapa-6-deteccao-de-intrusoes.md
 ```
@@ -95,6 +97,8 @@ Não é necessário instalar nem implementar um sistema de detecção de intrus�
 - eventos que o HospedaTche deve registrar;
 - três regras de detecção;
 - resposta inicial para cada alerta.
+
+Template: `artifacts/templates/detection-rule-template.md`
 
 ## Divisão por Integrante
 

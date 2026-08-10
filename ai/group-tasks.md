@@ -31,6 +31,14 @@ This document defines the minimum group work for each project stage. The English
 - Stage 6: `ai/stage-6-intrusion-detection-tasks.md`
 - Stage 7: `ai/stage-7-devsecops-video-tasks.md`
 
+## Stage Templates
+
+- Stage 3: `artifacts/templates/secure-architecture-template.md`
+- Stage 4: `artifacts/templates/secure-code-practice-template.md`
+- Stage 5: `artifacts/templates/vulnerability-verification-template.md`
+- Stage 6: `artifacts/templates/detection-rule-template.md`
+- Stage 7: `artifacts/templates/devsecops-video-template.md`
+
 ## Stage 1 - Threat Modeling and Abuse Cases
 
 ### Minimum Deliverable
@@ -206,6 +214,14 @@ Esta seção traduz a divisão operacional acima. A versão em inglês permanece
 - Etapa 5: `ai/stage-5-vulnerability-verification-tasks.md`
 - Etapa 6: `ai/stage-6-intrusion-detection-tasks.md`
 - Etapa 7: `ai/stage-7-devsecops-video-tasks.md`
+
+## Templates das Etapas
+
+- Etapa 3: `artifacts/templates/secure-architecture-template.md`
+- Etapa 4: `artifacts/templates/secure-code-practice-template.md`
+- Etapa 5: `artifacts/templates/vulnerability-verification-template.md`
+- Etapa 6: `artifacts/templates/detection-rule-template.md`
+- Etapa 7: `artifacts/templates/devsecops-video-template.md`
 
 ## Etapa 1 - Modelagem de Ameaças e Casos de Abuso
 

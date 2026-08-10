@@ -26,6 +26,8 @@ high or critical risk -> security requirement -> CWE/OWASP mapping -> architectu
 
 Recommended outputs:
 
+Template: `artifacts/templates/secure-architecture-template.md`
+
 ```text
 artifacts/secure-architecture/secure-architecture.md
 artifacts/diagrams/secure-architecture.mmd
@@ -95,6 +97,8 @@ Transformar três riscos altos ou críticos em requisitos verificáveis, referê
 - três mapeamentos CWE ou OWASP;
 - um diagrama de arquitetura segura, com fonte e imagem;
 - três decisões de arquitetura justificadas.
+
+Template: `artifacts/templates/secure-architecture-template.md`
 
 ## Divisão por Integrante
 

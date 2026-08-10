@@ -2,6 +2,10 @@
 
 Use this template for the Stage 6 monitoring and intrusion detection script.
 
+Status: Draft
+
+Change `Status` to `Final` only after the explanation, logging events, three detection rules, and response guidance are complete.
+
 Save the completed artifact as:
 
 ```text

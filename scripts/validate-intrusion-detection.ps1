@@ -15,6 +15,7 @@ $requiredHeadings = @(
 )
 
 $requiredPhrases = @(
+    "Status:",
     "Observed Risk",
     "Data Source",
     "Alert Condition",
@@ -50,10 +51,21 @@ function Test-Structure([string]$Path) {
 
 $null = Test-Structure $Template
 
+$artifactStatus = $null
+
 if (Test-Path -LiteralPath $Artifact) {
     $content = Test-Structure $Artifact
-    if ($null -ne $content -and $content -match "(?i)\bTODO\b|<[^>\r\n]+>") {
-        $failures.Add("${Artifact}: unresolved template placeholder found.")
+    if ($null -ne $content) {
+        $statusMatch = [regex]::Match($content, "(?m)^Status:\s*(Draft|Final)\s*$")
+        if (-not $statusMatch.Success) {
+            $failures.Add("${Artifact}: Status must be Draft or Final.")
+        } else {
+            $artifactStatus = $statusMatch.Groups[1].Value
+        }
+
+        if ($artifactStatus -eq "Final" -and $content -match "(?i)\bTODO\b|\bPending\b|<[^>\r\n]+>") {
+            $failures.Add("${Artifact}: final artifact contains an unresolved placeholder.")
+        }
     }
 }
 
@@ -62,8 +74,10 @@ if ($failures.Count -gt 0) {
     exit 1
 }
 
-if (Test-Path -LiteralPath $Artifact) {
+if ($artifactStatus -eq "Final") {
     Write-Host "Intrusion detection script format valid."
+} elseif ($artifactStatus -eq "Draft") {
+    Write-Host "Intrusion detection draft structure valid; pending content is allowed."
 } else {
     Write-Host "Detection rule template valid; artifact not created yet."
 }

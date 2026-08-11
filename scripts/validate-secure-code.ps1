@@ -13,6 +13,7 @@ $requiredHeadings = @(
 )
 
 $requiredPhrases = @(
+    "Status:",
     "Related Risk:",
     "Related Requirement:",
     "Secure Practice:",
@@ -64,10 +65,21 @@ function Test-Structure([string]$Path, [bool]$AllowGenericPracticeTitles) {
 
 $null = Test-Structure $Template $true
 
+$artifactStatus = $null
+
 if (Test-Path -LiteralPath $Artifact) {
     $content = Test-Structure $Artifact $false
-    if ($null -ne $content -and $content -match "(?i)\bTODO\b|<[^>\r\n]+>") {
-        $failures.Add("${Artifact}: unresolved template placeholder found.")
+    if ($null -ne $content) {
+        $statusMatch = [regex]::Match($content, "(?m)^Status:\s*(Draft|Final)\s*$")
+        if (-not $statusMatch.Success) {
+            $failures.Add("${Artifact}: Status must be Draft or Final.")
+        } else {
+            $artifactStatus = $statusMatch.Groups[1].Value
+        }
+
+        if ($artifactStatus -eq "Final" -and $content -match "(?i)\bTODO\b|\bPending\b|<[^>\r\n]+>") {
+            $failures.Add("${Artifact}: final artifact contains an unresolved placeholder.")
+        }
     }
 }
 
@@ -76,8 +88,10 @@ if ($failures.Count -gt 0) {
     exit 1
 }
 
-if (Test-Path -LiteralPath $Artifact) {
+if ($artifactStatus -eq "Final") {
     Write-Host "Secure code and security test format valid."
+} elseif ($artifactStatus -eq "Draft") {
+    Write-Host "Secure code draft structure valid; pending content is allowed."
 } else {
     Write-Host "Secure code practice template valid; artifact not created yet."
 }

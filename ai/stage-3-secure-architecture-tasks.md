@@ -85,46 +85,46 @@ Confirm that:
 
 ---
 
-# Etapa 3 - Divisão de Tarefas de Arquitetura Segura
+# Stage 3 - Secure Architecture Task Division (Operational Guide)
 
-## Objetivo Compartilhado
+## Shared Goal
 
-Transformar três riscos altos ou críticos em requisitos verificáveis, referências de vulnerabilidade, controles arquiteturais e decisões justificadas.
+Transform three high or critical risks into verifiable requirements, vulnerability references, architectural controls, and justified decisions.
 
-## Mínimo Entregável
+## Minimum Deliverable
 
-- três requisitos de segurança;
-- três mapeamentos CWE ou OWASP;
-- um diagrama de arquitetura segura, com fonte e imagem;
-- três decisões de arquitetura justificadas.
+- three security requirements;
+- three CWE or OWASP mappings;
+- one secure architecture diagram, with source and exported image;
+- three justified architecture decisions.
 
 Template: `artifacts/templates/secure-architecture-template.md`
 
-## Divisão por Integrante
+## Task Division by Member
 
-| Integrante | Tarefa mínima | Entrega |
+| Member | Minimum Task | Expected Output |
 | --- | --- | --- |
-| Iuri | Escolher um risco de identidade e escrever SR01 com critério de verificação e referência CWE/OWASP. | SR01 e mapeamento 1 |
-| Sidnei | Escolher um risco de autenticação ou autorização e escrever SR02 com critério e referência. | SR02 e mapeamento 2 |
-| Lara | Escolher um risco de acomodação ou operação e escrever SR03 com critério e referência. | SR03 e mapeamento 3 |
-| Dyonathan | Criar o diagrama e posicionar os três controles nos componentes ou limites corretos. | Fonte e imagem do diagrama |
-| Rafaela | Escrever AD01, AD02 e AD03 e integrar riscos, requisitos, referências, controles e componentes. | Três decisões e documento final |
+| Iuri | Select an identity risk and write SR01 with verification criterion and CWE/OWASP reference. | SR01 and mapping 1 |
+| Sidnei | Select an authentication or authorization risk and write SR02 with criterion and reference. | SR02 and mapping 2 |
+| Lara | Select an accommodation or operational risk and write SR03 with criterion and reference. | SR03 and mapping 3 |
+| Dyonathan | Create the diagram and place the three controls in the correct components or boundaries. | Diagram source and exported image |
+| Rafaela | Write AD01, AD02, and AD03 and integrate risks, requirements, references, controls, and components. | Three decisions and final document |
 
-## Conteúdo Mínimo do Diagrama
+## Minimum Diagram Content
 
-- usuários e papéis internos;
-- interface ou cliente;
-- autenticação e autorização no servidor;
-- aplicação ou API;
-- banco de dados;
-- logs ou monitoramento;
-- serviços externos relevantes;
-- limites de confiança e controles escolhidos.
+- users and internal roles;
+- interface or client;
+- server-side authentication and authorization;
+- application or API;
+- database;
+- logs or monitoring;
+- relevant external services;
+- trust boundaries and selected controls.
 
-## Revisão Final
+## Final Review
 
-- conferir os três riscos, requisitos, mapeamentos e decisões;
-- conferir critérios objetivos de verificação;
-- conferir coerência entre referências, controles e riscos;
-- conferir nomes dos componentes no texto e no diagrama;
-- versionar fonte e imagem exportada.
+- verify the three risks, requirements, mappings, and decisions;
+- verify objective verification criteria;
+- verify consistency between references, controls, and risks;
+- verify component names in text and diagram;
+- version source and exported image.

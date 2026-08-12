@@ -122,47 +122,47 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-abuse-cases
 
 ---
 
-# Etapa 1 - Divisão de Tarefas de Modelagem de Ameaças e Casos de Abuso
+# Stage 1 - Threat Modeling and Abuse Case Task Division (Operational Guide)
 
-## Objetivo Compartilhado
+## Shared Goal
 
-Descrever como o HospedaTche pode ser atacado ou usado de forma indevida antes de propor controles de implementação.
+Describe how HospedaTche can be attacked or misused before proposing implementation controls.
 
 ```text
-requisitos -> ativos e atores -> limites de confiança -> ameaça STRIDE -> caso de abuso -> direção de mitigação
+requirements -> assets and actors -> trust boundaries -> STRIDE threat -> abuse case -> mitigation direction
 ```
 
-## Mínimo Entregável
+## Minimum Deliverable
 
-- ameaças STRIDE relevantes em cada módulo;
-- casos de abuso relacionados;
-- ativos, atores, requisitos e regras afetadas;
-- pré-condições e passos do ataque;
-- impacto e direções de mitigação;
-- mapas centrais atualizados;
-- validadores executados com sucesso.
+- relevant STRIDE threats in each module;
+- related abuse cases;
+- affected assets, actors, requirements, and rules;
+- attack preconditions and steps;
+- impact and mitigation directions;
+- updated central maps;
+- validators successfully run.
 
-## Divisão por Integrante
+## Task Division by Member
 
-| Integrante | Escopo mínimo | Entrega |
+| Member | Minimum Scope | Expected Output |
 | --- | --- | --- |
-| Iuri | Cadastro falso, identidade não verificada, roubo de conta, recuperação de senha, enumeração de CPF/e-mail e exposição de perfil. | Ameaças e casos de abuso de identidade em `accounts/` |
-| Sidnei | Login, sessões, rotas protegidas, papéis, hierarquia interna e elevação de privilégio. | Ameaças e casos de abuso de acesso em `accounts/` |
-| Lara | Disponibilidade, status, tarifa, capacidade, limpeza, manutenção, check-in e check-out. | Ameaças e casos de abuso de acomodações |
-| Dyonathan | Criação e cancelamento de reservas, expiração, pagamento, reembolso, sincronização e auditoria. | Ameaças e casos de abuso de reservas e pagamentos |
-| Rafaela | Sobrecarga da busca, quartos ocultos, chat, notificações, avaliações e histórico de mensagens. | Ameaças e casos de abuso de busca e mensagens |
+| Iuri | Fake registration, unverified identity, account takeover, password recovery, CPF/email enumeration, and profile exposure. | Identity threats and abuse cases in `accounts/` |
+| Sidnei | Login, sessions, protected routes, roles, internal hierarchy, and privilege escalation. | Access threats and abuse cases in `accounts/` |
+| Lara | Availability, status, rate, capacity, cleaning, maintenance, check-in, and check-out. | Accommodation threats and abuse cases |
+| Dyonathan | Booking creation and cancellation, expiration, payment, refund, synchronization, and auditing. | Booking and payment threats and abuse cases |
+| Rafaela | Search overload, hidden rooms, chat, notifications, reviews, and message history. | Search and messaging threats and abuse cases |
 
-Iuri e Sidnei devem coordenar IDs porque trabalham no mesmo módulo de contas.
+Iuri and Sidnei must coordinate IDs because they work in the same accounts module.
 
-## Revisão Final
+## Final Review
 
-- conferir template, ID e nome de arquivo;
-- conferir categoria STRIDE e ligação com casos de abuso;
-- conferir requisitos e ativos afetados;
-- atualizar os mapas centrais;
-- não declarar controles como implementados sem evidência.
+- verify template, ID, and filename;
+- verify STRIDE category and link to abuse cases;
+- verify affected requirements and assets;
+- update central maps;
+- do not declare controls as implemented without evidence.
 
-## Validação
+## Validation
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stride-threats.ps1

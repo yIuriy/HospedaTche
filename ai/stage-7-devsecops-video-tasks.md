@@ -95,57 +95,57 @@ Confirm that:
 
 ---
 
-# Etapa 7 - Divisão de Tarefas de DevSecOps e Vídeo Final
+# Stage 7 - DevSecOps and Final Video Task Division (Operational Guide)
 
-## Objetivo Compartilhado
+## Shared Goal
 
-Mostrar como a segurança acompanha o HospedaTche do planejamento até a operação e resumir a evolução do projeto no vídeo final.
+Show how security accompanies HospedaTche from planning to operation and summarize the project evolution in the final video.
 
-## Mínimo Entregável
+## Minimum Deliverable
 
-- descrição textual ou diagrama do pipeline DevSecOps;
-- atividade e evidência de segurança em cada momento;
-- pelo menos três condições de bloqueio;
-- roteiro do vídeo versionado;
-- vídeo final, preferencialmente de 5 a 8 minutos;
-- participação dos cinco integrantes.
+- textual description or diagram of the DevSecOps pipeline;
+- security activity and evidence at each moment;
+- at least three pipeline stop conditions;
+- versioned final video script;
+- final video, preferably 5 to 8 minutes;
+- participation of all five members.
 
 Template: `artifacts/templates/devsecops-video-template.md`
 
-## Divisão por Integrante
+## Task Division by Member
 
-| Integrante | Tarefa mínima | Entrega |
+| Member | Minimum Task | Expected Output |
 | --- | --- | --- |
-| Iuri | Descrever planejamento, ameaças, riscos, requisitos e arquitetura no pipeline e vídeo. | Trecho de planejamento e arquitetura |
-| Sidnei | Descrever implementação segura e testes automatizados. | Trecho de implementação e testes |
-| Lara | Descrever análise de código e dependências e definir pelo menos três bloqueios objetivos. | Portões de análise e bloqueios |
-| Dyonathan | Descrever verificação dinâmica, implantação, monitoramento, resposta e recuperação. | Trecho de verificação e operação |
-| Rafaela | Consolidar pipeline e roteiro, apresentar o sistema e encerrar com evolução e aprendizados. | Documento integrado, abertura e encerramento |
+| Iuri | Describe planning, threats, risks, requirements, and architecture in the pipeline and video. | Planning and architecture segment |
+| Sidnei | Describe secure implementation and automated tests. | Implementation and test segment |
+| Lara | Describe code/dependency analysis and define at least three objective stop conditions. | Analysis gates and stop conditions |
+| Dyonathan | Describe dynamic verification, deployment, monitoring, response, and recovery. | Verification and operation segment |
+| Rafaela | Consolidate pipeline and script, introduce the system, and close with evolution and lessons learned. | Integrated document, opening and closing |
 
-## Conteúdo Mínimo do Pipeline
+## Minimum Pipeline Content
 
-Incluir planejamento, arquitetura, implementação, testes automatizados, análise de código e dependências, verificação dinâmica, implantação, monitoramento, resposta e recuperação.
+Include planning, architecture, implementation, automated tests, code/dependency analysis, dynamic verification, deployment, monitoring, response, and recovery.
 
-Cada momento deve indicar atividade, evidência produzida e condição para continuar.
+Each moment must specify the security activity, evidence produced, and condition to continue.
 
-## Conteúdo Mínimo do Vídeo
+## Minimum Video Content
 
-- sistema e papéis;
-- principais ameaças e casos de abuso;
-- riscos priorizados;
-- requisitos e decisões de arquitetura;
-- duas práticas seguras e testes;
-- principais resultados da verificação;
-- três regras de detecção;
-- pipeline proposto;
-- aprendizados.
+- system and user roles;
+- main threats and abuse cases;
+- prioritized risks;
+- security requirements and architecture decisions;
+- two secure practices and tests;
+- main verification results;
+- three detection rules;
+- proposed pipeline;
+- lessons learned.
 
-## Revisão Final
+## Final Review
 
-- conferir todas as etapas no pipeline e vídeo;
-- conferir pelo menos três bloqueios objetivos;
-- ligar evidências aos artefatos reais;
-- identificar falas e duração de todos os integrantes;
-- manter duração aproximada de 5 a 8 minutos;
-- remover credenciais, tokens, dados pessoais e detalhes sensíveis;
-- registrar o local ou link da entrega final.
+- verify all stages in pipeline and video;
+- verify at least three objective stop conditions;
+- link evidence to real repository artifacts;
+- identify speaker turns and durations for all members;
+- maintain approximate duration of 5 to 8 minutes;
+- remove credentials, tokens, personal data, and sensitive details;
+- record the location or link for final submission.

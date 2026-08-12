@@ -1,0 +1,55 @@
+graph TB
+  subgraph PublicZone ["Public Zone (Untrusted)"]
+    GuestUser["Guest User"]
+    StaffUser["Staff User (Receptionist / Manager / Admin)"]
+    ClientApp["Client App / Web Interface (Vite HTML/JS)"]
+  end
+
+  subgraph TrustBoundary1 ["Trust Boundary: TLS 1.3 / API Gateway"]
+    APIGateway["Express API Gateway & Security Middlewares<br/>(Helmet, CORS, Rate Limiters, JSON Parser)"]
+  end
+
+  subgraph SecureApplicationZone ["Secure Application Zone"]
+    subgraph AuthServices ["Authentication & Access Control"]
+      AuthService["Authentication Service<br/>(JWT Generation & Step-Up Auth)"]
+      SessionRevoker["Session Manager & Revocation Engine<br/>[Control SR01: Step-Up & Session Revocation]"]
+      RBACGuard["Server-Side RBAC Guard<br/>[Control SR02: Role Hierarchy Enforcement]"]
+    end
+
+    subgraph CoreAPI ["Business Logic Services"]
+      IdentityAPI["Identity & Account API"]
+      RoomAPI["Accommodation & Room Operations API<br/>[Control SR03: Manager Rate & Status Guard]"]
+      BookingAPI["Booking & Reservation API"]
+      PaymentAPI["Payment Processing API"]
+      SearchReviewAPI["Search, Reviews & Messaging API"]
+    end
+
+    subgraph Operations ["Auditing & Observability"]
+      Logger["Audit Logger & Event Recorder<br/>(Sanitized JSON Logs)"]
+    end
+  end
+
+  subgraph DataZone ["Data Zone (Protected Boundary)"]
+    Database[("SQLite Database<br/>(Parameterized Queries Only)")]
+  end
+
+  subgraph ExternalZone ["External Provider Zone"]
+    PaymentGateway["Payment Provider Gateway<br/>(Webhook Signatures & Reconciliation)"]
+  end
+
+  %% Flows
+  GuestUser -->|HTTPS| ClientApp
+  StaffUser -->|HTTPS| ClientApp
+  ClientApp -->|HTTP/REST JSON| APIGateway
+
+  APIGateway --> RBACGuard
+  RBACGuard --> AuthServices
+  RBACGuard --> CoreAPI
+
+  AuthService -->|User Lookup & Hash Verif| Database
+  SessionRevoker -->|Token / Revocation Check| Database
+
+  CoreAPI -->|Parameterized SQL| Database
+  CoreAPI -->|Audit Events| Logger
+
+  PaymentAPI <-->|Signed Webhooks & API| PaymentGateway

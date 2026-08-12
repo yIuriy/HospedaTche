@@ -14,12 +14,10 @@ Secure Practice: Enforce re-authentication on the server before changing a passw
 
 ### Tests Defined Before the Solution
 
-Sidnei must complete ST01 and ST02 before the solution is finalized.
-
 | ID | Type | Input or Action | Expected Secure Result |
 | --- | --- | --- | --- |
-| ST01 | Valid or authorized | Pending: Sidnei. | Pending: Sidnei. |
-| ST02 | Malicious, invalid, or unauthorized | Pending: Sidnei. | Pending: Sidnei. |
+| ST01 | Valid or authorized | POST request to `/api/account/password` with valid session cookie and correct `currentPassword`. | Password updates successfully (HTTP 200 OK), all pre-existing active sessions and refresh tokens are invalidated, and a security audit event is logged. |
+| ST02 | Malicious, invalid, or unauthorized | POST request to `/api/account/password` with valid session cookie but invalid or missing `currentPassword`. | Request is rejected (HTTP 401 Unauthorized / 403 Forbidden), password remains unchanged, active sessions are preserved, and a failed step-up authentication audit event is logged. |
 
 ### Solution
 

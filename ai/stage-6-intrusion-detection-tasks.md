@@ -78,51 +78,51 @@ Confirm that:
 
 ---
 
-# Etapa 6 - Divisão de Tarefas de Monitoramento e Detecção de Intrusões
+# Stage 6 - Monitoring and Intrusion Detection Task Division (Operational Guide)
 
-## Objetivo Compartilhado
+## Shared Goal
 
-Ligar riscos e casos de abuso conhecidos a eventos observáveis, regras simples de detecção e respostas iniciais.
+Connect known risks and abuse cases to observable events, simple detection rules, and initial responses.
 
 ```text
-risco ou caso de abuso -> evento e fonte de log -> condição do alerta -> resposta inicial
+risk or abuse case -> event and log source -> alert condition -> initial response
 ```
 
-Não é necessário instalar nem implementar um sistema de detecção de intrusões.
+Installing or implementing an intrusion detection system is not required.
 
-## Mínimo Entregável
+## Minimum Deliverable
 
-- explicação breve sobre detecção de intrusões;
-- diferença entre prevenção e detecção;
-- eventos que o HospedaTche deve registrar;
-- três regras de detecção;
-- resposta inicial para cada alerta.
+- brief explanation of intrusion detection;
+- difference between prevention and detection;
+- events that HospedaTche should log;
+- three detection rules;
+- initial response for each alert.
 
 Template: `artifacts/templates/detection-rule-template.md`
 
-## Divisão por Integrante
+## Task Division by Member
 
-| Integrante | Tarefa mínima | Entrega |
+| Member | Minimum Task | Expected Output |
 | --- | --- | --- |
-| Iuri | Explicar detecção e diferenciar controles preventivos e detectivos com exemplos do sistema. | Introdução e comparação |
-| Sidnei | Definir eventos de autenticação, autorização, negócio, pagamento, erro e auditoria e dados que não podem ser gravados. | Eventos e fontes de log |
-| Lara | Definir a Regra DR01 com todos os campos obrigatorios. | DR01 |
-| Dyonathan | Definir a Regra DR02 com todos os campos obrigatorios. | DR02 |
-| Rafaela | Definir a Regra DR03 e consolidar resposta e escalonamento. | DR03 e seção de resposta |
+| Iuri | Explain detection and distinguish preventive controls from detective controls using system examples. | Introduction and comparison |
+| Sidnei | Define authentication, authorization, business, payment, error, and audit events, and excluded sensitive data. | Events and log sources |
+| Lara | Define Rule DR01 with all required fields. | DR01 |
+| Dyonathan | Define Rule DR02 with all required fields. | DR02 |
+| Rafaela | Define Rule DR03 and consolidate response and escalation guidance. | DR03 and response section |
 
-## Estrutura de Cada Regra
+## Mandatory Rule Structure
 
-Registrar risco observado, fonte de dados, condição mensurável do alerta e resposta inicial.
+Record observed risk, data source, measurable alert condition, and initial response.
 
-## Segurança dos Logs
+## Log Safety
 
-Registrar ator, ação, alvo, horário, resultado, origem e identificador de correlação quando aplicável. Não registrar senhas, tokens, dados completos de pagamento nem dados pessoais desnecessários.
+Record actor, action, target, timestamp, result, origin, and correlation identifier when applicable. Do not log passwords, tokens, complete payment data, or unnecessary personal data.
 
-## Revisão Final
+## Final Review
 
-- conferir exatamente três regras;
-- conferir ligação com riscos ou casos de abuso existentes;
-- conferir se a fonte de dados sustenta a condição;
-- usar condições mensuráveis;
-- identificar primeira resposta e responsável;
-- evitar exposição de dados sensíveis nos logs.
+- verify exactly three rules;
+- verify links to existing risks or abuse cases;
+- verify if the data source supports the alert condition;
+- use measurable conditions;
+- identify first response and responsible role;
+- avoid sensitive data exposure in logs.

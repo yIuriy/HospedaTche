@@ -432,335 +432,335 @@ The repository pre-commit hook also runs this check with the other validations.
 
 ---
 
-# Etapa 2 - Divisão de Tarefas de Análise e Tratamento de Riscos
+# Stage 2 - Risk Analysis and Treatment Task Division (Operational Guide)
 
-Este documento define a divisão da Etapa 2 do HospedaTche. Cada integrante continua responsável pela mesma área em que trabalhou na Etapa 1.
+This document defines the Stage 2 work division for HospedaTche. Each member remains responsible for the same system area assigned in Stage 1.
 
-A Etapa 2 não substitui ameaças STRIDE nem casos de abuso. Cada integrante deve usar os artefatos da Etapa 1 como entrada e criar a análise de risco no arquivo correspondente em `artifacts/risk-treatment/<modulo>/risk-register.md`.
+Stage 2 does not replace STRIDE threats or abuse cases. Each member must use their Stage 1 artifacts as input and create risk analysis in the corresponding `artifacts/risk-treatment/<module>/risk-register.md` file.
 
-## Objetivo Compartilhado
+## Shared Goal
 
-Transformar a análise de segurança da Etapa 1 em um plano de tratamento de riscos usando o NIST Cybersecurity Framework 2.0.
+Transform Stage 1 security analysis into a risk treatment plan using the NIST Cybersecurity Framework 2.0.
 
-Cada módulo deve conectar:
-
-```text
-ameaça STRIDE -> caso de abuso -> risco -> prioridade -> estratégia de tratamento -> função NIST -> controle -> verificação -> risco residual
-```
-
-## Regras Compartilhadas
-
-- Manter documentação do repositório em inglês.
-- Manter cada integrante no mesmo módulo em que trabalhou antes.
-- Não implementar controles na Etapa 2.
-- Não apagar nem substituir ameaças ou casos de abuso da Etapa 1.
-- Cada ameaça relevante da Etapa 1 deve gerar pelo menos um risco.
-- Uma ameaça pode gerar mais de um risco se puder causar consequências diferentes.
-- Controles propostos devem ser concretos e verificáveis.
-- Evitar controles genéricos como "melhorar segurança", "usar criptografia" ou "monitorar o sistema" sem explicar onde, como, por que, responsável e forma de verificação.
-
-## Entrega Esperada por Módulo
-
-Cada integrante deve atualizar apenas o arquivo do seu módulo:
+Each module must connect:
 
 ```text
-artifacts/risk-treatment/<modulo>/risk-register.md
+STRIDE threat -> abuse case -> risk -> priority -> treatment strategy -> NIST function -> control -> verification -> residual risk
 ```
 
-Cada arquivo deve conter:
+## Shared Rules
 
-- registro de riscos;
-- valores de probabilidade e impacto;
-- cálculo da pontuação;
-- nível do risco;
-- justificativas da avaliação;
-- priorização;
-- mapeamento NIST CSF 2.0;
-- plano de tratamento;
-- controles propostos;
-- responsáveis;
-- evidências e verificação;
-- ordem inicial de implementação;
-- risco residual esperado.
+- Keep repository documentation in English.
+- Keep each member in the same module worked on previously.
+- Do not implement controls in Stage 2.
+- Do not delete or replace Stage 1 threats or abuse cases.
+- Every relevant Stage 1 threat should generate at least one risk.
+- A threat may generate more than one risk if it causes different consequences.
+- Proposed controls must be concrete and verifiable.
+- Avoid generic controls like "improve security", "use encryption", or "monitor system" without explaining where, how, why, responsible party, and verification method.
 
-## Modelo de Pontuação
+## Expected Deliverable Per Module
 
-Pontuação:
+Each member must update only their assigned module file:
 
 ```text
-Probabilidade x Impacto
+artifacts/risk-treatment/<module>/risk-register.md
 ```
 
-Níveis:
+Each file must contain:
 
-| Pontuação | Nível |
+- risk register;
+- probability and impact values;
+- score calculation;
+- risk level;
+- evaluation justifications;
+- prioritization;
+- NIST CSF 2.0 mapping;
+- treatment plan;
+- proposed controls;
+- responsible parties;
+- evidence and verification;
+- initial implementation order;
+- expected residual risk.
+
+## Scoring Model
+
+Score:
+
+```text
+Probability x Impact
+```
+
+Levels:
+
+| Score | Level |
 | --- | --- |
-| 1 a 3 | Baixo |
-| 4 a 7 | Médio |
-| 8 a 11 | Alto |
-| 12 a 16 | Crítico |
+| 1 to 3 | Low |
+| 4 to 7 | Medium |
+| 8 to 11 | High |
+| 12 to 16 | Critical |
 
-## Funções NIST CSF 2.0
+## NIST CSF 2.0 Functions
 
-Usar apenas as funções relevantes para o risco. Não marcar todas automaticamente.
+Use only functions relevant to the risk. Do not mark all functions automatically.
 
-| Função | Significado no projeto |
+| Function | Meaning in project |
 | --- | --- |
-| Govern | Políticas, responsáveis, prioridades, regras de aprovação e critérios de aceitação. |
-| Identify | Ativos, dependências, vulnerabilidades e condições de risco. |
-| Protect | Salvaguardas que reduzem probabilidade ou impacto. |
-| Detect | Identificação de atividade suspeita, falhas, abuso ou sinais de incidente. |
-| Respond | Contenção, análise, comunicação e tratamento de incidentes. |
-| Recover | Restauração de serviço, dados ou estado operacional após incidente. |
+| Govern | Policies, owners, priorities, approval rules, and acceptance criteria. |
+| Identify | Assets, dependencies, vulnerabilities, and risk conditions. |
+| Protect | Safeguards that reduce likelihood or impact. |
+| Detect | Identification of suspicious activity, failures, abuse, or incident signals. |
+| Respond | Containment, analysis, communication, and incident handling. |
+| Recover | Restoration of service, data, or operational state after an incident. |
 
-Exemplo:
+Example:
 
 ```text
-Protect é uma função NIST.
-Exigir MFA para contas internas é um controle.
-Testes de autenticação e logs de auditoria são evidências de verificação.
+Protect is a NIST function.
+Require MFA for staff accounts is a control.
+Authentication tests and audit logs are verification evidence.
 ```
 
-## Divisão por Integrante
+## Task Division by Member
 
-| Integrante | Nome | Módulo da Etapa 1 | Arquivo da Etapa 2 |
+| Member | Name | Stage 1 Module | Stage 2 File |
 | :--- | :--- | :--- | :--- |
-| Membro 1 | Iuri | Cadastro e Identidade | `artifacts/risk-treatment/accounts/risk-register.md` |
-| Membro 2 | Sidnei | Autenticação e Controle de Acesso | `artifacts/risk-treatment/accounts/risk-register.md` |
-| Membro 3 | Lara | Acomodações e Quartos | `artifacts/risk-treatment/accommodation/risk-register.md` |
-| Membro 4 | Dyonathan | Reservas e Pagamentos | `artifacts/risk-treatment/booking/risk-register.md` e `artifacts/risk-treatment/payment/risk-register.md` |
-| Membro 5 | Rafaela | Busca, Avaliações e Mensagens | `artifacts/risk-treatment/search-messaging/risk-register.md` |
+| Member 1 | Iuri | Registration and Identity | `artifacts/risk-treatment/accounts/risk-register.md` |
+| Member 2 | Sidnei | Authentication and Access Control | `artifacts/risk-treatment/accounts/risk-register.md` |
+| Member 3 | Lara | Accommodation and Rooms | `artifacts/risk-treatment/accommodation/risk-register.md` |
+| Member 4 | Dyonathan | Booking and Payment | `artifacts/risk-treatment/booking/risk-register.md` and `artifacts/risk-treatment/payment/risk-register.md` |
+| Member 5 | Rafaela | Search, Reviews, and Messaging | `artifacts/risk-treatment/search-messaging/risk-register.md` |
 
-Iuri e Sidnei continuam na área de contas, mas com focos diferentes. Eles devem combinar os IDs de risco dentro do mesmo arquivo `accounts/risk-register.md`.
+Iuri and Sidnei continue in the accounts area with different focuses. They must coordinate risk IDs within the same `accounts/risk-register.md` file.
 
-## Iuri
+## Member 1 - Iuri
 
-Pasta:
+Folder:
 
 ```text
 artifacts/risk-treatment/accounts/
 ```
 
-Foco:
+Focus:
 
-- cadastro de hóspede;
-- validação de identidade;
-- abuso de CPF/email;
-- contas falsas;
-- roubo de conta;
-- exposição de dados de perfil;
-- recuperação de senha quando ligada à identidade.
+- guest registration;
+- identity validation;
+- CPF/email misuse;
+- fake guest accounts;
+- account takeover;
+- profile data exposure;
+- password recovery risks linked to identity.
 
-Exemplo de risco:
+Example risk:
 
-| Campo | Exemplo |
+| Field | Example |
 | --- | --- |
 | ID | R01 |
-| Ameaça STRIDE | T02 - Account Takeover |
-| Caso de abuso | AC02 - Account Takeover |
-| Evento de risco | Atacante acessa conta de hóspede e age como a vítima. |
-| Vulnerabilidade ou condição | Proteção fraca de login, reutilização de credenciais, ausência de detecção de login suspeito. |
-| Probabilidade | 3 |
-| Impacto | 4 |
-| Pontuação | 12 |
-| Nível | Crítico |
-| Estratégia | Reduzir |
-| Funções NIST | Govern, Protect, Detect, Respond, Recover |
-| Controles | MFA em ações sensíveis, limite de tentativas, alerta de login suspeito, revogação de sessão. |
-| Evidências | Testes de autenticação, logs, simulação de alerta, teste de invalidação de sessão. |
-| Risco residual | Médio, aceito somente com monitoramento e resposta a incidente. |
+| STRIDE Threat | T02 - Account Takeover |
+| Abuse Case | AC02 - Account Takeover |
+| Risk Event | Attacker accesses guest account and acts as victim. |
+| Vulnerability or Condition | Weak login protection, credential reuse, missing suspicious login detection. |
+| Probability | 3 |
+| Impact | 4 |
+| Score | 12 |
+| Level | Critical |
+| Strategy | Reduce |
+| NIST Functions | Govern, Protect, Detect, Respond, Recover |
+| Controls | MFA on sensitive actions, rate limiting, suspicious login alerts, session revocation. |
+| Evidence | Authentication tests, logs, alert simulation, session invalidation test. |
+| Residual Risk | Medium, accepted only with monitoring and incident response. |
 
-## Sidnei
+## Member 2 - Sidnei
 
-Pasta:
+Folder:
 
 ```text
 artifacts/risk-treatment/accounts/
 ```
 
-Foco:
+Focus:
 
-- autenticação;
-- sessões;
-- autorização por papel;
-- rotas protegidas;
-- hierarquia interna;
-- escalonamento de privilégio;
-- abuso de conta administrativa.
+- authentication;
+- sessions;
+- role-based authorization;
+- protected routes;
+- internal hierarchy;
+- privilege escalation;
+- administrative account abuse.
 
-Exemplo de risco:
+Example risk:
 
-| Campo | Exemplo |
+| Field | Example |
 | --- | --- |
 | ID | R02 |
-| Ameaça STRIDE | T20 - Broken Route Authorization |
-| Caso de abuso | AC04 - Broken Route Authorization |
-| Evento de risco | Hóspede acessa endpoint interno reservado a funcionários. |
-| Vulnerabilidade ou condição | Back-end depende apenas de ocultação de rotas no front-end. |
-| Probabilidade | 3 |
-| Impacto | 4 |
-| Pontuação | 12 |
-| Nível | Crítico |
-| Estratégia | Reduzir |
-| Funções NIST | Govern, Protect, Detect, Respond |
-| Controles | RBAC no servidor, testes por papel, política deny-by-default, log de acesso negado. |
-| Evidências | Testes automatizados de autorização, matriz de acesso, logs de bloqueio. |
-| Risco residual | Médio, aceito se todo endpoint protegido tiver autorização testada. |
+| STRIDE Threat | T20 - Broken Route Authorization |
+| Abuse Case | AC04 - Broken Route Authorization |
+| Risk Event | Guest accesses internal staff-only endpoint. |
+| Vulnerability or Condition | Back-end relies solely on front-end route hiding. |
+| Probability | 3 |
+| Impact | 4 |
+| Score | 12 |
+| Level | Critical |
+| Strategy | Reduce |
+| NIST Functions | Govern, Protect, Detect, Respond |
+| Controls | Server-side RBAC, per-role tests, deny-by-default route policy, denied access logs. |
+| Evidence | Automated authorization tests, access matrix, access-denied logs. |
+| Residual Risk | Medium, accepted if every protected endpoint has tested authorization. |
 
-## Lara
+## Member 3 - Lara
 
-Pasta:
+Folder:
 
 ```text
 artifacts/risk-treatment/accommodation/
 ```
 
-Foco:
+Focus:
 
-- disponibilidade de quartos;
-- status de quarto;
-- tarifas;
-- capacidade;
-- fila de limpeza;
-- manutenção;
+- room availability;
+- room status;
+- rates;
+- capacity;
+- cleaning queue;
+- maintenance;
 - check-in/check-out;
-- acompanhantes.
+- companions.
 
-Exemplo de risco:
+Example risk:
 
-| Campo | Exemplo |
+| Field | Example |
 | --- | --- |
 | ID | R01 |
-| Ameaça STRIDE | T01 - Room Availability Manipulation |
-| Caso de abuso | AC01 - Room Availability Manipulation |
-| Evento de risco | Atacante ou funcionário malicioso altera disponibilidade e bloqueia reservas legítimas. |
-| Vulnerabilidade ou condição | Autorização fraca ou ausência de auditoria em alterações de disponibilidade. |
-| Probabilidade | 3 |
-| Impacto | 3 |
-| Pontuação | 9 |
-| Nível | Alto |
-| Estratégia | Reduzir |
-| Funções NIST | Govern, Protect, Detect, Respond, Recover |
-| Controles | Permissão por papel, log de auditoria, aprovação gerencial para alterações em massa, restauração de estado anterior. |
-| Evidências | Testes de permissão, registros de auditoria, registros de aprovação, simulação de recuperação. |
-| Risco residual | Médio, aceito se as alterações forem rastreáveis e reversíveis. |
+| STRIDE Threat | T01 - Room Availability Manipulation |
+| Abuse Case | AC01 - Room Availability Manipulation |
+| Risk Event | Attacker or malicious staff changes availability and blocks legitimate bookings. |
+| Vulnerability or Condition | Weak authorization or missing audit on availability changes. |
+| Probability | 3 |
+| Impact | 3 |
+| Score | 9 |
+| Level | High |
+| Strategy | Reduce |
+| NIST Functions | Govern, Protect, Detect, Respond, Recover |
+| Controls | Role-based permission, audit log, manager approval for bulk changes, previous state restoration. |
+| Evidence | Permission tests, audit records, approval records, recovery simulation. |
+| Residual Risk | Medium, accepted if changes are traceable and reversible. |
 
-## Dyonathan
+## Member 4 - Dyonathan
 
-Pastas:
+Folders:
 
 ```text
 artifacts/risk-treatment/booking/
 artifacts/risk-treatment/payment/
 ```
 
-Foco:
+Focus:
 
-- criação de reserva;
-- cancelamento;
-- confirmação;
-- expiração;
-- transições de estado;
-- status de pagamento;
-- respostas do gateway;
-- reembolsos;
-- auditoria de pagamento.
+- booking creation;
+- cancellation;
+- confirmation;
+- expiration;
+- state transitions;
+- payment status;
+- gateway responses;
+- refunds;
+- payment auditing.
 
-Exemplo de risco de reserva:
+Example booking risk:
 
-| Campo | Exemplo |
+| Field | Example |
 | --- | --- |
 | ID | R01 |
-| Ameaça STRIDE | T15 - Booking State Machine Transition Bypass |
-| Caso de abuso | AC12 - Booking State Machine Transition Bypass |
-| Evento de risco | Hóspede forca transição inválida e reativa reserva expirada. |
-| Vulnerabilidade ou condição | Transições de estado não são validadas no servidor. |
-| Probabilidade | 2 |
-| Impacto | 4 |
-| Pontuação | 8 |
-| Nível | Alto |
-| Estratégia | Reduzir |
-| Funções NIST | Govern, Protect, Detect, Recover |
-| Controles | Validação de máquina de estados, log de transições, alerta de transição rejeitada, procedimento de rollback. |
-| Evidências | Testes de transição, logs, simulação de alerta, teste de rollback. |
-| Risco residual | Médio, aceito se transições inválidas forem bloqueadas e registradas. |
+| STRIDE Threat | T15 - Booking State Machine Transition Bypass |
+| Abuse Case | AC12 - Booking State Machine Transition Bypass |
+| Risk Event | Guest forces invalid transition and reactivates expired booking. |
+| Vulnerability or Condition | State transitions are not validated on the server. |
+| Probability | 2 |
+| Impact | 4 |
+| Score | 8 |
+| Level | High |
+| Strategy | Reduce |
+| NIST Functions | Govern, Protect, Detect, Recover |
+| Controls | State machine validation, transition log, rejected transition alert, rollback procedure. |
+| Evidence | Transition tests, logs, alert simulation, rollback test. |
+| Residual Risk | Medium, accepted if invalid transitions are blocked and logged. |
 
-Exemplo de risco de pagamento:
+Example payment risk:
 
-| Campo | Exemplo |
+| Field | Example |
 | --- | --- |
 | ID | R01 |
-| Ameaça STRIDE | T02 - Payment Gateway Token Tampering |
-| Caso de abuso | AC10 - Payment Gateway Token Tampering |
-| Evento de risco | Atacante altera resposta do gateway e marca reserva não paga como paga. |
-| Vulnerabilidade ou condição | Callback de pagamento não valida assinatura ou token confiável do provedor. |
-| Probabilidade | 2 |
-| Impacto | 4 |
-| Pontuação | 8 |
-| Nível | Alto |
-| Estratégia | Reduzir |
-| Funções NIST | Protect, Detect, Respond, Recover |
-| Controles | Validação de webhook assinado, reconciliação de referência de pagamento, alerta de status suspeito, fluxo de correção manual. |
-| Evidências | Testes de webhook, relatório de reconciliação, log de alerta, registro de correção. |
-| Risco residual | Médio, aceito somente após verificação com provedor e reconciliação. |
+| STRIDE Threat | T02 - Payment Gateway Token Tampering |
+| Abuse Case | AC10 - Payment Gateway Token Tampering |
+| Risk Event | Attacker alters gateway response and marks unpaid booking as paid. |
+| Vulnerability or Condition | Payment callback does not validate trusted signature or provider token. |
+| Probability | 2 |
+| Impact | 4 |
+| Score | 8 |
+| Level | High |
+| Strategy | Reduce |
+| NIST Functions | Protect, Detect, Respond, Recover |
+| Controls | Signed webhook validation, payment reference reconciliation, suspicious status alert, manual correction workflow. |
+| Evidence | Webhook tests, reconciliation report, alert log, correction record. |
+| Residual Risk | Medium, accepted only after provider verification and reconciliation exist. |
 
-## Rafaela
+## Member 5 - Rafaela
 
-Pasta:
+Folder:
 
 ```text
 artifacts/risk-treatment/search-messaging/
 ```
 
-Foco:
+Focus:
 
-- busca de quartos;
-- informações públicas;
-- enumeração de quartos ocultos;
-- avaliações;
-- notas;
-- notificações;
+- room search;
+- public information;
+- hidden room enumeration;
+- reviews;
+- ratings;
+- notifications;
 - chat;
-- histórico de mensagens.
+- message history.
 
-Exemplo de risco:
+Example risk:
 
-| Campo | Exemplo |
+| Field | Example |
 | --- | --- |
 | ID | R01 |
-| Ameaça STRIDE | T02 - Chat Message Flooding |
-| Caso de abuso | AC02 - Chat Message Flooding |
-| Evento de risco | Atacante sobrecarrega chat e impede atendimento legítimo. |
-| Vulnerabilidade ou condição | Ausência de limite de mensagens, detecção de abuso e proteção da fila da recepção. |
-| Probabilidade | 3 |
-| Impacto | 3 |
-| Pontuação | 9 |
-| Nível | Alto |
-| Estratégia | Reduzir |
-| Funções NIST | Protect, Detect, Respond |
-| Controles | Limite de mensagens, controle de fila, alerta de abuso, restrição temporária de chat. |
-| Evidências | Testes de limite, logs de alerta, simulação de carga, registro de revisão de bloqueio. |
-| Risco residual | Médio, aceito se o atendimento legítimo continuar disponível durante tentativas de abuso. |
+| STRIDE Threat | T02 - Chat Message Flooding |
+| Abuse Case | AC02 - Chat Message Flooding |
+| Risk Event | Attacker overloads chat and prevents legitimate guest support. |
+| Vulnerability or Condition | Missing message limits, abuse detection, and reception queue protection. |
+| Probability | 3 |
+| Impact | 3 |
+| Score | 9 |
+| Level | High |
+| Strategy | Reduce |
+| NIST Functions | Protect, Detect, Respond |
+| Controls | Message limits, queue control, abuse alert, temporary chat restriction policy. |
+| Evidence | Rate-limit tests, alert logs, load simulation, restriction review record. |
+| Residual Risk | Medium, accepted if legitimate support remains available during abuse attempts. |
 
-## Revisão Final Compartilhada
+## Shared Final Review
 
-Depois que todos terminarem seus arquivos, o grupo deve revisar:
+After all members finish their module files, the group should review:
 
-- IDs duplicados dentro do mesmo módulo;
-- notas incoerentes de probabilidade ou impacto;
-- erro de cálculo da pontuação;
-- risco marcado com todas as funções NIST sem justificativa;
-- controle genérico sem evidência;
-- risco aceito sem condição de aprovação;
-- risco residual dizendo que reduziu sem implementação;
-- falta de ligação com ameaças ou casos de abuso da Etapa 1.
+- duplicate risk IDs inside the same module;
+- inconsistent probability or impact scores;
+- score calculation errors;
+- risks marked with all NIST functions without justification;
+- generic controls without evidence;
+- accepted risks without approval condition;
+- residual risk claiming reduction without implementation;
+- missing links to Stage 1 threats or abuse cases.
 
-## Validação
+## Validation
 
-Rodar quando arquivos de tratamento de risco forem alterados:
+Run when risk treatment files change:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1
 ```
 
-O hook de pre-commit do repositório também roda essa verificação junto com as outras validações.
+The repository pre-commit hook also runs this check alongside other validations.

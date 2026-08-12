@@ -1,0 +1,8 @@
+{
+  "name": "hospedatche-frontend",
+  "version": "1.0.0",
+  "description": "HospedaTche Frontend Application",
+  "scripts": {
+    "start": "npx serve -s . -l 5000"
+  }
+}

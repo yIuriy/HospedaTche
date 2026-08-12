@@ -85,45 +85,45 @@ Confirm that:
 
 ---
 
-# Etapa 4 - Divisão de Tarefas de Código Seguro e Testes de Segurança
+# Stage 4 - Secure Code and Security Test Task Division (Operational Guide)
 
-## Objetivo Compartilhado
+## Shared Goal
 
-Mostrar como requisitos e decisões da Etapa 3 se tornam práticas seguras e testes verificáveis.
+Show how Stage 3 requirements and decisions become secure practices and verifiable tests.
 
 ```text
-risco e requisito -> testes definidos primeiro -> prática segura -> exemplo de solução -> resultado esperado
+risk and requirement -> tests defined first -> secure practice -> solution example -> expected result
 ```
 
-## Mínimo Entregável
+## Minimum Deliverable
 
-- duas práticas de código seguro;
-- dois testes para cada prática, totalizando quatro;
-- um teste válido e um teste malicioso, inválido ou não autorizado por prática;
-- implementação, pseudocódigo, configuração ou descrição detalhada;
-- resultado esperado e referência OWASP por prática.
+- two secure coding practices;
+- two tests per practice, totaling four;
+- one valid test and one malicious, invalid, or unauthorized test per practice;
+- implementation, pseudocode, configuration, or detailed description;
+- expected result and OWASP reference per practice.
 
 Template: `artifacts/templates/secure-code-practice-template.md`
 
-## Divisão por Integrante
+## Task Division by Member
 
-| Integrante | Tarefa mínima | Entrega |
+| Member | Minimum Task | Expected Output |
 | --- | --- | --- |
-| Iuri | Definir a Prática 1, risco, requisito e exemplo de solução. | Prática 1 e solução |
-| Sidnei | Definir o teste válido e o teste adversarial da Prática 1 antes da solução. | ST01 e ST02 |
-| Lara | Definir a Prática 2, risco, requisito e exemplo de solução. | Prática 2 e solução |
-| Dyonathan | Definir o teste válido e o teste adversarial da Prática 2 antes da solução. | ST03 e ST04 |
-| Rafaela | Adicionar resultados esperados, referências OWASP e rastreabilidade. | Documento integrado |
+| Iuri | Define Practice 1, risk, requirement, and solution example. | Practice 1 and solution |
+| Sidnei | Define the valid test and adversarial test for Practice 1 before the solution. | ST01 and ST02 |
+| Lara | Define Practice 2, risk, requirement, and solution example. | Practice 2 and solution |
+| Dyonathan | Define the valid test and adversarial test for Practice 2 before the solution. | ST03 and ST04 |
+| Rafaela | Add expected results, OWASP references, and traceability. | Integrated document |
 
-## Estrutura Obrigatoria
+## Mandatory Structure
 
-Cada prática deve registrar risco, requisito, prática, dois testes, resultados esperados, solução e referência OWASP.
+Each practice must record risk, requirement, practice, two tests, expected results, solution, and OWASP reference.
 
-## Revisão Final
+## Final Review
 
-- conferir que os testes aparecem antes da solução;
-- conferir um cenário normal e um adversarial por prática;
-- conferir resultados objetivos;
-- conferir se a solução satisfaz os testes;
-- conferir referências OWASP;
-- não apresentar pseudocódigo como evidência de produção.
+- verify that tests appear before the solution;
+- verify one normal and one adversarial scenario per practice;
+- verify objective results;
+- verify if the solution satisfies the tests;
+- verify OWASP references;
+- do not present pseudocode as production evidence.

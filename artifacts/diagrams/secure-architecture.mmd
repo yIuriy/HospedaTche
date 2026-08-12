@@ -1,55 +1,133 @@
-graph TB
-  subgraph PublicZone ["Public Zone (Untrusted)"]
-    GuestUser["Guest User"]
-    StaffUser["Staff User (Receptionist / Manager / Admin)"]
-    ClientApp["Client App / Web Interface (Vite HTML/JS)"]
-  end
+flowchart TB
 
-  subgraph TrustBoundary1 ["Trust Boundary: TLS 1.3 / API Gateway"]
-    APIGateway["Express API Gateway & Security Middlewares<br/>(Helmet, CORS, Rate Limiters, JSON Parser)"]
-  end
+    %% =========================================================
+    %% HospedaTche - Secure Architecture
+    %% Stage 3
+    %% =========================================================
 
-  subgraph SecureApplicationZone ["Secure Application Zone"]
-    subgraph AuthServices ["Authentication & Access Control"]
-      AuthService["Authentication Service<br/>(JWT Generation & Step-Up Auth)"]
-      SessionRevoker["Session Manager & Revocation Engine<br/>[Control SR01: Step-Up & Session Revocation]"]
-      RBACGuard["Server-Side RBAC Guard<br/>[Control SR02: Role Hierarchy Enforcement]"]
+    %% -------------------------
+    %% Users and Client
+    %% -------------------------
+
+    subgraph USERS["Users"]
+        GUEST["Guest"]
+        RECEPTIONIST["Receptionist"]
+        MANAGER["Manager"]
+        ADMIN["Administrator"]
     end
 
-    subgraph CoreAPI ["Business Logic Services"]
-      IdentityAPI["Identity & Account API"]
-      RoomAPI["Accommodation & Room Operations API<br/>[Control SR03: Manager Rate & Status Guard]"]
-      BookingAPI["Booking & Reservation API"]
-      PaymentAPI["Payment Processing API"]
-      SearchReviewAPI["Search, Reviews & Messaging API"]
+    subgraph CLIENT["Client"]
+        WEB["Client App / Web Interface"]
     end
 
-    subgraph Operations ["Auditing & Observability"]
-      Logger["Audit Logger & Event Recorder<br/>(Sanitized JSON Logs)"]
+    GUEST --> WEB
+    RECEPTIONIST --> WEB
+    MANAGER --> WEB
+    ADMIN --> WEB
+
+
+    %% =========================================================
+    %% Trust Boundary: Application
+    %% =========================================================
+
+    subgraph APP_BOUNDARY["Trust Boundary — Application"]
+        
+        API["Express API Gateway"]
+
+        subgraph AUTH["Authentication Service"]
+            STEPUP["Step-up Authentication<br/>SR01"]
+            SESSION["Session Management<br/>Session Revocation"]
+            AD01["AD01 — Short-lived JWT<br/>HttpOnly Cookie Sessions<br/>IP Validation"]
+        end
+
+        subgraph AUTHZ["Server-side Authorization"]
+            RBAC["RBAC"]
+            ROLE["Role Hierarchy Validation<br/>SR02"]
+            DTO["DTO Parameter Filtering"]
+            AD02["AD02 — RoleHierarchyValidatorEngine<br/>@PreAuthorize"]
+        end
+
+        subgraph SERVICES["Application / Business Services"]
+            ACCOUNT["Account Management"]
+            BOOKING["Booking / Payment"]
+            ACCOMMODATION["Accommodation Service"]
+
+            subgraph MAINTENANCE["Maintenance Workflow"]
+                MAINT["Maintenance Closure Approval"]
+                AVAILABILITY["Room Availability Control<br/>SR03"]
+                SIGNATURE["Digital Signature"]
+                AD03["AD03 — Automated Room Availability Filtering<br/>and Digital Signature Maintenance Closure"]
+            end
+        end
     end
-  end
 
-  subgraph DataZone ["Data Zone (Protected Boundary)"]
-    Database[("SQLite Database<br/>(Parameterized Queries Only)")]
-  end
 
-  subgraph ExternalZone ["External Provider Zone"]
-    PaymentGateway["Payment Provider Gateway<br/>(Webhook Signatures & Reconciliation)"]
-  end
+    %% -------------------------
+    %% Application flow
+    %% -------------------------
 
-  %% Flows
-  GuestUser -->|HTTPS| ClientApp
-  StaffUser -->|HTTPS| ClientApp
-  ClientApp -->|HTTP/REST JSON| APIGateway
+    WEB -->|"HTTPS"| API
 
-  APIGateway --> RBACGuard
-  RBACGuard --> AuthServices
-  RBACGuard --> CoreAPI
+    API --> AUTH
+    API --> AUTHZ
+    API --> SERVICES
 
-  AuthService -->|User Lookup & Hash Verif| Database
-  SessionRevoker -->|Token / Revocation Check| Database
+    AUTH --> STEPUP
+    AUTH --> SESSION
+    STEPUP --> SESSION
+    SESSION --> AD01
 
-  CoreAPI -->|Parameterized SQL| Database
-  CoreAPI -->|Audit Events| Logger
+    AUTHZ --> RBAC
+    RBAC --> ROLE
+    ROLE --> DTO
+    DTO --> AD02
 
-  PaymentAPI <-->|Signed Webhooks & API| PaymentGateway
+    SERVICES --> ACCOUNT
+    SERVICES --> BOOKING
+    SERVICES --> ACCOMMODATION
+
+    ACCOMMODATION --> MAINTENANCE
+    MAINTENANCE --> MAINT
+    MAINT --> AVAILABILITY
+    MAINT --> SIGNATURE
+    AVAILABILITY --> AD03
+    SIGNATURE --> AD03
+
+
+    %% =========================================================
+    %% Data and Monitoring
+    %% =========================================================
+
+    subgraph DATA_BOUNDARY["Trust Boundary — Data"]
+        DB["Database"]
+        AUDIT["Audit Logging / Monitoring"]
+    end
+
+    ACCOUNT --> DB
+    BOOKING --> DB
+    ACCOMMODATION --> DB
+
+    API --> AUDIT
+    AUTH --> AUDIT
+    AUTHZ --> AUDIT
+    MAINTENANCE --> AUDIT
+
+
+    %% =========================================================
+    %% External Services
+    %% =========================================================
+
+    subgraph EXTERNAL["External Services"]
+        PAYMENT["External Payment Provider"]
+    end
+
+    BOOKING -->|"HTTPS / API"| PAYMENT
+
+
+    %% =========================================================
+    %% Trust boundaries
+    %% =========================================================
+
+    WEB -.->|"Trust Boundary"| APP_BOUNDARY
+    APP_BOUNDARY -.->|"Trust Boundary"| DATA_BOUNDARY
+    APP_BOUNDARY -.->|"External Service Boundary"| EXTERNAL

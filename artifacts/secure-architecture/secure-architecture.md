@@ -86,6 +86,6 @@ Expected Result: Unsafe rooms under maintenance are automatically hidden from pu
 - [x] Exactly three risks, requirements, mappings, and decisions are complete.
 - [x] SR01, SR02, and SR03 have observable pass or fail verification criteria.
 - [x] The SR01, SR02, and SR03 OWASP references support the mapped risks.
-- [ ] Diagram component names match the document.
-- [ ] Diagram source and exported image are versioned.
+- [x] Diagram component names match the document.
+- [x] Diagram source and exported image are versioned.
 - [x] Traceability is complete from every risk to its architecture decision.

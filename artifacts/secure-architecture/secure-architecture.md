@@ -10,7 +10,7 @@ Stage 3 converts prioritized risks into verifiable security requirements, vulner
 | --- | --- | --- | --- | --- |
 | 1 | R02 - Account Takeover | accounts | Critical | Account takeover can expose personal data and allow unauthorized bookings, chat use, and actions performed as the victim. |
 | 2 | Pending: Sidnei | Pending | Pending | Pending selection for SR02. |
-| 3 | Pending: Lara | Pending | Pending | Pending selection for SR03. |
+| 3 | R11 - Maintenance Note Tampering | accommodation | Critical | Hidden maintenance issues can make unsafe rooms appear operational and can affect guest safety, availability, and room assignment decisions. |
 
 ## Security Requirements
 

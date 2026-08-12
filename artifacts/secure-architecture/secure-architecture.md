@@ -18,7 +18,7 @@ Stage 3 converts prioritized risks into verifiable security requirements, vulner
 | --- | --- | --- | --- | --- |
 | SR01 | R02 - Account Takeover | The system must require step-up authentication before changing a password, email address, or CPF, and must revoke all active sessions after a password change or recovery. | A sensitive change without step-up authentication is denied. After a successful password change or recovery, every previously issued session or token is rejected when accessing a protected resource. | Iuri |
 | SR02 | Pending: Sidnei | Pending. | Pending. | Sidnei |
-| SR03 | Pending: Lara | Pending. | Pending. | Lara |
+| SR03 | R11 - Maintenance Note Tampering | The system must keep rooms with open maintenance issues unavailable for booking or assignment until maintenance closure is approved, justified, audit logged, and recoverable. | A room with an open maintenance issue is denied for booking and assignment. A maintenance closure without an authorized approver, mandatory reason, audit record, or previous-state restoration data is rejected. | Lara |
 
 ## Vulnerability Mapping
 

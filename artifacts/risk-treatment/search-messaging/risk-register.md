@@ -7,35 +7,6 @@ Stage 1 sources:
 - STRIDE threats: `artifacts/threat-modeling/search-messaging/`
 - Abuse cases: `artifacts/abuse-cases/search-messaging/`
 
-## Probability Criteria
-
-| Value | Classification | Criteria |
-| --- | --- | --- |
-| 1 | Low | Event depends on uncommon conditions, very specific access, or high technical capability. |
-| 2 | Medium-low | Event is possible, but depends on a specific API, role, notification, review, or chat weakness. |
-| 3 | Medium-high | Event is plausible during common public search, review, notification, or messaging flows. |
-| 4 | High | Event can happen easily, frequently, or through predictable automated misuse when controls are absent. |
-
-## Impact Criteria
-
-| Value | Classification | Criteria |
-| --- | --- | --- |
-| 1 | Low | Causes small disruption and can be corrected quickly. |
-| 2 | Moderate | Causes limited exposure, inconsistency, or service disruption, with recovery possible through staff review. |
-| 3 | High | Causes relevant harm to availability, privacy, guest communication, hotel reputation, or operational trust. |
-| 4 | Very high | Can expose sensitive guest communication, enable phishing or financial harm, break staff trust, or cause serious compliance impact. |
-
-## Risk Classification
-
-| Score | Level |
-| --- | --- |
-| 1 to 3 | Low |
-| 4 to 7 | Medium |
-| 8 to 11 | High |
-| 12 to 16 | Critical |
-
-Score = Probability x Impact.
-
 ## Risk Register
 
 | ID | Related STRIDE Threat | Related Abuse Case | Risk Event | Vulnerability or Condition | Probability | Impact | Score | Level |
@@ -252,6 +223,31 @@ Risk level justification: Medium level (Score 6 = 2x3) because modifying or dele
 
 ## Final Notes
 
-This risk register connects all 14 Stage 1 STRIDE threats (`T01` to `T14`) and Abuse Cases (`AC01` to `AC14`) for the Search, Reviews, Messaging & Notifications module directly to concrete risk events, NIST CSF 2.0 functions, actionable technical controls, and verification evidence.
+### 1. Most Important Risks and Prioritization Rationale
+The most critical risks identified in this module are **R03** (Guest Chat History Exposure via IDOR, Score 12) and **R08** (Fake Stay Notification Injection via Phishing, Score 12). Prioritization was determined by the severe impact on guest privacy (LGPD non-compliance), potential financial theft, and operational disruption. Core public search availability (**R01**, Score 9) and front-desk chat queue flooding (**R02**, Score 9) were prioritized next due to their direct impact on hotel revenue and reception operations.
 
-All proposed controls focus on technical safeguards (RBAC middleware, DTO projections, rate limiting, soft-delete ORM policies, signed notifications, append-only schemas) and operational verifications without modifying baseline Stage 1 artifacts.
+### 2. Predominant Treatment Strategies
+The primary treatment strategy adopted across all 14 risks is **Reduce** (100% of risks), implementing proactive technical safeguards to diminish probability and impact without eliminating core business functionality.
+
+### 3. Most Relevant NIST CSF 2.0 Functions
+The **Protect** and **Detect** functions are the most prominent across the proposed controls, focusing on preventing unauthorized access via RBAC middleware, DTO projections, and rate limiting, while ensuring real-time detection through anomaly alerts and audit logs. The **Respond** and **Recover** functions are essential for managing phishing incidents (R08) and backup recoveries (R10).
+
+### 4. Essential Controls
+- Server-side RBAC authorization middleware verifying `session.userId == chat.guestId` (R03).
+- Cryptographic email signing (DKIM/SPF) and HMAC push notification token signatures (R08).
+- `@PreAuthorize("hasRole('RECEPTIONIST')")` annotation on staff chat queue endpoints (R13).
+- Public room availability search API rate limiting (10 req/min) and Redis caching (R01).
+- Explicit DTO field projections (`PublicRoomDTO`) masking internal maintenance notes (R04).
+- Soft-delete ORM policy (`is_hidden = true`) with SQL `DELETE` permission removal (R10).
+
+### 5. Key Difficulties Encountered
+- **Frictionless Public Access vs. Protection:** Balancing instant, unauthenticated public room availability searches for prospective guests with strict rate limits and CAPTCHA to block automated bot floods without degrading user experience.
+- **Real-Time WebSocket Security:** Implementing low-latency real-time chat for front-desk reception while enforcing strict server-side session matching and immutable append-only message audit logs.
+
+### 6. Assessment Limitations
+This risk assessment was conducted as part of an academic project by a software engineering student during the pre-implementation design phase. Probability and impact ratings represent baseline estimates derived from security literature and threat modeling guidelines rather than empirical production telemetry from industry specialists.
+
+### 7. Points to Be Detailed in Subsequent Stages
+- Execution of automated load tests (`k6`) to validate rate limiting and Redis caching thresholds under peak traffic.
+- Penetration testing of REST endpoints to verify IDOR authorization resistance.
+- Collection of concrete execution logs and audit telemetry once controls are deployed.

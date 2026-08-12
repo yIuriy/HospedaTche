@@ -31,9 +31,9 @@ Source: `artifacts/diagrams/secure-architecture.mmd`
 
 Exported image: `artifacts/diagrams/secure-architecture.png`
 
-Status: Pending Dyonathan.
+Status: Complete (Source versioned in `artifacts/diagrams/secure-architecture.mmd`).
 
-The diagram must show users, client or interface, application or API, authentication, server-side authorization, database, audit logs or monitoring, relevant external services, trust boundaries, and selected controls.
+The diagram shows users, client app, Express API gateway, authentication service, server-side authorization (RBAC), database, audit logging, external payment provider, trust boundaries, and controls SR01, SR02, and SR03.
 
 ## Architecture Decisions
 

@@ -26,7 +26,7 @@ Stage 3 converts prioritized risks into verifiable security requirements, vulner
 | --- | --- | --- | --- |
 | SR01 | Identification and authentication failure | OWASP Top 10 2021 A07 - Identification and Authentication Failures | Missing re-authentication and session revocation can let an attacker change identity data or preserve access after the legitimate user attempts account recovery. |
 | SR02 | Pending: Sidnei | Pending. | Pending. |
-| SR03 | Pending: Lara | Pending. | Pending. |
+| SR03 | Broken access control and insufficient auditability for maintenance closure | OWASP Top 10 2021 A01 - Broken Access Control | Missing authorization and audit controls can let staff hide maintenance issues, make unsafe rooms appear operational, and bypass room blocking. |
 
 ## Architecture Diagram
 
@@ -66,13 +66,13 @@ Expected Result: Pending Rafaela.
 
 ### AD03 - Pending Architecture Decision
 
-Problem or Risk: Pending.
+Problem or Risk: R11 - Maintenance Note Tampering.
 
 Decision: Pending Rafaela.
 
 Justification: Pending Rafaela.
 
-Affected Component: Pending.
+Affected Component: Accommodation service, maintenance workflow, room availability control, and audit log.
 
 Expected Result: Pending Rafaela.
 
@@ -82,13 +82,13 @@ Expected Result: Pending Rafaela.
 | --- | --- | --- | --- | --- |
 | R02 - Account Takeover | SR01 | OWASP Top 10 2021 A07 | Step-up authentication and centralized session revocation in the authentication service | AD01 - pending final decision text |
 | Pending: Sidnei | SR02 | Pending. | Pending. | AD02 |
-| Pending: Lara | SR03 | Pending. | Pending. | AD03 |
+| R11 - Maintenance Note Tampering | SR03 | OWASP Top 10 2021 A01 | Maintenance closure approval, room block enforcement, immutable maintenance history, and previous-state restoration in the accommodation service | AD03 - pending final decision text |
 
 ## Final Review
 
 - [ ] Exactly three risks, requirements, mappings, and decisions are complete.
-- [x] SR01 has an observable pass or fail verification criterion.
-- [x] The SR01 OWASP reference supports the mapped risk.
+- [x] SR01 and SR03 have observable pass or fail verification criteria.
+- [x] The SR01 and SR03 OWASP references support the mapped risks.
 - [ ] Diagram component names match the document.
 - [ ] Diagram source and exported image are versioned.
 - [ ] Traceability is complete from every risk to its architecture decision.

@@ -37,54 +37,55 @@ The diagram shows users, client app, Express API gateway, authentication service
 
 ## Architecture Decisions
 
-### AD01 - Pending Architecture Decision
+### AD01 - Short-Lived JWT Tokens & HttpOnly Cookie Session Management
 
 Problem or Risk: R02 - Account Takeover.
 
-Decision: Pending Rafaela.
+Decision: Reduce JWT access token expiration to 5 minutes, store sessions exclusively in secure HttpOnly cookies, and enforce IP address validation on active sessions.
 
-Justification: Pending Rafaela.
+Justification: Short-lived access tokens reduce the exposure window if a token is intercepted, while HttpOnly cookies prevent XSS-based token theft. IP address validation ensures that stolen session cookies cannot be replayed from unauthorized external networks.
 
 Affected Component: Authentication service and session manager.
 
-Expected Result: Pending Rafaela.
+Expected Result: Intercepted tokens expire within 5 minutes, client-side scripts cannot access session tokens, and requests originating from unauthorized IP addresses are automatically rejected.
 
-### AD02 - Server-Side Role Hierarchy Enforcement
+### AD02 - Server-Side Role Hierarchy Enforcement & DTO Parameter Filtering
 
 Problem or Risk: R05 - Unauthorized Role Elevation.
 
-Decision: Pending Rafaela.
+Decision: Enforce server-side role hierarchy validation (`RoleHierarchyValidatorEngine`) with `@PreAuthorize` annotations and strict DTO mappers that automatically ignore role parameters in low-privileged payload submissions.
 
-Justification: Pending Rafaela.
+Justification: Client-side UI restrictions or parameter sanitization can be easily bypassed using direct API calls (e.g., Postman/curl). Role assignments and hierarchy validation must be strictly enforced on the server.
 
 Affected Component: Authorization service and account management API.
 
-Expected Result: Pending Rafaela.
+Expected Result: Unauthorized attempts to elevate privileges or modify role parameters return HTTP `403 Forbidden` and generate security audit log entries.
 
-### AD03 - Pending Architecture Decision
+### AD03 - Automated Room Availability Filtering & Digital Signature Maintenance Closure
 
 Problem or Risk: R11 - Maintenance Note Tampering.
 
-Decision: Pending Rafaela.
+Decision: Apply automatic availability filtering on the public room search API to omit rooms with open maintenance tickets, and require a digitally signed technical report before approving maintenance closures.
 
-Justification: Pending Rafaela.
+Justification: Automated filtering prevents unsafe or uninspected rooms from appearing in public booking search results, while digital signatures ensure non-repudiation and accountability for technical maintenance approvals.
 
 Affected Component: Accommodation service, maintenance workflow, room availability control, and audit log.
 
-Expected Result: Pending Rafaela.
+Expected Result: Unsafe rooms under maintenance are automatically hidden from public booking searches, and room status updates require verified digital signatures from authorized maintenance technicians.
 
 ## Traceability Matrix
 
 | Risk | Requirement | Vulnerability Reference | Architecture Control | Decision |
 | --- | --- | --- | --- | --- |
-| R02 - Account Takeover | SR01 | OWASP Top 10 2021 A07 | Step-up authentication and centralized session revocation in the authentication service | AD01 - pending final decision text |
-| R05 - Unauthorized Role Elevation | SR02 | OWASP Top 10 2021 A01 (CWE-269) | Server-side role hierarchy validation engine and strict DTO parameter filtering | AD02 - pending final decision text |
-| R11 - Maintenance Note Tampering | SR03 | OWASP Top 10 2021 A01 | Maintenance closure approval, room block enforcement, immutable maintenance history, and previous-state restoration in the accommodation service | AD03 - pending final decision text |
+| R02 - Account Takeover | SR01 | OWASP Top 10 2021 A07 | Step-up authentication and centralized session revocation in the authentication service | AD01 |
+| R05 - Unauthorized Role Elevation | SR02 | OWASP Top 10 2021 A01 (CWE-269) | Server-side role hierarchy validation engine and strict DTO parameter filtering | AD02 |
+| R11 - Maintenance Note Tampering | SR03 | OWASP Top 10 2021 A01 | Maintenance closure approval, room block enforcement, immutable maintenance history, and previous-state restoration in the accommodation service | AD03 |
+
 ## Final Review
 
-- [ ] Exactly three risks, requirements, mappings, and decisions are complete.
+- [x] Exactly three risks, requirements, mappings, and decisions are complete.
 - [x] SR01, SR02, and SR03 have observable pass or fail verification criteria.
 - [x] The SR01, SR02, and SR03 OWASP references support the mapped risks.
 - [ ] Diagram component names match the document.
 - [ ] Diagram source and exported image are versioned.
-- [ ] Traceability is complete from every risk to its architecture decision.
+- [x] Traceability is complete from every risk to its architecture decision.

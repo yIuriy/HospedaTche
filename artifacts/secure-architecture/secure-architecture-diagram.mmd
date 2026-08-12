@@ -1,0 +1,43 @@
+flowchart TB
+
+    subgraph USERS["Usuários"]
+        GUEST["Guest"]
+        RECEPTIONIST["Receptionist"]
+        MANAGER["Manager"]
+        ADMIN["Administrator"]
+    end
+
+    subgraph CLIENT["Cliente"]
+        UI["Web Interface"]
+    end
+
+    subgraph APPLICATION["Aplicação / API"]
+        AUTH["Autenticação"]
+        AUTHZ["Autorização no servidor"]
+        BUSINESS["Regras de negócio"]
+    end
+
+    subgraph DATA["Dados e Monitoramento"]
+        DB["Banco de dados"]
+        AUDIT["Logs de auditoria / Monitoramento"]
+    end
+
+    subgraph EXTERNAL["Serviços externos"]
+        PAYMENT["Serviço de pagamento"]
+        EMAIL["Serviço de e-mail / notificações"]
+    end
+
+    GUEST --> UI
+    RECEPTIONIST --> UI
+    MANAGER --> UI
+    ADMIN --> UI
+
+    UI -->|"HTTPS"| AUTH
+    AUTH --> AUTHZ
+    AUTHZ --> BUSINESS
+
+    BUSINESS --> DB
+    BUSINESS --> AUDIT
+
+    BUSINESS -->|"HTTPS / API"| PAYMENT
+    BUSINESS -->|"HTTPS / API"| EMAIL

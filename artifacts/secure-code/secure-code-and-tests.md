@@ -60,8 +60,8 @@ Secure Practice: Pending: Lara.
 
 | ID | Type | Input or Action | Expected Secure Result |
 | --- | --- | --- | --- |
-| ST03 | Valid or authorized | Pending: Dyonathan. | Pending: Dyonathan. |
-| ST04 | Malicious, invalid, or unauthorized | Pending: Dyonathan. | Pending: Dyonathan. |
+| ST03 | Valid or authorized | An authorized maintenance user submits a maintenance closure with a valid authorization, mandatory reason, audit information, and previous-state restoration data. | The maintenance closure is accepted, the room becomes available only after the authorized closure is completed, and the closure is recorded in the audit log with the required information. |
+| ST04 | Malicious, invalid, or unauthorized | An unauthorized user attempts to close an open maintenance issue, or attempts to close it without the required authorization, reason, audit record, or previous-state data. | The maintenance closure is rejected, the room remains unavailable for booking or assignment, no unauthorized room status change occurs, and the rejected attempt is recorded in the audit log. |
 
 ### Solution
 

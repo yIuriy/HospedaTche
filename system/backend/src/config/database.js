@@ -215,9 +215,57 @@ const initDatabase = async () => {
       rating INTEGER NOT NULL,
       comment TEXT,
       status TEXT NOT NULL DEFAULT 'pending',
+      moderated_by TEXT,
+      moderation_reason TEXT,
+      moderated_at DATETIME,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (guest_id) REFERENCES users(id),
-      FOREIGN KEY (booking_id) REFERENCES bookings(id)
+      FOREIGN KEY (booking_id) REFERENCES bookings(id),
+      FOREIGN KEY (moderated_by) REFERENCES users(id)
+    );
+  `);
+
+  const reviewColumns = await all('PRAGMA table_info(reviews)');
+  if (!reviewColumns.some((column) => column.name === 'moderated_by')) {
+    await run('ALTER TABLE reviews ADD COLUMN moderated_by TEXT');
+  }
+  if (!reviewColumns.some((column) => column.name === 'moderation_reason')) {
+    await run('ALTER TABLE reviews ADD COLUMN moderation_reason TEXT');
+  }
+  if (!reviewColumns.some((column) => column.name === 'moderated_at')) {
+    await run('ALTER TABLE reviews ADD COLUMN moderated_at DATETIME');
+  }
+  await run(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_reviews_booking_unique
+    ON reviews (booking_id);
+  `);
+
+  // Guest Reception Chat Table
+  await run(`
+    CREATE TABLE IF NOT EXISTS chat_messages (
+      id TEXT PRIMARY KEY,
+      guest_id TEXT NOT NULL,
+      sender_id TEXT NOT NULL,
+      sender_role TEXT NOT NULL,
+      message TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (guest_id) REFERENCES users(id),
+      FOREIGN KEY (sender_id) REFERENCES users(id)
+    );
+  `);
+  await run(`
+    CREATE INDEX IF NOT EXISTS idx_chat_messages_guest_created
+    ON chat_messages (guest_id, created_at);
+  `);
+
+  // Optional Notification Preferences Table
+  await run(`
+    CREATE TABLE IF NOT EXISTS notification_preferences (
+      user_id TEXT PRIMARY KEY,
+      stay_reminders INTEGER NOT NULL DEFAULT 1,
+      promotions INTEGER NOT NULL DEFAULT 0,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id)
     );
   `);
 

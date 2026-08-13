@@ -7,6 +7,10 @@ const identityRoutes = require('./routes/identity');
 const roomsRouter = require('./routes/rooms');
 const bookingsRouter = require('./routes/bookings');
 const paymentsRouter = require('./routes/payments');
+const searchRouter = require('./routes/search');
+const reviewsRouter = require('./routes/reviews');
+const chatRouter = require('./routes/chat');
+const notificationsRouter = require('./routes/notifications');
 
 const app = express();
 
@@ -38,6 +42,10 @@ app.use('/api/v1', identityRoutes);
 app.use('/api/v1/rooms', roomsRouter);
 app.use('/api/v1/bookings', bookingsRouter);
 app.use('/api/v1/payments', paymentsRouter);
+app.use('/api/v1/search', searchRouter);
+app.use('/api/v1/reviews', reviewsRouter);
+app.use('/api/v1/chat', chatRouter);
+app.use('/api/v1/notifications', notificationsRouter);
 
 // Centralized Error Handling Middleware
 app.use(errorHandler);

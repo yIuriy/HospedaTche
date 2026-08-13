@@ -43,15 +43,16 @@ Pending: Sidnei.
 | Initial Response | Pending: Lara. |
 | Responsible Role | Pending: Lara. |
 
-### DR02 - Pending Detection Rule
+
+### DR02 - Unauthorized Role Elevation Attempts
 
 | Field | Content |
 | --- | --- |
-| Observed Risk | Pending: Dyonathan. |
-| Data Source | Pending: Dyonathan. |
-| Alert Condition | Pending: Dyonathan. |
-| Initial Response | Pending: Dyonathan. |
-| Responsible Role | Pending: Dyonathan. |
+| Observed Risk | R05 - Unauthorized Role Elevation |
+| Data Source | Authorization and security audit logs from user update and role assignment requests |
+| Alert Condition | Alert when a low-privileged user generates repeated denied attempts to assign or modify a role to a level equal to or higher than their own within a short period |
+| Initial Response | Alert the security/operations team, preserve the related audit events, and temporarily restrict further role-management attempts from the affected account while the activity is investigated |
+| Responsible Role | Security/Operations Team |
 
 ### DR03 - Pending Detection Rule
 

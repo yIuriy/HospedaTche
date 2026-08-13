@@ -31,7 +31,7 @@ flowchart TB
     %% =========================================================
 
     subgraph APP_BOUNDARY["Trust Boundary — Application"]
-        
+
         API["Express API Gateway"]
 
         subgraph AUTH["Authentication Service"]
@@ -42,9 +42,10 @@ flowchart TB
 
         subgraph AUTHZ["Server-side Authorization"]
             RBAC["RBAC"]
-            ROLE["Role Hierarchy Validation<br/>SR02"]
-            DTO["DTO Parameter Filtering"]
-            AD02["AD02 — RoleHierarchyValidatorEngine<br/>@PreAuthorize"]
+            ROLE["Role Hierarchy Validation<br/>RoleHierarchyValidatorEngine"]
+            MIDDLEWARE["Authorization Middleware<br/>requireRole()"]
+            DTO["Strict DTO Mappers<br/>Ignore role parameters"]
+            AD02["AD02 — Server-Side Role Hierarchy Enforcement<br/>& DTO Parameter Filtering"]
         end
 
         subgraph SERVICES["Application / Business Services"]
@@ -79,7 +80,8 @@ flowchart TB
 
     AUTHZ --> RBAC
     RBAC --> ROLE
-    ROLE --> DTO
+    ROLE --> MIDDLEWARE
+    MIDDLEWARE --> DTO
     DTO --> AD02
 
     SERVICES --> ACCOUNT

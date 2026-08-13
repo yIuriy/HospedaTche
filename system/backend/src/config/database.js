@@ -69,6 +69,41 @@ const all = async (sql, params = []) => {
   return rows;
 };
 
+const getSync = (sql, params = []) => {
+  const stmt = db.prepare(sql);
+  stmt.bind(params);
+  const row = stmt.step() ? stmt.getAsObject() : null;
+  stmt.free();
+  return row;
+};
+
+const transaction = async (callback) => {
+  await initEngine();
+  db.run('BEGIN IMMEDIATE TRANSACTION');
+
+  try {
+    const result = callback({
+      run: (sql, params = []) => {
+        db.run(sql, params);
+        return { changes: db.getRowsModified() };
+      },
+      get: getSync,
+    });
+
+    if (result && typeof result.then === 'function') {
+      throw new TypeError('Database transaction callbacks must be synchronous');
+    }
+
+    db.run('COMMIT');
+    saveDatabase();
+    return result;
+  } catch (error) {
+    db.run('ROLLBACK');
+    saveDatabase();
+    throw error;
+  }
+};
+
 // Table Initialization & Migration Schema
 const initDatabase = async () => {
   await initEngine();
@@ -115,11 +150,25 @@ const initDatabase = async () => {
       check_out DATE NOT NULL,
       total_price REAL NOT NULL,
       status TEXT NOT NULL DEFAULT 'pending',
+      voucher_code TEXT,
+      cancelled_at DATETIME,
+      cancellation_refund REAL NOT NULL DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (guest_id) REFERENCES users(id),
       FOREIGN KEY (room_id) REFERENCES rooms(id)
     );
   `);
+
+  const bookingColumns = await all('PRAGMA table_info(bookings)');
+  if (!bookingColumns.some((column) => column.name === 'voucher_code')) {
+    await run('ALTER TABLE bookings ADD COLUMN voucher_code TEXT');
+  }
+  if (!bookingColumns.some((column) => column.name === 'cancelled_at')) {
+    await run('ALTER TABLE bookings ADD COLUMN cancelled_at DATETIME');
+  }
+  if (!bookingColumns.some((column) => column.name === 'cancellation_refund')) {
+    await run('ALTER TABLE bookings ADD COLUMN cancellation_refund REAL NOT NULL DEFAULT 0');
+  }
 
   // Payments Table
   await run(`
@@ -129,9 +178,32 @@ const initDatabase = async () => {
       amount REAL NOT NULL,
       status TEXT NOT NULL DEFAULT 'pending',
       transaction_ref TEXT,
+      method TEXT,
+      refunded_amount REAL NOT NULL DEFAULT 0,
+      updated_at DATETIME,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (booking_id) REFERENCES bookings(id)
     );
+  `);
+
+  const paymentColumns = await all('PRAGMA table_info(payments)');
+  if (!paymentColumns.some((column) => column.name === 'method')) {
+    await run('ALTER TABLE payments ADD COLUMN method TEXT');
+  }
+  if (!paymentColumns.some((column) => column.name === 'refunded_amount')) {
+    await run('ALTER TABLE payments ADD COLUMN refunded_amount REAL NOT NULL DEFAULT 0');
+  }
+  if (!paymentColumns.some((column) => column.name === 'updated_at')) {
+    await run('ALTER TABLE payments ADD COLUMN updated_at DATETIME');
+  }
+
+  await run(`
+    CREATE INDEX IF NOT EXISTS idx_bookings_room_dates_status
+    ON bookings (room_id, check_in, check_out, status);
+  `);
+  await run(`
+    CREATE INDEX IF NOT EXISTS idx_payments_booking_status
+    ON payments (booking_id, status);
   `);
 
   // Reviews Table
@@ -169,5 +241,6 @@ module.exports = {
   run,
   get,
   all,
+  transaction,
   initDatabase,
 };

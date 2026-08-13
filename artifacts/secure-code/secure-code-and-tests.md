@@ -48,13 +48,13 @@ Reference: Pending final review by Rafaela. Candidate: OWASP Top 10 2021 A07 - I
 
 How the reference supports this practice: Pending final review by Rafaela.
 
-## Practice 2 - Pending Secure Practice
+## Practice 2 - Authorized Maintenance Closure and Room Availability Enforcement
 
-Related Risk: Pending: Lara.
+Related Risk: R11 - Maintenance Note Tampering.
 
-Related Requirement: Pending: Lara.
+Related Requirement: SR03 - Keep rooms with open maintenance issues unavailable for booking or assignment until maintenance closure is approved, justified, audit logged, and recoverable.
 
-Secure Practice: Pending: Lara.
+Secure Practice: Enforce server-side authorization and maintenance workflow validation before closing a maintenance issue or changing a room under maintenance back to an assignable state. Rooms with open maintenance issues must remain unavailable for booking and assignment, and every closure must include an authorized approver, mandatory reason, audit record, and previous-state restoration data.
 
 ### Tests Defined Before the Solution
 
@@ -65,7 +65,28 @@ Secure Practice: Pending: Lara.
 
 ### Solution
 
-Pending: Lara. Complete this section only after ST03 and ST04 are finalized.
+Expected implementation outline:
+
+```text
+receive maintenance closure request
+validate authenticated user and maintenance closure permission
+load room record and open maintenance issue inside a transaction
+
+if the room has no open maintenance issue:
+    reject request
+    record rejected closure attempt without sensitive data
+
+if approver, reason, audit metadata, or previous-state restoration data is missing:
+    reject request
+    keep the room unavailable for booking and assignment
+    record rejected closure attempt without sensitive data
+
+record immutable audit entry with actor, timestamp, room ID, maintenance issue ID, closure reason, previous room status, new room status, approval reference, and correlation ID
+close the maintenance issue
+restore the room only to an allowed operational state
+make the room visible to booking or assignment only after the authorized closure is complete
+commit the transaction
+```
 
 ### OWASP Reference
 
@@ -78,11 +99,12 @@ How the reference supports this practice: Pending final review by Rafaela.
 | Practice | Risk | Requirement | Tests | OWASP Reference |
 | --- | --- | --- | --- | --- |
 | Practice 1 | R02 - Account Takeover | SR01 | ST01, ST02 | OWASP Top 10 2021 A07, pending final review |
-| Practice 2 | Pending: Lara | Pending: Lara | ST03, ST04 | Pending: Rafaela |
+| Practice 2 | R11 - Maintenance Note Tampering | SR03 | ST03, ST04 | Pending: Rafaela |
 
 ## Final Review
 
 - [x] Practice 1 is linked to R02 and SR01.
+- [x] Practice 2 is linked to R11 and SR03.
 - [ ] Two practices are complete.
 - [ ] Tests appear before each finalized solution.
 - [ ] Each practice has one valid and one adversarial test.

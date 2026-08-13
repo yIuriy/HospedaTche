@@ -180,7 +180,7 @@ Risk level justification: Medium level (Score 6 = 2x3) because modifying or dele
 | R10 | Reduce | Remove SQL `DELETE` permissions on reviews table for application role; enforce soft-delete (`is_hidden = true`) in ORM. | Govern, Protect, Detect, Recover | Database Admin, Backend Team | DB permission schema inspection, ORM soft-delete test, and backup recovery simulation. |
 | R11 | Reduce | Replace sequential integer IDs with random UUIDv4 for room parameters and enforce active status checks. | Protect, Detect | Backend Team | Endpoint penetration test attempting room ID iteration and 404 response check. |
 | R12 | Reduce | Bind payment links to specific `bookingId` and `guestId`, requiring explicit receptionist pre-send confirmation modal. | Protect, Detect, Respond | Frontend Team, Backend Team | Chat payment link binding unit tests and session verification logs. |
-| R13 | Reduce | Apply `@PreAuthorize("hasRole('RECEPTIONIST')")` annotation on all staff chat queue controller endpoints. | Govern, Protect, Detect, Respond | Backend Team | Automated role access matrix tests attempting staff endpoint access with guest token. |
+| R13 | Reduce | Apply server-side role authorization middleware (`requireRole('ROLE_RECEPTIONIST')`) on all staff chat queue controller endpoints. | Govern, Protect, Detect, Respond | Backend Team | Automated role access matrix tests attempting staff endpoint access with guest token. |
 | R14 | Reduce | Enforce append-only message DB schema where edits create a new version entry and deletions are soft-marked with audit log. | Govern, Protect, Detect | Database Admin, Backend Team | DB immutability test, message versioning unit test, and audit log inspection. |
 
 ## Initial Implementation Order
@@ -189,7 +189,7 @@ Risk level justification: Medium level (Score 6 = 2x3) because modifying or dele
 | --- | --- | --- | --- |
 | 1 | Add server-side chat ownership authorization middleware (`session.userId == chat.guestId`). | R03 | Resolves Critical privacy risk (Score 12) preventing guest chat history exposure. |
 | 2 | Enforce DKIM/SPF email signing and HMAC push notification token validation. | R08 | Resolves Critical phishing risk (Score 12) protecting guests from credential theft. |
-| 3 | Apply `@PreAuthorize("hasRole('RECEPTIONIST')")` on staff chat queue endpoints. | R13 | Prevents guest privilege escalation to master staff chat queue (Score 8). |
+| 3 | Apply server-side role authorization middleware (`requireRole('ROLE_RECEPTIONIST')`) on staff chat queue endpoints. | R13 | Prevents guest privilege escalation to master staff chat queue (Score 8). |
 | 4 | Add `CHECKED_OUT` booking verification check to review submission API. | R06 | Prevents fake review spam and rating manipulation (Score 9). |
 | 5 | Implement API rate limiting on search endpoints (10 req/min) and Redis query caching. | R01 | Protects public search availability from bot overload (Score 9). |
 | 6 | Enforce DTO field projection (`PublicRoomDTO`) excluding internal maintenance notes. | R04 | Prevents physical maintenance defect leakage in public APIs (Score 9). |
@@ -218,7 +218,7 @@ Risk level justification: Medium level (Score 6 = 2x3) because modifying or dele
 | R10 | High (8) | Low (2) | Accepted when database permissions block SQL `DELETE` and ORM enforces soft-delete retention. |
 | R11 | Medium (6) | Low (2) | Accepted once UUIDv4 parameterization prevents sequential enumeration of hidden rooms. |
 | R12 | High (8) | Low (3) | Accepted provided chat payment links are immutably tied to the target guest's booking ID. |
-| R13 | High (8) | Low (2) | Accepted only when all staff chat queue routes strictly require `@PreAuthorize("hasRole('RECEPTIONIST')")`. |
+| R13 | High (8) | Low (2) | Accepted only when all staff chat queue routes strictly require server-side role authorization middleware (`requireRole('ROLE_RECEPTIONIST')`). |
 | R14 | Medium (6) | Low (2) | Accepted provided chat database schema is append-only with full versioning logs. |
 
 ## Final Notes
@@ -235,7 +235,7 @@ The **Protect** and **Detect** functions are the most prominent across the propo
 ### 4. Essential Controls
 - Server-side RBAC authorization middleware verifying `session.userId == chat.guestId` (R03).
 - Cryptographic email signing (DKIM/SPF) and HMAC push notification token signatures (R08).
-- `@PreAuthorize("hasRole('RECEPTIONIST')")` annotation on staff chat queue endpoints (R13).
+- Server-side role authorization middleware (`requireRole('ROLE_RECEPTIONIST')`) on staff chat queue endpoints (R13).
 - Public room availability search API rate limiting (10 req/min) and Redis caching (R01).
 - Explicit DTO field projections (`PublicRoomDTO`) masking internal maintenance notes (R04).
 - Soft-delete ORM policy (`is_hidden = true`) with SQL `DELETE` permission removal (R10).

@@ -52,7 +52,7 @@ This document presents the consolidated Stage 1 final considerations for the **H
 ## 4. Key Architectural Challenges Encountered
 
 1. **Multi-Tenant Role-Based Access Control (RBAC):**  
-   Ensuring consistent, server-side `@PreAuthorize` enforcement across all 5 module API controllers so that guests, receptionists, housekeepers, and managers strictly remain scoped to their permitted domain actions.
+   Ensuring consistent, server-side authorization middleware (Express/Node.js) enforcement across all 5 module API controllers so that guests, receptionists, housekeepers, and managers strictly remain scoped to their permitted domain actions.
 
 2. **Concurrency & State Transition Safety:**  
    Preventing double-booking and payment state inconsistencies during peak traffic through atomic database transactions, optimistic/pessimistic locking, and idempotent API idempotency keys.

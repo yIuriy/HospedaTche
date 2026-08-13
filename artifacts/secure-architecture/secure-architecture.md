@@ -53,7 +53,7 @@ Expected Result: Intercepted tokens expire within 5 minutes, client-side scripts
 
 Problem or Risk: R05 - Unauthorized Role Elevation.
 
-Decision: Enforce server-side role hierarchy validation (`RoleHierarchyValidatorEngine`) with `@PreAuthorize` annotations and strict DTO mappers that automatically ignore role parameters in low-privileged payload submissions.
+Decision: Enforce server-side role hierarchy validation (`RoleHierarchyValidatorEngine`) with authorization middleware (`requireRole()`) and strict DTO mappers that automatically ignore role parameters in low-privileged payload submissions.
 
 Justification: Client-side UI restrictions or parameter sanitization can be easily bypassed using direct API calls (e.g., Postman/curl). Role assignments and hierarchy validation must be strictly enforced on the server.
 

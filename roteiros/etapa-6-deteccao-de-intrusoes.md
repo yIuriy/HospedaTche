@@ -37,12 +37,14 @@ Pending: Sidnei.
 
 | Field | Content |
 | --- | --- |
+| Rule Owner | Lara |
 | Observed Risk | R03 - Mass Account Creation; AC09 - Mass Account Creation |
-| Data Source | API access logs and account-registration audit events for `POST /api/v1/auth/register`, grouped by source IP and correlation window |
-| Alert Condition | Alert when one source IP submits more than 5 registration attempts in 10 minutes, or when more than 3 attempts from that IP fail identity validation in the same period |
-| Initial Response | Apply temporary rate limiting, return HTTP 429 for excess requests, preserve correlated events, and notify the security/operations team for review |
+| Data Source | API access logs, account-registration audit events, and rate-limit counter events for `POST /api/v1/auth/register`, grouped by trusted source IP and correlation window |
+| Alert Condition | Alert when one source IP submits more than 5 registration attempts in 10 minutes, when more than 3 attempts from that IP fail identity validation in 10 minutes, or when 3 or more newly created accounts share the same source IP in 30 minutes |
+| Initial Response | Apply temporary registration throttling, return HTTP 429 for excess requests, preserve correlated events, review whether created accounts are fake, and notify the security/operations team before cleanup or longer blocking |
 | Responsible Role | Security/Operations Team |
 
+DR01 must not log passwords, JWTs, reset tokens, full CPF values, or raw request bodies. The useful evidence is the event time, source IP or trusted proxy-derived client identifier, normalized result, correlation ID, and created-account identifier only when an account is successfully created.
 
 ### DR02 - Unauthorized Role Elevation Attempts
 
@@ -82,6 +84,8 @@ Recovery or follow-up: Pending Rafaela.
 - [x] Prevention and detection are distinguished with project examples.
 - [ ] Events and sensitive-data exclusions are complete.
 - [ ] Exactly three detection rules are complete; DR01 and DR02 are complete.
+- [x] DR01 links to an existing risk and abuse case.
+- [x] DR01 has a measurable alert condition and an initial response.
 - [ ] Every rule links to an existing risk or abuse case.
 - [ ] Alert conditions are measurable.
 - [ ] Initial responses and responsible roles are defined.

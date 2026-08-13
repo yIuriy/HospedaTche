@@ -63,6 +63,36 @@ const createAudit = (tx, { userId, action, bookingId, ipAddress }) => {
   );
 };
 
+router.get('/', authenticateToken, async (req, res, next) => {
+  try {
+    let bookings;
+    if (req.user.role === 'Guest') {
+      bookings = await database.all(
+        `SELECT b.id, b.guest_id, b.room_id, b.check_in, b.check_out, b.total_price, b.status, b.voucher_code, b.cancellation_refund, b.created_at,
+                r.number AS room_number, r.type AS room_type, r.price_per_night
+         FROM bookings b
+         JOIN rooms r ON r.id = b.room_id
+         WHERE b.guest_id = ?
+         ORDER BY b.created_at DESC`,
+        [req.user.userId]
+      );
+    } else {
+      bookings = await database.all(
+        `SELECT b.id, b.guest_id, b.room_id, b.check_in, b.check_out, b.total_price, b.status, b.voucher_code, b.cancellation_refund, b.created_at,
+                u.name AS guest_name, u.email AS guest_email,
+                r.number AS room_number, r.type AS room_type
+         FROM bookings b
+         JOIN users u ON u.id = b.guest_id
+         JOIN rooms r ON r.id = b.room_id
+         ORDER BY b.created_at DESC`
+      );
+    }
+    return res.status(200).json({ bookings });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 router.post('/', authenticateToken, requireRole('Guest'), async (req, res, next) => {
   const parsed = bookingSchema.safeParse(req.body);
   if (!parsed.success) {

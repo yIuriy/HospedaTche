@@ -281,7 +281,66 @@ const initDatabase = async () => {
     );
   `);
 
+  // Seed initial accounts in non-test mode if empty
+  if (process.env.NODE_ENV !== 'test') {
+    await seedInitialData();
+  }
+
   console.log('Database tables verified and migrated successfully.');
+};
+
+const seedInitialData = async () => {
+  const adminExists = await get("SELECT id FROM users WHERE role = 'Administrator' LIMIT 1");
+  if (!adminExists) {
+    const bcrypt = require('bcryptjs');
+    const crypto = require('node:crypto');
+
+    const adminPasswordHash = await bcrypt.hash('AdminPass!2026', 10);
+    const staffPasswordHash = await bcrypt.hash('StaffPass!2026', 10);
+
+    await run(
+      `INSERT INTO users (id, name, email, cpf, password_hash, role)
+       VALUES (?, ?, ?, ?, ?, 'Administrator')`,
+      [crypto.randomUUID(), 'System Administrator', 'admin@hospedatche.com', '00000000000', adminPasswordHash]
+    );
+
+    await run(
+      `INSERT INTO users (id, name, email, cpf, password_hash, role)
+       VALUES (?, ?, ?, ?, ?, 'Manager')`,
+      [crypto.randomUUID(), 'Hotel Manager', 'manager@hospedatche.com', '11111111111', staffPasswordHash]
+    );
+
+    await run(
+      `INSERT INTO users (id, name, email, cpf, password_hash, role)
+       VALUES (?, ?, ?, ?, ?, 'Receptionist')`,
+      [crypto.randomUUID(), 'Front Desk Receptionist', 'reception@hospedatche.com', '22222222222', staffPasswordHash]
+    );
+
+    const roomExists = await get('SELECT id FROM rooms LIMIT 1');
+    if (!roomExists) {
+      await run(
+        `INSERT INTO rooms (id, number, type, price_per_night, status, capacity)
+         VALUES (?, '101', 'Standard Single', 150.00, 'available', 1)`,
+        [crypto.randomUUID()]
+      );
+      await run(
+        `INSERT INTO rooms (id, number, type, price_per_night, status, capacity)
+         VALUES (?, '102', 'Standard Double', 220.00, 'available', 2)`,
+        [crypto.randomUUID()]
+      );
+      await run(
+        `INSERT INTO rooms (id, number, type, price_per_night, status, capacity)
+         VALUES (?, '201', 'Deluxe Suite', 380.00, 'available', 3)`,
+        [crypto.randomUUID()]
+      );
+      await run(
+        `INSERT INTO rooms (id, number, type, price_per_night, status, capacity)
+         VALUES (?, '301', 'Presidencial Suite', 750.00, 'available', 4)`,
+        [crypto.randomUUID()]
+      );
+    }
+    console.log('Default Admin and Staff accounts seeded successfully.');
+  }
 };
 
 module.exports = {

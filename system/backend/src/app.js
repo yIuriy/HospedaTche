@@ -11,6 +11,8 @@ const searchRouter = require('./routes/search');
 const reviewsRouter = require('./routes/reviews');
 const chatRouter = require('./routes/chat');
 const notificationsRouter = require('./routes/notifications');
+const reportsRouter = require('./routes/reports');
+const stayRouter = require('./routes/stay');
 
 const app = express();
 
@@ -46,6 +48,8 @@ app.use('/api/v1/search', searchRouter);
 app.use('/api/v1/reviews', reviewsRouter);
 app.use('/api/v1/chat', chatRouter);
 app.use('/api/v1/notifications', notificationsRouter);
+app.use('/api/v1/reports', reportsRouter);
+app.use('/api/v1/stay', stayRouter);
 
 // Centralized Error Handling Middleware
 app.use(errorHandler);

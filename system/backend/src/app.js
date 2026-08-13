@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const errorHandler = require('./middlewares/errorHandler');
+const authRoutes = require('./routes/auth');
 const identityRoutes = require('./routes/identity');
 
 const app = express();
@@ -29,6 +30,7 @@ app.get(['/health', '/api/v1/health'], (req, res) => {
   });
 });
 
+app.use('/api/v1', authRoutes);
 app.use('/api/v1', identityRoutes);
 
 // Centralized Error Handling Middleware

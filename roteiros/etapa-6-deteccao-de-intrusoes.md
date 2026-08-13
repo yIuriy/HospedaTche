@@ -33,15 +33,15 @@ Pending: Sidnei.
 
 ## Detection Rules
 
-### DR01 - Pending Detection Rule
+### DR01 - Excessive Account Registration Attempts From One IP
 
 | Field | Content |
 | --- | --- |
-| Observed Risk | Pending: Lara. |
-| Data Source | Pending: Lara. |
-| Alert Condition | Pending: Lara. |
-| Initial Response | Pending: Lara. |
-| Responsible Role | Pending: Lara. |
+| Observed Risk | R03 - Mass Account Creation; AC09 - Mass Account Creation |
+| Data Source | API access logs and account-registration audit events for `POST /api/v1/auth/register`, grouped by source IP and correlation window |
+| Alert Condition | Alert when one source IP submits more than 5 registration attempts in 10 minutes, or when more than 3 attempts from that IP fail identity validation in the same period |
+| Initial Response | Apply temporary rate limiting, return HTTP 429 for excess requests, preserve correlated events, and notify the security/operations team for review |
+| Responsible Role | Security/Operations Team |
 
 
 ### DR02 - Unauthorized Role Elevation Attempts
@@ -81,7 +81,7 @@ Recovery or follow-up: Pending Rafaela.
 - [x] Intrusion detection is explained in the HospedaTche context.
 - [x] Prevention and detection are distinguished with project examples.
 - [ ] Events and sensitive-data exclusions are complete.
-- [ ] Exactly three detection rules are complete.
+- [ ] Exactly three detection rules are complete; DR01 and DR02 are complete.
 - [ ] Every rule links to an existing risk or abuse case.
 - [ ] Alert conditions are measurable.
 - [ ] Initial responses and responsible roles are defined.

@@ -22,7 +22,7 @@ Stage 3 converts prioritized risks into verifiable security requirements, vulner
 
 | Requirement | Vulnerability or Category | Reference | Relationship to HospedaTche |
 | --- | --- | --- | --- |
-| SR01 | Identification and authentication failure | OWASP Top 10 2021 A07 - Identification and Authentication Failures | Missing re-authentication and session revocation can let an attacker change identity data or preserve access after the legitimate user attempts account recovery. |
+| SR01 | Missing authentication for a critical function | CWE-306 - Missing Authentication for Critical Function; OWASP ASVS V2 - Authentication | Missing re-authentication and session revocation can let an attacker change identity data or preserve access after the legitimate user attempts account recovery. |
 | SR02 | Improper Privilege Management & Broken Access Control | OWASP Top 10 2021 A01 - Broken Access Control (CWE-269) | Failing to validate role update payloads on the server side allows guests or staff to assign themselves elevated roles, bypassing HospedaTche's access control hierarchy. |
 | SR03 | Broken access control and insufficient auditability for maintenance closure | OWASP Top 10 2021 A01 - Broken Access Control | Missing authorization and audit controls can let staff hide maintenance issues, make unsafe rooms appear operational, and bypass room blocking. |
 ## Architecture Diagram
@@ -77,7 +77,7 @@ Expected Result: Unsafe rooms under maintenance are automatically hidden from pu
 
 | Risk | Requirement | Vulnerability Reference | Architecture Control | Decision |
 | --- | --- | --- | --- | --- |
-| R02 - Account Takeover | SR01 | OWASP Top 10 2021 A07 | Step-up authentication and centralized session revocation in the authentication service | AD01 |
+| R02 - Account Takeover | SR01 | CWE-306; OWASP ASVS V2 | Step-up authentication and centralized session revocation in the authentication service | AD01 |
 | R05 - Unauthorized Role Elevation | SR02 | OWASP Top 10 2021 A01 (CWE-269) | Server-side role hierarchy validation engine and strict DTO parameter filtering | AD02 |
 | R11 - Maintenance Note Tampering | SR03 | OWASP Top 10 2021 A01 | Maintenance closure approval, room block enforcement, immutable maintenance history, and previous-state restoration in the accommodation service | AD03 |
 

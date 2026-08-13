@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const errorHandler = require('./middlewares/errorHandler');
+const identityRoutes = require('./routes/identity');
 
 const app = express();
 
@@ -27,6 +28,8 @@ app.get(['/health', '/api/v1/health'], (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+app.use('/api/v1', identityRoutes);
 
 // Centralized Error Handling Middleware
 app.use(errorHandler);

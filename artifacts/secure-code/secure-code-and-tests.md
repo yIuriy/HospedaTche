@@ -4,47 +4,58 @@ Status: Final
 
 Stage 4 demonstrates how Stage 3 security requirements become secure implementation practices and tests defined before the solution.
 
-## Practice 1 - Step-Up Authentication and Session Revocation
+## Practice 1 - Registration Validation, Password Hashing, and Step-Up Authentication
 
 Related Risk: R02 - Account Takeover.
 
 Related Requirement: SR01 - Require step-up authentication before sensitive account changes and revoke active sessions after password change or recovery.
 
-Secure Practice: Enforce re-authentication on the server before changing a password, email address, or CPF. Revoke active sessions and refresh tokens after a password change or recovery, and record the security event without sensitive data.
+Secure Practice: Validate registration and profile payloads with strict Zod schemas, normalize email and CPF values, reject malformed identity data and weak passwords, use parameterized SQL, hash passwords with bcrypt cost 10, enforce re-authentication before sensitive identity changes, and revoke previous sessions after password changes.
 
 ### Tests Defined Before the Solution
 
 | ID | Type | Input or Action | Expected Secure Result |
 | --- | --- | --- | --- |
-| ST01 | Valid or authorized | POST request to `/api/account/password` with valid session cookie and correct `currentPassword`. | Password updates successfully (HTTP 200 OK), all pre-existing active sessions and refresh tokens are invalidated, and a security audit event is logged. |
-| ST02 | Malicious, invalid, or unauthorized | POST request to `/api/account/password` with valid session cookie but invalid or missing `currentPassword`. | Request is rejected (HTTP 401 Unauthorized / 403 Forbidden), password remains unchanged, active sessions are preserved, and a failed step-up authentication audit event is logged. |
+| ST01 | Valid or authorized | POST `/api/v1/auth/register` with valid email, CPF, strong password, and full name. | Registration returns HTTP 201 with normalized, non-sensitive Guest metadata and no password hash. |
+| ST02 | Malicious, invalid, or unauthorized | POST `/api/v1/auth/register` with SQL injection text in email or CPF, malformed identity data, or a weak password. | Request returns HTTP 400 before persistence; parameterized SQL is not altered and no account is created. |
 
 ### Solution
 
-Expected implementation outline:
+Implemented in `system/backend/src/routes/identity.js` and verified through `system/backend/test/identity.test.js`.
+
+Implementation outline:
 
 ```text
-receive sensitive account change request
-validate authenticated session
-require current password or MFA confirmation
+receive registration or profile request
+validate strict Zod schema and normalize identity fields
 
-if step-up authentication fails:
+if registration data is invalid:
+    reject request before database access
+
+query email and CPF using bound SQL parameters
+hash accepted password with bcrypt cost 10
+persist user with Guest role
+return only non-sensitive metadata
+
+for sensitive profile changes:
+    validate authenticated JWT session
+    require current password
+
+if re-authentication fails:
     reject request
-    record denied operation without sensitive data
 
 apply authorized account change
 
-if password was changed or recovered:
-    revoke previous sessions and refresh tokens
-
-record security audit event
+if password changed:
+    store new bcrypt hash
+    increment auth version to reject old JWT sessions
 ```
 
 ### OWASP Reference
 
-Reference: OWASP Top 10 2021 A07 - Identification and Authentication Failures & OWASP Session Management Cheat Sheet.
+Reference: OWASP ASVS V2 - Authentication; OWASP Input Validation Cheat Sheet; OWASP Password Storage Cheat Sheet.
 
-How the reference supports this practice: OWASP A07 and the Session Management Cheat Sheet mandate re-authentication (step-up authentication) prior to updating critical credentials and require immediate server-side session termination across all active devices upon password modification or recovery to block hijacked sessions.
+How the reference supports this practice: These references require server-side input validation, approved password hashing, re-authentication for critical identity changes, and invalidation of prior authentication state after password replacement.
 
 ## Practice 2 - Authorized Maintenance Closure and Room Availability Enforcement
 
@@ -96,7 +107,7 @@ How the reference supports this practice: OWASP A01 and ASVS Chapter V4 mandate 
 
 | Practice | Risk | Requirement | Tests | OWASP Reference |
 | --- | --- | --- | --- | --- |
-| Practice 1 - Step-Up Authentication and Session Revocation | R02 - Account Takeover | SR01 | ST01, ST02 | OWASP Top 10:2021-A07 & OWASP Session Management Cheat Sheet |
+| Practice 1 - Registration Validation, Password Hashing, and Step-Up Authentication | R01 - Fake Guest Registration; R02 - Account Takeover | SR01 | ST01, ST02 | OWASP ASVS V2; Input Validation Cheat Sheet; Password Storage Cheat Sheet |
 | Practice 2 - Authorized Maintenance Closure and Room Availability Enforcement | R11 - Maintenance Note Tampering | SR03 | ST03, ST04 | OWASP Top 10:2021-A01 & OWASP ASVS v4.0.3 Chapter V4 |
 
 ## Final Review

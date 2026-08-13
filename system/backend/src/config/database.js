@@ -82,9 +82,15 @@ const initDatabase = async () => {
       cpf TEXT UNIQUE NOT NULL,
       password_hash TEXT NOT NULL,
       role TEXT NOT NULL DEFAULT 'Guest',
+      auth_version INTEGER NOT NULL DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
+
+  const userColumns = await all('PRAGMA table_info(users)');
+  if (!userColumns.some((column) => column.name === 'auth_version')) {
+    await run('ALTER TABLE users ADD COLUMN auth_version INTEGER NOT NULL DEFAULT 0');
+  }
 
   // Rooms Table
   await run(`

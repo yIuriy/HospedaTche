@@ -3,7 +3,7 @@
  * Prevents leakage of internal stack traces, database details, or credentials to client endpoints.
  */
 const errorHandler = (err, req, res, next) => {
-  const statusCode = err.statusCode || res.statusCode !== 200 ? res.statusCode : 500;
+  const statusCode = err.statusCode || (res.statusCode !== 200 ? res.statusCode : 500);
   const isProduction = process.env.NODE_ENV === 'production';
 
   // Log error internally for operational and security investigation

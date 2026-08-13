@@ -5,6 +5,8 @@ const errorHandler = require('./middlewares/errorHandler');
 const authRoutes = require('./routes/auth');
 const identityRoutes = require('./routes/identity');
 const roomsRouter = require('./routes/rooms');
+const bookingsRouter = require('./routes/bookings');
+const paymentsRouter = require('./routes/payments');
 
 const app = express();
 
@@ -34,6 +36,8 @@ app.get(['/health', '/api/v1/health'], (req, res) => {
 app.use('/api/v1', authRoutes);
 app.use('/api/v1', identityRoutes);
 app.use('/api/v1/rooms', roomsRouter);
+app.use('/api/v1/bookings', bookingsRouter);
+app.use('/api/v1/payments', paymentsRouter);
 
 // Centralized Error Handling Middleware
 app.use(errorHandler);

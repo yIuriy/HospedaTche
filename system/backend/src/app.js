@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const errorHandler = require('./middlewares/errorHandler');
 const authRoutes = require('./routes/auth');
 const identityRoutes = require('./routes/identity');
+const roomsRouter = require('./routes/rooms');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.get(['/health', '/api/v1/health'], (req, res) => {
 
 app.use('/api/v1', authRoutes);
 app.use('/api/v1', identityRoutes);
+app.use('/api/v1/rooms', roomsRouter);
 
 // Centralized Error Handling Middleware
 app.use(errorHandler);

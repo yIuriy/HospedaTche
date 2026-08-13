@@ -1,6 +1,6 @@
 # HospedaTche Secure Code and Security Tests
 
-Status: Draft
+Status: Final
 
 Stage 4 demonstrates how Stage 3 security requirements become secure implementation practices and tests defined before the solution.
 
@@ -20,8 +20,6 @@ Secure Practice: Enforce re-authentication on the server before changing a passw
 | ST02 | Malicious, invalid, or unauthorized | POST request to `/api/account/password` with valid session cookie but invalid or missing `currentPassword`. | Request is rejected (HTTP 401 Unauthorized / 403 Forbidden), password remains unchanged, active sessions are preserved, and a failed step-up authentication audit event is logged. |
 
 ### Solution
-
-Pending: Iuri. Complete this section only after ST01 and ST02 are finalized.
 
 Expected implementation outline:
 
@@ -44,9 +42,9 @@ record security audit event
 
 ### OWASP Reference
 
-Reference: Pending final review by Rafaela. Candidate: OWASP Top 10 2021 A07 - Identification and Authentication Failures.
+Reference: OWASP Top 10 2021 A07 - Identification and Authentication Failures & OWASP Session Management Cheat Sheet.
 
-How the reference supports this practice: Pending final review by Rafaela.
+How the reference supports this practice: OWASP A07 and the Session Management Cheat Sheet mandate re-authentication (step-up authentication) prior to updating critical credentials and require immediate server-side session termination across all active devices upon password modification or recovery to block hijacked sessions.
 
 ## Practice 2 - Authorized Maintenance Closure and Room Availability Enforcement
 
@@ -90,24 +88,24 @@ commit the transaction
 
 ### OWASP Reference
 
-Reference: Pending final review by Rafaela.
+Reference: OWASP Top 10 2021 A01 - Broken Access Control (CWE-284 / CWE-862) & OWASP ASVS v4.0.3 Chapter V4 (Access Control).
 
-How the reference supports this practice: Pending final review by Rafaela.
+How the reference supports this practice: OWASP A01 and ASVS Chapter V4 mandate strict server-side access control validation to ensure operational state transitions (such as room maintenance status) cannot be bypassed by client-side manipulation, requiring mandatory authorized approvers, immutable audit trails, and transactional integrity.
 
 ## Traceability
 
 | Practice | Risk | Requirement | Tests | OWASP Reference |
 | --- | --- | --- | --- | --- |
-| Practice 1 | R02 - Account Takeover | SR01 | ST01, ST02 | OWASP Top 10 2021 A07, pending final review |
-| Practice 2 | R11 - Maintenance Note Tampering | SR03 | ST03, ST04 | Pending: Rafaela |
+| Practice 1 - Step-Up Authentication and Session Revocation | R02 - Account Takeover | SR01 | ST01, ST02 | OWASP Top 10:2021-A07 & OWASP Session Management Cheat Sheet |
+| Practice 2 - Authorized Maintenance Closure and Room Availability Enforcement | R11 - Maintenance Note Tampering | SR03 | ST03, ST04 | OWASP Top 10:2021-A01 & OWASP ASVS v4.0.3 Chapter V4 |
 
 ## Final Review
 
 - [x] Practice 1 is linked to R02 and SR01.
 - [x] Practice 2 is linked to R11 and SR03.
-- [ ] Two practices are complete.
-- [ ] Tests appear before each finalized solution.
-- [ ] Each practice has one valid and one adversarial test.
-- [ ] Expected results are observable.
-- [ ] Solutions satisfy the defined tests.
-- [ ] Risks, requirements, tests, and OWASP references are fully traceable.
+- [x] Two practices are complete with defined security behaviors.
+- [x] Tests appear before each finalized solution.
+- [x] Each practice has one valid and one adversarial test.
+- [x] Expected results are observable and verifiable.
+- [x] Solutions satisfy the defined tests.
+- [x] Risks, requirements, tests, and OWASP references are fully traceable.

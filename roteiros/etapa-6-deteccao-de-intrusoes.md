@@ -21,15 +21,15 @@ Prevention answers "How can the system block or reduce this attack?" Detection a
 
 ## Events to Log
 
-Pending: Sidnei.
+To enable reliable detection without introducing security or privacy risks, HospedaTche records structured JSON audit log entries across five key operational categories. Every log record shares a common base metadata envelope containing: `timestamp` (ISO 8601 UTC), `correlation_id` (UUIDv4), `actor_id` (User ID, or `anonymous`), `source_ip`, `user_agent`, `http_method`, `request_path`, and `outcome` (`SUCCESS` or `FAILURE`).
 
 | Event Category | Event or Action | Required Fields | Sensitive Data Exclusions |
 | --- | --- | --- | --- |
-| Authentication | Pending: Sidnei. | Pending: Sidnei. | Passwords and tokens |
-| Authorization | Pending: Sidnei. | Pending: Sidnei. | Session tokens |
-| Business Operation | Pending: Sidnei. | Pending: Sidnei. | Unnecessary personal data |
-| Payment | Pending: Sidnei. | Pending: Sidnei. | Complete payment data |
-| Error and Audit | Pending: Sidnei. | Pending: Sidnei. | Secrets and sensitive implementation details |
+| Authentication | `auth.register`, `auth.login`, `auth.login.failed`, `auth.stepup.failed`, `auth.session.revoked`, `auth.password_reset` | `timestamp`, `correlation_id`, `actor_id`, `source_ip`, `request_path` (`/api/v1/auth/*`), `event_type`, `outcome`, `failure_reason` | Plaintext passwords, authentication tokens (JWTs), password reset tokens, MFA secrets. |
+| Authorization | `authz.access_denied`, `authz.role_change.attempt`, `authz.permission.check_failed` | `timestamp`, `correlation_id`, `actor_id`, `actor_role`, `target_resource`, `requested_action`, `source_ip`, `outcome` (`HTTP 403 / 401`) | Active session bearer tokens, internal crypto keys, authorization header raw strings. |
+| Business Operation | `booking.created`, `booking.cancelled`, `room.price.updated`, `room.availability.changed`, `review.submitted` | `timestamp`, `correlation_id`, `actor_id`, `entity_type` (`booking`/`room`/`review`), `entity_id`, `property_id`, `action`, `outcome` | Full guest PII (tax ID / CPF, full physical address, unmasked phone numbers). |
+| Payment | `payment.checkout.initiated`, `payment.callback.received`, `payment.transaction.failed`, `payment.refund.requested` | `timestamp`, `correlation_id`, `actor_id`, `booking_id`, `transaction_id`, `payment_gateway_ref`, `amount`, `currency`, `gateway_status_code` | Credit card numbers (PAN), CVV/CVC codes, card expiration dates, raw gateway authorization secrets. |
+| Error and Audit | `system.error.unhandled`, `security.payload_limit.exceeded`, `security.rate_limit.exceeded`, `audit.config.changed` | `timestamp`, `correlation_id`, `actor_id`, `error_code`, `error_type`, `sanitized_stack_trace`, `middleware_origin`, `source_ip` | Environment secrets, DB passwords, full raw request bodies, internal file system absolute paths. |
 
 ## Detection Rules
 
@@ -82,7 +82,7 @@ Recovery or follow-up: Pending Rafaela.
 
 - [x] Intrusion detection is explained in the HospedaTche context.
 - [x] Prevention and detection are distinguished with project examples.
-- [ ] Events and sensitive-data exclusions are complete.
+- [x] Events and sensitive-data exclusions are complete.
 - [ ] Exactly three detection rules are complete; DR01 and DR02 are complete.
 - [x] DR01 links to an existing risk and abuse case.
 - [x] DR01 has a measurable alert condition and an initial response.

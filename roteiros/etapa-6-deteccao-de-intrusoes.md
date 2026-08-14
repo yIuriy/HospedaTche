@@ -1,6 +1,6 @@
 # Stage 6 - HospedaTche Monitoring and Intrusion Detection
 
-Status: Draft
+Status: Final
 
 This document describes how HospedaTche can identify suspicious behavior after deployment by connecting known risks and abuse cases to observable events, detection rules, and initial responses.
 
@@ -56,36 +56,37 @@ DR01 must not log passwords, JWTs, reset tokens, full CPF values, or raw request
 | Initial Response | Alert the security/operations team, preserve the related audit events, and temporarily restrict further role-management attempts from the affected account while the activity is investigated |
 | Responsible Role | Security/Operations Team |
 
-### DR03 - Pending Detection Rule
+### DR03 - Suspicious Guest Chat History Enumeration and IDOR Attempts
 
 | Field | Content |
 | --- | --- |
-| Observed Risk | Pending: Rafaela. |
-| Data Source | Pending: Rafaela. |
-| Alert Condition | Pending: Rafaela. |
-| Initial Response | Pending: Rafaela. |
-| Responsible Role | Pending: Rafaela. |
+| Rule Owner | Rafaela |
+| Observed Risk | R03 - Guest Chat History Exposure; AC03 - Guest Chat History Exposure |
+| Data Source | Chat service authorization logs, API Gateway access records, and security audit events for `GET /api/v1/chat/messages` and `POST /api/v1/chat/messages` |
+| Alert Condition | Alert when a single authenticated user session or source IP generates more than 5 denied requests (HTTP 403 / `authz.access_denied`) targeting chat session IDs that do not match the token's authenticated `userId` within 2 minutes, or attempts to query more than 3 distinct guest chat histories in 5 minutes |
+| Initial Response | Immediately terminate and revoke the offender's active session/token, throttle the source IP at the API Gateway with HTTP 429/403, record an immutable security incident log with correlation ID, and alert the security/operations team for immediate IDOR investigation |
+| Responsible Role | Security/Operations Team |
+
+DR03 must not log chat message content, passwords, session tokens, or guest personal details. The useful evidence consists of timestamp, correlation ID, authenticated user ID, target chat session ID, source IP, HTTP method, response status code, and authorization outcome.
 
 ## Response and Escalation
 
-Alert validation: Pending Rafaela.
+Alert validation: Security analysts review the correlation ID, source IP, user ID, request timeline, and HTTP error codes (401/403/429) within the central audit log to confirm whether the alert reflects genuine malicious activity (such as automated IDOR enumeration or brute force) or a legitimate user error/network retry, eliminating false positives before initiating disruptive actions.
 
-Containment: Pending Rafaela.
+Containment: Apply automated or analyst-triggered rate-limiting at the API Gateway/WAF, invalidate compromised JWT tokens and HttpOnly cookies via the centralized Redis session store, and temporarily restrict access to targeted endpoints from malicious source IPs.
 
-Escalation: Pending Rafaela.
+Escalation: For High and Critical severity alerts (such as repeated role escalation or unauthorized access to other guests' data), immediately notify the on-call Security Engineer and Incident Response Team via dedicated automated channels (e.g., PagerDuty, Slack/Discord security webhook, or urgent incident ticket) with associated event correlation IDs.
 
-Evidence preservation: Pending Rafaela.
+Evidence preservation: Export and archive immutable, cryptographically hashed audit log entries (excluding passwords, tokens, and sensitive PII) covering the incident timeline to dedicated, write-once security storage to preserve forensic integrity and support root-cause analysis.
 
-Recovery or follow-up: Pending Rafaela.
+Recovery or follow-up: Restore restricted accounts after identity verification (step-up authentication), apply security patches or WAF rules for identified attack vectors, review audit logs to ensure no persistent unauthorized changes occurred, and document post-mortem lessons learned.
 
 ## Final Review
 
 - [x] Intrusion detection is explained in the HospedaTche context.
 - [x] Prevention and detection are distinguished with project examples.
 - [x] Events and sensitive-data exclusions are complete.
-- [ ] Exactly three detection rules are complete; DR01 and DR02 are complete.
-- [x] DR01 links to an existing risk and abuse case.
-- [x] DR01 has a measurable alert condition and an initial response.
-- [ ] Every rule links to an existing risk or abuse case.
-- [ ] Alert conditions are measurable.
-- [ ] Initial responses and responsible roles are defined.
+- [x] Exactly three detection rules are complete (DR01, DR02, and DR03).
+- [x] Every rule links to an existing risk and abuse case.
+- [x] Alert conditions are measurable and testable.
+- [x] Initial responses and responsible roles are defined.

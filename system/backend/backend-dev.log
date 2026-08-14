@@ -1,0 +1,13 @@
+
+> hospedatche-backend@1.0.0 dev
+> node --watch src/server.js
+
+Change detected in 'C:\\Users\\lucik\\Programação\\Faculdade\\CCCG\\EngenhariaDeSoftwareSeguro\\HospedaTche\\system\\backend\\src\\routes\\stay.js'
+Restarting 'src/server.js'
+Default Admin and Staff accounts seeded successfully.
+Database tables verified and migrated successfully.
+[HospedaTche Backend] Server running on port 3000 (development)
+Change detected in 'C:\\Users\\lucik\\Programação\\Faculdade\\CCCG\\EngenhariaDeSoftwareSeguro\\HospedaTche\\system\\backend\\node_modules\\iconv-lite\\encodings\\dbcs-data.js'
+Restarting 'src/server.js'
+Database tables verified and migrated successfully.
+[HospedaTche Backend] Server running on port 3000 (development)

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="HospedaTche - Sistema Seguro de Hospedagem Hotelaria">
+  <title>HospedaTche - Sistema de Hospedagem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="brand" data-view="home">
+        <span class="brand-icon">🏨</span>
+        <h1 class="brand-title">HospedaTche</h1>
+      </div>
+
+      <nav class="nav-menu" id="nav-menu">
+        <button class="nav-link active" data-view="home">Início</button>
+        <button class="nav-link" data-view="rooms">Acomodações</button>
+        <button class="nav-link hidden" data-view="bookings" id="nav-bookings">Minhas Reservas</button>
+        <button class="nav-link hidden" data-view="stay-ops" id="nav-stay-ops">Estadia & Recepção</button>
+        <button class="nav-link hidden" data-view="chat-reviews" id="nav-chat-reviews">Chat & Avaliações</button>
+        <button class="nav-link hidden" data-view="reports-audit" id="nav-reports-audit">Relatórios & Auditoria</button>
+        <button class="nav-link hidden" data-view="rooms-admin" id="nav-rooms-admin">Gestão de Quartos</button>
+        <button class="nav-link hidden" data-view="staff-admin" id="nav-staff-admin">Gestão de Equipe</button>
+        <button class="nav-link hidden" data-view="profile" id="nav-profile">Meu Perfil</button>
+      </nav>
+
+      <div class="user-controls">
+        <span id="user-role-badge" class="badge badge-guest">Visitante</span>
+        <div id="auth-actions">
+          <button id="btn-open-login" class="btn btn-secondary btn-sm">Entrar / Cadastrar</button>
+          <div id="user-dropdown" class="hidden user-menu">
+            <span id="user-display-name"></span>
+            <button id="btn-logout" class="btn btn-outline-danger btn-sm">Sair</button>
+          </div>
+        </div>
+        <button id="nav-toggle-btn" class="nav-toggle-btn" aria-label="Alternar Menu">☰ Menu</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Search Section -->
+  <section class="hero-section" id="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h2>Reserve sua acomodação com facilidade e segurança</h2>
+        <p>A melhor experiência em gestão hoteleira, hospedagem e reservas online.</p>
+      </div>
+
+      <!-- Quick Search Widget -->
+      <div class="search-card">
+        <form id="form-search-rooms" class="search-grid">
+          <div class="form-group">
+            <label for="search-check-in">Check-in</label>
+            <input type="date" id="search-check-in" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="search-check-out">Check-out</label>
+            <input type="date" id="search-check-out" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="search-guests">Hóspedes</label>
+            <input type="number" id="search-guests" class="form-input" min="1" max="20" value="1" required>
+          </div>
+          <div class="form-group">
+            <label for="search-min-price">Preço Mín. (R$)</label>
+            <input type="number" id="search-min-price" class="form-input" min="0" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label for="search-max-price">Preço Máx. (R$)</label>
+            <input type="number" id="search-max-price" class="form-input" min="0" placeholder="Sem limite">
+          </div>
+          <div class="form-group btn-search-wrapper">
+            <button type="submit" class="btn btn-primary btn-full">🔍 Buscar Quartos</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Views Container -->
+  <main class="container main-content">
+
+    <!-- PAGE 1: VIEW - HOME & HOTEL INFORMATION (RF11, RF13, RF55, RF56, RF57) -->
+    <section id="view-home" class="view-panel active">
+      <div class="section-header">
+        <h3>Sobre o HospedaTche Hotel</h3>
+      </div>
+      <div class="cards-grid">
+        <div class="card">
+          <h4>📍 Localização e Estrutura</h4>
+          <p>Localizado em um ponto privilegiado com vista panorâmica, o HospedaTche oferece quartos climatizados, Wi-Fi de alta velocidade, café da manhã incluso e recepção 24h.</p>
+        </div>
+        <div class="card">
+          <h4>📋 Políticas de Hospedagem</h4>
+          <ul style="margin-left: 1.25rem; font-size: 0.95rem; color: var(--text-muted);">
+            <li><strong>Check-in:</strong> a partir das 14:00h</li>
+            <li><strong>Check-out:</strong> até às 12:00h</li>
+            <li><strong>Cancelamento:</strong> Reembolso de 100% até 7 dias antes do check-in.</li>
+            <li><strong>Identificação:</strong> Documento oficial com foto obrigatório no check-in.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>⭐ Avaliações Recentes dos Hóspedes</h4>
+          <div id="home-approved-reviews">
+            <div class="loading-spinner">Carregando avaliações dos hóspedes...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 2: VIEW - ROOM CATALOG & SEARCH (RF11, RF12, RF14-RF21) -->
+    <section id="view-rooms" class="view-panel hidden">
+      <div class="section-header">
+        <h3 id="rooms-title">Quartos Disponíveis</h3>
+        <button id="btn-clear-search" class="btn btn-sm btn-outline hidden">Limpar Filtros</button>
+      </div>
+      <div id="rooms-grid" class="cards-grid">
+        <div class="loading-spinner">Carregando quartos...</div>
+      </div>
+    </section>
+
+    <!-- PAGE 3: VIEW - MY BOOKINGS & VOUCHERS (RF22-RF30, RF33) -->
+    <section id="view-bookings" class="view-panel hidden">
+      <div class="section-header">
+        <h3>Minhas Reservas</h3>
+        <button id="btn-refresh-bookings" class="btn btn-sm btn-outline">🔄 Atualizar</button>
+      </div>
+      <div id="bookings-list" class="cards-list">
+        <div class="loading-spinner">Carregando reservas...</div>
+      </div>
+    </section>
+
+    <!-- PAGE 4: VIEW - STAY OPERATIONS & CHECK-IN/OUT (RF35-RF40) -->
+    <section id="view-stay-ops" class="view-panel hidden">
+      <div class="section-header">
+        <h3>Recepção & Operações de Estadia</h3>
+      </div>
+      <div class="admin-forms-grid">
+        <!-- Check-in Form -->
+        <div class="card form-card">
+          <h4>🔑 Processar Check-in de Hóspede (RF35, RF37, RF38)</h4>
+          <form id="form-stay-checkin">
+            <div class="form-group">
+              <label for="checkin-booking-id">ID da Reserva Confirmada (UUID)</label>
+              <input type="text" id="checkin-booking-id" class="form-input" required placeholder="Cole o ID da reserva">
+            </div>
+            <div class="form-group">
+              <label for="checkin-doc">Documento do Titular (RG / CPF / Passaporte)</label>
+              <input type="text" id="checkin-doc" class="form-input" required placeholder="Ex: 123.456.789-00">
+            </div>
+            <div class="form-group">
+              <label for="checkin-companions">Acompanhantes (Opcional - Nome e Documento)</label>
+              <input type="text" id="checkin-companions" class="form-input" placeholder="Ex: Maria Silva (CPF 111.222.333-44)">
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Concluir Check-in</button>
+          </form>
+        </div>
+
+        <!-- Check-out & Cleaning Queue -->
+        <div class="card form-card">
+          <h4>🚪 Processar Check-out & Fila de Limpeza (RF36, RF39)</h4>
+          <form id="form-stay-checkout">
+            <div class="form-group">
+              <label for="checkout-booking-id">ID da Reserva</label>
+              <input type="text" id="checkout-booking-id" class="form-input" required placeholder="Cole o ID da reserva">
+            </div>
+            <button type="submit" class="btn btn-secondary btn-full">Encerrar Estadia (Check-out)</button>
+          </form>
+          <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--border);">
+          <h5>🧹 Fila de Limpeza & Manutenção (RF39, RF40)</h5>
+          <div id="cleaning-queue-list" style="margin-top: 0.75rem;">
+            <div class="loading-spinner">Carregando fila...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 5: VIEW - CHAT, NOTIFICATIONS & REVIEWS (RF41-RF47) -->
+    <section id="view-chat-reviews" class="view-panel hidden">
+      <div class="section-header">
+        <h3>Atendimento, Chat & Avaliações</h3>
+      </div>
+      <div class="admin-forms-grid">
+        <!-- Guest-Reception Chat Card -->
+        <div class="card form-card">
+          <h4>💬 Chat com a Recepção (RF42, RF43)</h4>
+          <div id="chat-messages-box" style="height: 250px; overflow-y: auto; background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem;">
+            <div class="loading-spinner">Carregando mensagens...</div>
+          </div>
+          <form id="form-send-chat">
+            <input type="hidden" id="chat-guest-id">
+            <div class="form-group">
+              <input type="text" id="chat-input-message" class="form-input" placeholder="Digite sua mensagem para a recepção..." required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Enviar Mensagem</button>
+          </form>
+        </div>
+
+        <!-- Submit Review & Notification Preferences -->
+        <div class="card form-card">
+          <h4>⭐ Avaliar Estadia (RF44)</h4>
+          <form id="form-submit-review">
+            <div class="form-group">
+              <label for="review-booking-id">ID da Reserva Concluída</label>
+              <input type="text" id="review-booking-id" class="form-input" required placeholder="Cole o ID da sua reserva">
+            </div>
+            <div class="form-group">
+              <label for="review-rating">Nota (1 a 5 estrelas)</label>
+              <select id="review-rating" class="form-input" required>
+                <option value="5">⭐⭐⭐⭐⭐ 5 - Excelente</option>
+                <option value="4">⭐⭐⭐⭐ 4 - Muito Bom</option>
+                <option value="3">⭐⭐⭐ 3 - Bom</option>
+                <option value="2">⭐⭐ 2 - Regular</option>
+                <option value="1">⭐ 1 - Ruim</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="review-comment">Comentário</label>
+              <textarea id="review-comment" class="form-input" rows="3" required placeholder="Conte como foi sua experiência..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-success btn-full">Enviar Avaliação</button>
+          </form>
+
+          <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--border);">
+          <h4>🔔 Preferências de Notificação (RF46)</h4>
+          <form id="form-notification-prefs">
+            <label style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+              <input type="checkbox" id="pref-stay-reminders" checked> Lembretes de Reserva & Stay
+            </label>
+            <label style="display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem;">
+              <input type="checkbox" id="pref-promotions"> Promoções e Ofertas Especial
+            </label>
+            <button type="submit" class="btn btn-outline btn-sm">Salvar Preferências</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 6: VIEW - REPORTS & AUDIT (RF48, RF50, RF52, RF53, RF54) -->
+    <section id="view-reports-audit" class="view-panel hidden">
+      <div class="section-header">
+        <h3>Relatórios Gerenciais & Auditoria</h3>
+        <button id="btn-export-report" class="btn btn-sm btn-outline">📥 Exportar Dados (JSON)</button>
+      </div>
+
+      <!-- Metrics Cards -->
+      <div class="cards-grid" id="metrics-summary-grid" style="margin-bottom: 2rem;">
+        <div class="card">
+          <h4>📊 Total de Reservas</h4>
+          <div id="metric-total-bookings" class="room-price">0</div>
+        </div>
+        <div class="card">
+          <h4>💰 Receita Total Aprovada</h4>
+          <div id="metric-total-revenue" class="room-price" style="color:var(--success)">R$ 0,00</div>
+        </div>
+        <div class="card">
+          <h4>📈 Taxa de Ocupação</h4>
+          <div id="metric-occupancy-rate" class="room-price" style="color:var(--accent)">0%</div>
+        </div>
+      </div>
+
+      <!-- Audit Trail Table -->
+      <div class="card">
+        <h4>🛡️ Histórico de Logs de Auditoria do Sistema (RF48, RF53, RF54)</h4>
+        <div style="overflow-x: auto; margin-top: 1rem;">
+          <table class="audit-table" style="width:100%; text-align:left; border-collapse:collapse;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border);">
+                <th style="padding:0.5rem;">Data/Hora</th>
+                <th style="padding:0.5rem;">Usuário</th>
+                <th style="padding:0.5rem;">Ação</th>
+                <th style="padding:0.5rem;">Recurso</th>
+                <th style="padding:0.5rem;">IP</th>
+              </tr>
+            </thead>
+            <tbody id="audit-logs-tbody">
+              <tr><td colspan="5" class="loading-spinner">Carregando logs de auditoria...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 7: VIEW - ROOM MANAGEMENT (MANAGER / RECEPTIONIST) (RF14-RF17, RF20, RF21) -->
+    <section id="view-rooms-admin" class="view-panel hidden">
+      <div class="section-header">
+        <h3>Gestão de Quartos do Hotel</h3>
+        <button id="btn-open-create-room" class="btn btn-primary btn-sm hidden">+ Cadastrar Novo Quarto</button>
+      </div>
+      <div id="admin-rooms-grid" class="cards-grid">
+        <div class="loading-spinner">Carregando painel de administração...</div>
+      </div>
+    </section>
+
+    <!-- PAGE 8: VIEW - STAFF MANAGEMENT (ADMINISTRATOR) (RF06-RF09, RF49) -->
+    <section id="view-staff-admin" class="view-panel hidden">
+      <div class="section-header">
+        <h3>Administração de Usuários e Equipe</h3>
+      </div>
+      <div class="admin-forms-grid">
+        <!-- Register Staff Form -->
+        <div class="card form-card">
+          <h4>Cadastrar Novo Funcionário</h4>
+          <form id="form-create-staff">
+            <div class="form-group">
+              <label for="staff-name">Nome Completo</label>
+              <input type="text" id="staff-name" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label for="staff-email">E-mail Profissional</label>
+              <input type="email" id="staff-email" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label for="staff-cpf">CPF (somente números)</label>
+              <input type="text" id="staff-cpf" class="form-input" maxlength="11" required>
+            </div>
+            <div class="form-group">
+              <label for="staff-password">Senha Temporária</label>
+              <input type="password" id="staff-password" class="form-input" minlength="8" required>
+            </div>
+            <div class="form-group">
+              <label for="staff-role">Cargo / Função</label>
+              <select id="staff-role" class="form-input" required>
+                <option value="Receptionist">Recepcionista</option>
+                <option value="Manager">Gerente</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Criar Conta de Funcionário</button>
+          </form>
+        </div>
+
+        <!-- Promote User Form -->
+        <div class="card form-card">
+          <h4>Promover Usuário Existente</h4>
+          <form id="form-promote-user">
+            <div class="form-group">
+              <label for="promote-user-id">ID do Usuário (UUID)</label>
+              <input type="text" id="promote-user-id" class="form-input" required placeholder="Ex: 123e4567-e89b-12d3-a456-426614174000">
+            </div>
+            <div class="form-group">
+              <label for="promote-role">Novo Cargo</label>
+              <select id="promote-role" class="form-input" required>
+                <option value="Receptionist">Recepcionista</option>
+                <option value="Manager">Gerente</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-secondary btn-full">Promover Usuário</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 9: VIEW - USER PROFILE (RF03, RF05, RF10) -->
+    <section id="view-profile" class="view-panel hidden">
+      <div class="section-header">
+        <h3>Meu Perfil</h3>
+      </div>
+      <div class="card profile-card">
+        <form id="form-update-profile">
+          <div class="form-group">
+            <label for="profile-name">Nome Completo</label>
+            <input type="text" id="profile-name" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="profile-email">E-mail</label>
+            <input type="email" id="profile-email" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="profile-cpf">CPF</label>
+            <input type="text" id="profile-cpf" class="form-input" required maxlength="11">
+          </div>
+
+          <div class="stepup-section">
+            <h4>Reautenticação de Segurança (opcional para alterar dados sensíveis)</h4>
+            <div class="form-group">
+              <label for="profile-new-password">Nova Senha (deixe em branco para manter a atual)</label>
+              <input type="password" id="profile-new-password" class="form-input">
+            </div>
+            <div class="form-group">
+              <label for="profile-current-password">Senha Atual (necessária para alterar E-mail, CPF ou Senha)</label>
+              <input type="password" id="profile-current-password" class="form-input">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: Auth (Login & Register) -->
+  <div id="modal-auth" class="modal hidden">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <div class="tab-buttons">
+          <button id="tab-login" class="tab-btn active">Entrar</button>
+          <button id="tab-register" class="tab-btn">Cadastrar-se</button>
+        </div>
+        <button class="btn-close-modal" data-close="modal-auth">&times;</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-login" class="auth-form active">
+        <div class="form-group">
+          <label for="login-email">E-mail</label>
+          <input type="email" id="login-email" class="form-input" required placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label for="login-password">Senha</label>
+          <input type="password" id="login-password" class="form-input" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Entrar na Conta</button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="form-register" class="auth-form hidden">
+        <div class="form-group">
+          <label for="reg-name">Nome Completo</label>
+          <input type="text" id="reg-name" class="form-input" required placeholder="Ex: João da Silva">
+        </div>
+        <div class="form-group">
+          <label for="reg-email">E-mail</label>
+          <input type="email" id="reg-email" class="form-input" required placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label for="reg-cpf">CPF (11 dígitos, apenas números)</label>
+          <input type="text" id="reg-cpf" class="form-input" maxlength="11" required placeholder="12345678901">
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Senha (mínimo 8 caracteres)</label>
+          <input type="password" id="reg-password" class="form-input" minlength="8" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Criar Conta</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Booking Confirmation -->
+  <div id="modal-booking" class="modal hidden">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h3>Confirmar Reserva</h3>
+        <button class="btn-close-modal" data-close="modal-booking">&times;</button>
+      </div>
+      <div id="booking-modal-body">
+        <!-- Dynamic reservation breakdown -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" data-close="modal-booking">Cancelar</button>
+        <button id="btn-confirm-booking" class="btn btn-primary">Confirmar e Solicitar Reserva</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Payment Process -->
+  <div id="modal-payment" class="modal hidden">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h3>Pagamento da Reserva</h3>
+        <button class="btn-close-modal" data-close="modal-payment">&times;</button>
+      </div>
+      <form id="form-process-payment">
+        <input type="hidden" id="payment-booking-id">
+        <div class="payment-details">
+          <p>Valor total: <strong id="payment-amount-display">R$ 0,00</strong></p>
+        </div>
+        <div class="form-group">
+          <label for="payment-method">Método de Pagamento</label>
+          <select id="payment-method" class="form-input" required>
+            <option value="pix">PIX (Instantâneo)</option>
+            <option value="credit_card">Cartão de Crédito</option>
+            <option value="debit_card">Cartão de Débito</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="payment-mock-status">Simulação de Resultado do Pagamento</label>
+          <select id="payment-mock-status" class="form-input" required>
+            <option value="paid">Sucesso (Aprovar Pagamento)</option>
+            <option value="failed">Falha (Simular Recusa)</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="modal-payment">Voltar</button>
+          <button type="submit" class="btn btn-success">Finalizar Pagamento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Voucher Display -->
+  <div id="modal-voucher" class="modal hidden">
+    <div class="modal-content card voucher-card">
+      <div class="modal-header">
+        <h3>Voucher de Reserva Confirmada</h3>
+        <button class="btn-close-modal" data-close="modal-voucher">&times;</button>
+      </div>
+      <div id="voucher-content" class="voucher-body">
+        <!-- Rendered voucher details -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Voucher</button>
+        <button class="btn btn-outline" data-close="modal-voucher">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Manager Room Form -->
+  <div id="modal-room-form" class="modal hidden">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h3 id="room-form-title">Cadastrar Novo Quarto</h3>
+        <button class="btn-close-modal" data-close="modal-room-form">&times;</button>
+      </div>
+      <form id="form-room-manage">
+        <input type="hidden" id="room-form-id">
+        <div class="form-group">
+          <label for="room-number">Número do Quarto</label>
+          <input type="text" id="room-number" class="form-input" required placeholder="Ex: 101">
+        </div>
+        <div class="form-group">
+          <label for="room-type">Tipo de Acomodação</label>
+          <input type="text" id="room-type" class="form-input" required placeholder="Ex: Suíte Presidencial, Standard">
+        </div>
+        <div class="form-group">
+          <label for="room-price">Preço por Noite (R$)</label>
+          <input type="number" step="0.01" id="room-price" class="form-input" required placeholder="150.00">
+        </div>
+        <div class="form-group">
+          <label for="room-capacity">Capacidade (Pessoas)</label>
+          <input type="number" id="room-capacity" class="form-input" min="1" max="10" required value="2">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="modal-room-form">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar Quarto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 HospedaTche - Sistema Seguro de Gestão Hoteleira. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

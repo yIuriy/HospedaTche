@@ -1,0 +1,25 @@
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor": "#f8fafc",
+    "primaryTextColor": "#111827",
+    "primaryBorderColor": "#2563eb",
+    "lineColor": "#374151",
+    "secondaryColor": "#ecfeff",
+    "tertiaryColor": "#fff7ed",
+    "fontFamily": "Arial"
+  }
+}}%%
+flowchart LR
+    Guest[Guest]
+    Manager[Hotel Manager]
+    Admin[Administrator]
+    PaymentProvider[Payment Provider]
+    System[HospedaTche System]
+    Database[(Application Database)]
+
+    Guest -->|Searches and books accommodation| System
+    Manager -->|Manages rooms, prices, and reservations| System
+    Admin -->|Manages users and system settings| System
+    System -->|Stores users, reservations, and audit data| Database
+    System -->|Authorizes and tracks payments| PaymentProvider

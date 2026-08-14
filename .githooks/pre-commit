@@ -1,0 +1,22 @@
+#!/bin/sh
+
+if command -v pwsh >/dev/null 2>&1; then
+  POWERSHELL="pwsh"
+elif command -v powershell >/dev/null 2>&1; then
+  POWERSHELL="powershell"
+else
+  echo "PowerShell not found. Cannot run repository validations."
+  exit 1
+fi
+
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-abuse-cases.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stride-threats.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-functional-requirements.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-non-functional-requirements.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-business-rules.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-risk-treatment.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-secure-architecture.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-secure-code.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-vulnerability-verification.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-intrusion-detection.ps1 || exit 1
+"$POWERSHELL" -NoProfile -ExecutionPolicy Bypass -File scripts/validate-devsecops-video.ps1 || exit 1

@@ -1,0 +1,135 @@
+flowchart TB
+
+    %% =========================================================
+    %% HospedaTche - Secure Architecture
+    %% Stage 3
+    %% =========================================================
+
+    %% -------------------------
+    %% Users and Client
+    %% -------------------------
+
+    subgraph USERS["Users"]
+        GUEST["Guest"]
+        RECEPTIONIST["Receptionist"]
+        MANAGER["Manager"]
+        ADMIN["Administrator"]
+    end
+
+    subgraph CLIENT["Client"]
+        WEB["Client App / Web Interface"]
+    end
+
+    GUEST --> WEB
+    RECEPTIONIST --> WEB
+    MANAGER --> WEB
+    ADMIN --> WEB
+
+
+    %% =========================================================
+    %% Trust Boundary: Application
+    %% =========================================================
+
+    subgraph APP_BOUNDARY["Trust Boundary — Application"]
+
+        API["Express API Gateway"]
+
+        subgraph AUTH["Authentication Service"]
+            STEPUP["Step-up Authentication<br/>SR01"]
+            SESSION["Session Management<br/>Session Revocation"]
+            AD01["AD01 — Short-lived JWT<br/>HttpOnly Cookie Sessions<br/>IP Validation"]
+        end
+
+        subgraph AUTHZ["Server-side Authorization"]
+            RBAC["RBAC"]
+            ROLE["Role Hierarchy Validation<br/>RoleHierarchyValidatorEngine"]
+            MIDDLEWARE["Authorization Middleware<br/>requireRole()"]
+            DTO["Strict DTO Mappers<br/>Ignore role parameters"]
+            AD02["AD02 — Server-Side Role Hierarchy Enforcement<br/>& DTO Parameter Filtering"]
+        end
+
+        subgraph SERVICES["Application / Business Services"]
+            ACCOUNT["Account Management"]
+            BOOKING["Booking / Payment"]
+            ACCOMMODATION["Accommodation Service"]
+
+            subgraph MAINTENANCE["Maintenance Workflow"]
+                MAINT["Maintenance Closure Approval"]
+                AVAILABILITY["Room Availability Control<br/>SR03"]
+                SIGNATURE["Digital Signature"]
+                AD03["AD03 — Automated Room Availability Filtering<br/>and Digital Signature Maintenance Closure"]
+            end
+        end
+    end
+
+
+    %% -------------------------
+    %% Application flow
+    %% -------------------------
+
+    WEB -->|"HTTPS"| API
+
+    API --> AUTH
+    API --> AUTHZ
+    API --> SERVICES
+
+    AUTH --> STEPUP
+    AUTH --> SESSION
+    STEPUP --> SESSION
+    SESSION --> AD01
+
+    AUTHZ --> RBAC
+    RBAC --> ROLE
+    ROLE --> MIDDLEWARE
+    MIDDLEWARE --> DTO
+    DTO --> AD02
+
+    SERVICES --> ACCOUNT
+    SERVICES --> BOOKING
+    SERVICES --> ACCOMMODATION
+
+    ACCOMMODATION --> MAINTENANCE
+    MAINTENANCE --> MAINT
+    MAINT --> AVAILABILITY
+    MAINT --> SIGNATURE
+    AVAILABILITY --> AD03
+    SIGNATURE --> AD03
+
+
+    %% =========================================================
+    %% Data and Monitoring
+    %% =========================================================
+
+    subgraph DATA_BOUNDARY["Trust Boundary — Data"]
+        DB["Database"]
+        AUDIT["Audit Logging / Monitoring"]
+    end
+
+    ACCOUNT --> DB
+    BOOKING --> DB
+    ACCOMMODATION --> DB
+
+    API --> AUDIT
+    AUTH --> AUDIT
+    AUTHZ --> AUDIT
+    MAINTENANCE --> AUDIT
+
+
+    %% =========================================================
+    %% External Services
+    %% =========================================================
+
+    subgraph EXTERNAL["External Services"]
+        PAYMENT["External Payment Provider"]
+    end
+
+    BOOKING -->|"HTTPS / API"| PAYMENT
+
+
+    %% =========================================================
+    %% Trust boundaries
+    %% =========================================================
+
+    WEB -.->|"Trust Boundary"| APP_BOUNDARY
+    APP_BOUNDARY -.->|"Trust Boundary"| DATA_BOUNDARY
+    APP_BOUNDARY -.->|"External Service Boundary"| EXTERNAL
